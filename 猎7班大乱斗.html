@@ -1,0 +1,2850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猎7班大乱斗</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #4169E1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 15px; color: #e74c3c; }
+        .main-layout {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .side-panel {
+            width: 160px;
+            flex-shrink: 0;
+        }
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .char-panel {
+            background: rgba(255,255,255,0.8);
+            padding: 12px;
+            border-radius: 10px;
+            width: 100%;
+        }
+        .char-panel.red { border: 2px solid #e74c3c; }
+        .char-panel.blue { border: 2px solid #3498db; }
+        .char-panel h3 { margin-bottom: 8px; text-align: center; }
+        .char-panel.red h3 { color: #e74c3c; }
+        .char-panel.blue h3 { color: #3498db; }
+        .char-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 6px;
+            margin: 2px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #f5f5f5;
+            font-size: 13px;
+        }
+        .char-option:hover { background: #e8e8e8; }
+        .char-option.selected { background: #e74c3c; color: #fff; }
+        .char-option.blue-selected { background: #3498db; color: #fff; }
+        .char-option input[type="radio"] { display: none; }
+        .speed-control {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.8);
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+        .speed-control label { font-weight: bold; }
+        .speed-control input[type="range"] { width: 150px; }
+        .speed-control span { min-width: 40px; text-align: center; }
+        .game-container {
+            background: rgba(255,255,255,0.6);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        canvas {
+            border: 3px solid #4a6fa5;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .stats {
+            margin-top: 15px;
+            display: flex;
+            gap: 40px;
+            font-size: 18px;
+        }
+        .stat-item { display: flex; align-items: center; gap: 10px; }
+        .stat-value.red-team { color: #e74c3c; }
+        .stat-value.blue-team { color: #3498db; }
+        
+        .record-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .record-item { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        .record-label { color: #bdc3c7; }
+        .record-value { font-weight: bold; color: #fff; }
+        .record-value.red-team { color: #e74c3c; }
+        .record-value.blue-team { color: #3498db; }
+        .reset-btn {
+            padding: 5px 15px;
+            font-size: 12px;
+            background: rgba(231, 76, 60, 0.6);
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .reset-btn:hover { background: rgba(231, 76, 60, 0.8); }
+        
+        .leaderboard-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .leaderboard-title {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+        }
+        .leaderboard-header {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            color: #bdc3c7;
+            font-weight: bold;
+        }
+        .lb-col-name { flex: 2; text-align: left; padding-left: 5px; }
+        .lb-col { flex: 1; text-align: center; }
+        .leaderboard-body {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .leaderboard-row {
+            display: flex;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #fff;
+        }
+        .leaderboard-row:nth-child(odd) { background: rgba(255, 255, 255, 0.05); }
+        .leaderboard-row:first-child .lb-col-name { color: #f1c40f; font-weight: bold; }
+        
+        .btn {
+            margin-top: 15px;
+            padding: 10px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .game-over-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .game-over-content {
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            padding: 30px 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .game-over-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #e74c3c;
+        }
+        .game-over-info {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>猎7班大乱斗</h1>
+    
+    <div class="main-layout">
+        <div class="side-panel">
+            <div class="char-panel red">
+                <h3>红方选择</h3>
+                <label class="char-option selected">
+                    <input type="radio" name="redChar" value="GUITOU" checked>
+                    <span>鬼头遗言</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="BAIDAN">
+                    <span>白蛋</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="MAONAI">
+                    <span>猫奶</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="HEIDAN">
+                    <span>黑蛋</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="SHINIAN">
+                    <span>十年之后</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="MABA">
+                    <span>马八</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="HEZIHAN">
+                    <span>盒子含</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="speed-control">
+                <label>游戏速度:</label>
+                <input type="range" id="speedSlider" min="0.2" max="2" step="0.1" value="0.8">
+                <span id="speedValue">0.8x</span>
+            </div>
+            
+            <button class="btn" onclick="togglePause()">暂停</button>
+            
+            <button class="btn" onclick="startGame()">开始对战</button>
+            
+            <button class="btn" onclick="startAutoTest()">自动测试</button>
+            
+            <div class="game-container">
+                <canvas id="gameCanvas" width="400" height="400"></canvas>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span>红方:</span>
+                    <span class="stat-value red-team" id="redHpDisplay">1000</span>
+                </div>
+                <div class="stat-item">
+                    <span>蓝方:</span>
+                    <span class="stat-value blue-team" id="blueHpDisplay">1000</span>
+                </div>
+            </div>
+            
+            <div class="record-panel">
+                <div class="record-item">
+                    <span class="record-label">红方胜:</span>
+                    <span class="record-value red-team" id="redWinCount">0</span>
+                </div>
+                <div class="record-item">
+                    <span class="record-label">蓝方胜:</span>
+                    <span class="record-value blue-team" id="blueWinCount">0</span>
+                </div>
+                <div class="record-item">
+                    <span class="record-label">总场次:</span>
+                    <span class="record-value" id="totalMatchCount">0</span>
+                </div>
+                <button class="reset-btn" onclick="resetRecords()">重置记录</button>
+            </div>
+            
+            <div class="leaderboard-panel">
+                <h4 class="leaderboard-title">角色排行榜</h4>
+                <div class="leaderboard-header">
+                    <span class="lb-col-name">角色</span>
+                    <span class="lb-col">场次</span>
+                    <span class="lb-col">胜场</span>
+                    <span class="lb-col">负场</span>
+                    <span class="lb-col">胜率</span>
+                </div>
+                <div class="leaderboard-body" id="leaderboardBody">
+                </div>
+            </div>
+        </div>
+        
+        <div class="side-panel">
+            <div class="char-panel blue">
+                <h3>蓝方选择</h3>
+                <label class="char-option blue-selected">
+                    <input type="radio" name="blueChar" value="GUITOU" checked>
+                    <span>鬼头遗言</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="BAIDAN">
+                    <span>白蛋</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="MAONAI">
+                    <span>猫奶</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="HEIDAN">
+                    <span>黑蛋</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="SHINIAN">
+                    <span>十年之后</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="MABA">
+                    <span>马八</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="HEZIHAN">
+                    <span>盒子含</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="game-over-overlay" id="gameOverOverlay">
+        <div class="game-over-content">
+            <div class="game-over-title" id="gameOverTitle">游戏结束</div>
+            <div class="game-over-info" id="gameOverInfo"></div>
+            <button class="btn" onclick="startGame()">再来一局</button>
+        </div>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const WIDTH = 400;
+        const HEIGHT = 400;
+        const PADDING = 60;
+        
+        let characters = [];
+        let projectiles = [];
+        let floatingTexts = [];
+        let gameOver = false;
+        let isPaused = false;
+        
+        let redWinCount = 0;
+        let blueWinCount = 0;
+        
+        let charRecords = {
+            GUITOU: { name: '鬼头遗言', matches: 0, wins: 0, losses: 0 },
+            BAIDAN: { name: '白蛋', matches: 0, wins: 0, losses: 0 },
+            MAONAI: { name: '猫奶', matches: 0, wins: 0, losses: 0 },
+            HEIDAN: { name: '黑蛋', matches: 0, wins: 0, losses: 0 },
+            SHINIAN: { name: '十年之后', matches: 0, wins: 0, losses: 0 },
+            MABA: { name: '马八', matches: 0, wins: 0, losses: 0 },
+            HEZIHAN: { name: '盒子含', matches: 0, wins: 0, losses: 0 }
+        };
+        
+        let currentRedChar = '';
+        let currentBlueChar = '';
+        let gameSpeed = 0.8;
+        
+        let isAutoTest = false;
+        let autoTestQueue = [];
+        let autoTestGamesPerMatch = 5;
+        let autoTestCurrentMatch = 0;
+        let autoTestCurrentGame = 0;
+        let autoTestOriginalSpeed = 0.8;
+        
+        const DAMAGE_COMBINE_THRESHOLD = 150;
+        const BASE_SPEED = 0.8;
+        const damageTracker = new Map();
+        
+        document.getElementById('speedSlider').addEventListener('input', function(e) {
+            gameSpeed = parseFloat(e.target.value);
+            document.getElementById('speedValue').textContent = gameSpeed.toFixed(1) + 'x';
+        });
+        
+        document.querySelectorAll('.char-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const panel = this.closest('.char-panel');
+                panel.querySelectorAll('.char-option').forEach(o => {
+                    o.classList.remove('selected', 'blue-selected');
+                });
+                if (panel.classList.contains('red')) {
+                    this.classList.add('selected');
+                } else {
+                    this.classList.add('blue-selected');
+                }
+            });
+        });
+        
+        function distance(x1, y1, x2, y2) {
+            return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+        }
+        
+        function normalizeVelocity(char) {
+            const speed = char.currentSpeed || char.speed || BASE_SPEED;
+            const currentMag = Math.sqrt(char.vx * char.vx + char.vy * char.vy);
+            if (currentMag > 0.001) {
+                char.vx = (char.vx / currentMag) * speed;
+                char.vy = (char.vy / currentMag) * speed;
+            }
+        }
+        
+        function clampToBounds(char) {
+            char.x = Math.max(PADDING + char.radius, Math.min(WIDTH - PADDING - char.radius, char.x));
+            char.y = Math.max(PADDING + char.radius, Math.min(HEIGHT - PADDING - char.radius, char.y));
+        }
+        
+        function checkSquareCollision(a, b) {
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const absDx = Math.abs(dx);
+            const absDy = Math.abs(dy);
+            const combinedRadius = a.radius + b.radius;
+            
+            if (absDx < combinedRadius && absDy < combinedRadius) {
+                const overlapX = combinedRadius - absDx;
+                const overlapY = combinedRadius - absDy;
+                
+                let nx, ny;
+                if (overlapX < overlapY) {
+                    nx = dx > 0 ? 1 : -1;
+                    ny = 0;
+                } else {
+                    nx = 0;
+                    ny = dy > 0 ? 1 : -1;
+                }
+                return {
+                    collision: true,
+                    nx: nx,
+                    ny: ny,
+                    overlap: Math.min(overlapX, overlapY)
+                };
+            }
+            return { collision: false };
+        }
+        
+        function checkCircleSquareCollision(circleX, circleY, circleRadius, squareX, squareY, squareRadius) {
+            const dx = Math.abs(circleX - squareX);
+            const dy = Math.abs(circleY - squareY);
+            
+            if (dx > squareRadius + circleRadius || dy > squareRadius + circleRadius) {
+                return false;
+            }
+            
+            if (dx <= squareRadius || dy <= squareRadius) {
+                return true;
+            }
+            
+            const cornerDist = (dx - squareRadius) ** 2 + (dy - squareRadius) ** 2;
+            return cornerDist <= circleRadius ** 2;
+        }
+        
+        function reflectVelocity(char, nx, ny) {
+            const speed = char.currentSpeed || char.speed || BASE_SPEED;
+            const dot = char.vx * nx + char.vy * ny;
+            
+            char.vx -= 2 * dot * nx;
+            char.vy -= 2 * dot * ny;
+            
+            const mag = Math.sqrt(char.vx * char.vx + char.vy * char.vy);
+            if (mag > 0.001) {
+                char.vx = (char.vx / mag) * speed;
+                char.vy = (char.vy / mag) * speed;
+            } else {
+                char.vx = -nx * speed;
+                char.vy = -ny * speed;
+            }
+        }
+        
+        function showDamageText(target, damage, color, attacker) {
+            if (damage < 0) {
+                floatingTexts.push({
+                    x: target.x,
+                    y: target.y - 20,
+                    text: `+${Math.round(-damage)}`,
+                    color: color,
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 120,
+                    currentDamage: -damage,
+                    targetDamage: -damage,
+                    isComplete: true
+                });
+                return;
+            }
+            
+            const now = Date.now();
+            const key = `${attacker.name}-${target.name}-${attacker.team}-${target.team}`;
+            
+            let record = damageTracker.get(key);
+            
+            if (record && now - record.lastTime < DAMAGE_COMBINE_THRESHOLD / gameSpeed) {
+                record.totalDamage += damage;
+                record.lastTime = now;
+                record.floatText.targetDamage = record.totalDamage;
+            } else {
+                if (record && record.floatText) {
+                    record.floatText.isComplete = true;
+                }
+                
+                const floatText = {
+                    x: target.x,
+                    y: target.y - 20,
+                    text: `-${Math.round(damage)}`,
+                    color: color,
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 120,
+                    currentDamage: damage,
+                    targetDamage: damage,
+                    isComplete: false
+                };
+                floatingTexts.push(floatText);
+                
+                damageTracker.set(key, {
+                    totalDamage: damage,
+                    lastTime: now,
+                    floatText: floatText
+                });
+            }
+        }
+        
+        class GuiTou {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.id = id;
+                this.name = '鬼头遗言';
+                this.color = color;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.team = team;
+                this.radius = 20;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.speed = BASE_SPEED;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.chargeLevel = 1;
+                this.maxCharge = 10;
+                this.lastChargeTime = Date.now();
+                this.chargeInterval = 1200 + Math.random() * 1000;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.findTarget(allChars);
+                this.checkCollision(allChars);
+                this.chargeAction(floatTexts);
+                this.move();
+            }
+            
+            findTarget(chars) {
+                for (const c of chars) {
+                    if (c !== this && c.hp > 0 && c.team !== this.team) {
+                        this.target = c;
+                        return;
+                    }
+                }
+                this.target = null;
+            }
+            
+            chargeAction(floatTexts) {
+                const now = Date.now();
+                if (now - this.lastChargeTime < this.chargeInterval / gameSpeed) return;
+                
+                this.lastChargeTime = now;
+                
+                const rand = Math.random();
+                if (rand < 0.75 && this.chargeLevel < this.maxCharge) {
+                    const add = Math.random() < 0.5 ? 1 : 2;
+                    this.chargeLevel = Math.min(this.maxCharge, this.chargeLevel + add);
+                    floatTexts.push({
+                        x: this.x,
+                        y: this.y - 40,
+                        text: `挂挡+${add}`,
+                        color: '#f39c12',
+                        alpha: 1,
+                        vy: -0.5,
+                        life: 120
+                    });
+                } else {
+                    this.fireLaser(floatTexts);
+                }
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            fireLaser(floatTexts) {
+                if (!this.target) return;
+                
+                const damage = 50 * this.chargeLevel;
+                projectiles.push({
+                    type: 'laser',
+                    x: this.x,
+                    y: this.y,
+                    targetX: this.target.x,
+                    targetY: this.target.y,
+                    damage: damage,
+                    owner: this,
+                    color: this.color,
+                    life: 15,
+                    width: 8
+                });
+                
+                this.chargeLevel = 2;
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed;
+                this.y += this.vy * gameSpeed;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                const chargeWidth = 40;
+                const chargeHeight = 6;
+                ctx.fillStyle = '#ddd';
+                ctx.fillRect(-chargeWidth/2, -this.radius - 30, chargeWidth, chargeHeight);
+                ctx.fillStyle = '#f39c12';
+                ctx.fillRect(-chargeWidth/2, -this.radius - 30, chargeWidth * (this.chargeLevel / this.maxCharge), chargeHeight);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${this.chargeLevel}/${this.maxCharge}`, 0, -this.radius - 28);
+                
+                ctx.restore();
+            }
+        }
+        
+        class BaiDan {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.id = id;
+                this.name = '白蛋';
+                this.color = color;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.team = team;
+                this.radius = 20;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.speed = BASE_SPEED;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1500;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.attack(projList);
+                this.checkCollision(allChars, floatTexts);
+                this.move();
+            }
+            
+            attack(projList) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                this.lastAttackTime = now;
+                
+                const otherChar = characters.find(c => c !== this && c.hp > 0);
+                if (!otherChar) return;
+                
+                const angle = Math.atan2(otherChar.y - this.y, otherChar.x - this.x);
+                projList.push({
+                    type: 'chalk',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * 5,
+                    vy: Math.sin(angle) * 5,
+                    damage: 60,
+                    owner: this,
+                    radius: 6,
+                    color: '#fff',
+                    active: true
+                });
+            }
+            
+            checkCollision(chars, floatTexts) {
+                const now = Date.now();
+                let hitAny = false;
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        if (now - this.lastCollisionTime >= this.collisionCooldown / gameSpeed) {
+                            this.lastCollisionTime = now;
+                            const damageResult = c.takeDamage(30, this, floatTexts);
+                            showDamageText(c, damageResult.damage, '#e74c3c', this);
+                            
+                            this.hp = Math.min(this.maxHp, this.hp + 10);
+                            showDamageText(this, -10, '#2ecc71', this);
+                        }
+                        
+                        hitAny = true;
+                        break;
+                    }
+                    
+                    if (c.splits) {
+                        for (let j = 0; j < c.splits.length; j++) {
+                            const split = c.splits[j];
+                            const splitCollision = checkSquareCollision(this, {
+                                x: split.x, y: split.y, radius: c.radius * 0.7
+                            });
+                            
+                            if (splitCollision.collision) {
+                                if (!split.chalkHit) {
+                                    split.hp -= 30;
+                                    showDamageText({ x: split.x, y: split.y }, 30, '#e74c3c', this);
+                                    split.chalkHit = true;
+                                    
+                                    this.hp = Math.min(this.maxHp, this.hp + 10);
+                                    showDamageText(this, -10, '#2ecc71', this);
+                                    
+                                    if (split.hp <= 0) {
+                                        c.splits.splice(j, 1);
+                                        j--;
+                                    }
+                                }
+                                
+                                hitAny = true;
+                                break;
+                            } else if (split.chalkHit) {
+                                split.chalkHit = false;
+                            }
+                        }
+                        if (hitAny) break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed;
+                this.y += this.vy * gameSpeed;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.restore();
+            }
+        }
+        
+        class HeiDan {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.id = id;
+                this.name = '黑蛋';
+                this.color = color;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.team = team;
+                this.radius = 20;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.speed = BASE_SPEED;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 2000;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                this.isCharging = false;
+                this.chargeStartTime = 0;
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.findTarget(allChars);
+                this.checkCollision(allChars, floatTexts);
+                this.attack(projList, floatTexts);
+                this.move();
+            }
+            
+            findTarget(chars) {
+                for (const c of chars) {
+                    if (c !== this && c.hp > 0 && c.team !== this.team) {
+                        this.target = c;
+                        return;
+                    }
+                }
+                this.target = null;
+            }
+            
+            attack(projList, floatTexts) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                if (!this.target) return;
+                
+                this.lastAttackTime = now;
+                this.isCharging = true;
+                this.chargeStartTime = now;
+                
+                const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
+                this.vx = Math.cos(angle) * 3.0;
+                this.vy = Math.sin(angle) * 3.0;
+            }
+            
+            checkCollision(chars, floatTexts) {
+                if (this.isCharging) return;
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                if (this.isCharging) {
+                    const now = Date.now();
+                    if (now - this.chargeStartTime >= 75 * (1000 / 60) / gameSpeed) {
+                        this.isCharging = false;
+                        const speedMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                        if (speedMag > 0.01) {
+                            this.vx = (this.vx / speedMag) * this.speed;
+                            this.vy = (this.vy / speedMag) * this.speed;
+                        }
+                    }
+                    this.x += this.vx * gameSpeed;
+                    this.y += this.vy * gameSpeed;
+                    
+                    if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                        this.isCharging = false;
+                        this.vx *= -1;
+                        this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                        const speedMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                        if (speedMag > 0.01) {
+                            this.vx = (this.vx / speedMag) * this.speed;
+                            this.vy = (this.vy / speedMag) * this.speed;
+                        }
+                    }
+                    if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                        this.isCharging = false;
+                        this.vy *= -1;
+                        this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                        const speedMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                        if (speedMag > 0.01) {
+                            this.vx = (this.vx / speedMag) * this.speed;
+                            this.vy = (this.vy / speedMag) * this.speed;
+                        }
+                    }
+                    
+                    for (const c of characters) {
+                        if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                        
+                        const result = checkSquareCollision(this, c);
+                        if (result.collision) {
+                            const damageResult = c.takeDamage(75, this, floatingTexts);
+                            showDamageText(c, damageResult.damage, '#e74c3c', this);
+                            
+                            const nx = result.nx;
+                            const ny = result.ny;
+                            
+                            const dotProduct = c.vx * nx + c.vy * ny;
+                            c.vx -= 2 * dotProduct * nx;
+                            c.vy -= 2 * dotProduct * ny;
+                            
+                            const myDot = this.vx * nx + this.vy * ny;
+                            this.vx -= 2 * myDot * nx;
+                            this.vy -= 2 * myDot * ny;
+                            
+                            const overlap = result.overlap + 1;
+                            c.x += nx * overlap;
+                            c.y += ny * overlap;
+                            
+                            this.x -= nx * overlap;
+                            this.y -= ny * overlap;
+                            
+                            break;
+                        }
+                        
+                        if (c.splits) {
+                            for (let j = 0; j < c.splits.length; j++) {
+                                const split = c.splits[j];
+                                const splitResult = checkSquareCollision(this, { ...split, radius: c.radius * 0.7 });
+                                if (splitResult.collision) {
+                                    if (!split.chargeHits || !split.chargeHits.includes(this)) {
+                                        split.hp -= 75;
+                                        showDamageText({ x: split.x, y: split.y }, 75, '#e74c3c', this);
+                                        if (split.hp <= 0) {
+                                            c.splits.splice(j, 1);
+                                            j--;
+                                        } else {
+                                            if (!split.chargeHits) split.chargeHits = [];
+                                            split.chargeHits.push(this);
+                                        }
+                                    }
+                                } else {
+                                    if (split.chargeHits && split.chargeHits.includes(this)) {
+                                        split.chargeHits = split.chargeHits.filter(ch => ch !== this);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    clampToBounds(this);
+                } else {
+                    this.x += this.vx * gameSpeed;
+                    this.y += this.vy * gameSpeed;
+                    
+                    if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                        this.vx *= -1;
+                        this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                    }
+                    if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                        this.vy *= -1;
+                        this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                    }
+                    
+                    normalizeVelocity(this);
+                }
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                let reduced = false;
+                if (Math.random() < 0.3) {
+                    damage = damage * 0.5;
+                    reduced = true;
+                }
+                this.hp -= damage;
+                if (reduced && floatTexts) {
+                    floatTexts.push({
+                        x: this.x,
+                        y: this.y - 30,
+                        text: '肥肉护体!',
+                        color: '#ffd700',
+                        alpha: 1,
+                        vy: -0.5,
+                        life: 120,
+                        currentDamage: 0,
+                        targetDamage: 0,
+                        isComplete: true
+                    });
+                }
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.restore();
+            }
+        }
+        
+        class ShiNianZhiHou {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.id = id;
+                this.name = '十年之后';
+                this.color = color;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.team = team;
+                this.radius = 20;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.baseSpeed = BASE_SPEED;
+                this.currentSpeed = BASE_SPEED;
+                this.vx = Math.cos(this.moveAngle) * this.currentSpeed;
+                this.vy = Math.sin(this.moveAngle) * this.currentSpeed;
+                
+                this.baseAttack = 20;
+                this.attackBonus = 0;
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 2200;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                this.lastFragmentTime = Date.now();
+                this.fragmentInterval = 5000;
+                this.target = null;
+                
+                this.timeFieldActive = false;
+                this.timeFieldDuration = 0;
+                this.timeFieldRadius = 60;
+                this.timeFieldX = 0;
+                this.timeFieldY = 0;
+                
+                this.memoryFragments = [];
+                
+                this.timeHistory = [];
+                this.lastRecordTime = Date.now();
+                this.backtrackCooldown = 15000;
+                this.lastBacktrackTime = Date.now();
+                this.hasBacktracked = false;
+                
+                this.timeCorruption = 0;
+                this.lastCorruptionDamageTime = Date.now();
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                const now = Date.now();
+                
+                if (now - this.lastCorruptionDamageTime >= 1000 / gameSpeed) {
+                    this.timeCorruption += 5;
+                    const damage = Math.min(Math.floor(this.timeCorruption * 0.05), 10);
+                    const result = this.takeDamage(damage, this, floatTexts);
+                    showDamageText(this, result.damage, '#e74c3c', this);
+                    this.lastCorruptionDamageTime = now;
+                }
+                if (now - this.lastRecordTime >= 50 / gameSpeed) {
+                    this.timeHistory.push({
+                        time: now,
+                        x: this.x,
+                        y: this.y,
+                        vx: this.vx,
+                        vy: this.vy,
+                        hp: this.hp,
+                        attackBonus: this.attackBonus,
+                        timeCorruption: this.timeCorruption
+                    });
+                    this.lastRecordTime = now;
+                    
+                    while (this.timeHistory.length > 0 && now - this.timeHistory[0].time > 3000) {
+                        this.timeHistory.shift();
+                    }
+                }
+                
+                this.findTarget(allChars);
+                this.checkCollision(allChars, floatTexts);
+                this.attack(projList, floatTexts);
+                this.updateFragments(allChars, floatTexts);
+                this.move();
+            }
+            
+            findTarget(chars) {
+                for (const c of chars) {
+                    if (c !== this && c.hp > 0 && c.team !== this.team) {
+                        this.target = c;
+                        return;
+                    }
+                }
+                this.target = null;
+            }
+            
+            attack(projList, floatTexts) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                if (!this.target) return;
+                
+                this.lastAttackTime = now;
+                
+                const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
+                const damage = this.baseAttack + this.attackBonus;
+                
+                projList.push({
+                    type: 'timePulse',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * 3.0,
+                    vy: Math.sin(angle) * 3.0,
+                    damage: damage,
+                    owner: this,
+                    life: 60,
+                    radius: 15,
+                    hit: false,
+                    color: this.color
+                });
+            }
+            
+            updateFragments(allChars, floatTexts) {
+                const now = Date.now();
+                if (now - this.lastFragmentTime < this.fragmentInterval / gameSpeed) return;
+                
+                this.lastFragmentTime = now;
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 50 + Math.random() * 50;
+                let x = this.x + Math.cos(angle) * dist;
+                let y = this.y + Math.sin(angle) * dist;
+                
+                x = Math.max(PADDING + 10, Math.min(WIDTH - PADDING - 10, x));
+                y = Math.max(PADDING + 10, Math.min(HEIGHT - PADDING - 10, y));
+                
+                this.memoryFragments.push({
+                    x: x,
+                    y: y,
+                    radius: 8,
+                    color: this.color
+                });
+            }
+            
+            checkCollision(chars, floatTexts) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+                
+                for (let i = this.memoryFragments.length - 1; i >= 0; i--) {
+                    const frag = this.memoryFragments[i];
+                    let hit = false;
+                    
+                    for (const c of chars) {
+                        if (c.hp <= 0) continue;
+                        
+                        const dist = distance(c.x, c.y, frag.x, frag.y);
+                        if (dist < c.radius + frag.radius) {
+                            if (c.team === this.team) {
+                                c.damageReduction = 360;
+                            } else {
+                                const damageResult = c.takeDamage(40, this, floatTexts);
+                                showDamageText(c, damageResult.damage, '#e74c3c', this);
+                                
+                                this.currentSpeed = Math.max(0.3, this.currentSpeed - 0.01);
+                                const speedMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                                if (speedMag > 0.01) {
+                                    this.vx = (this.vx / speedMag) * this.currentSpeed;
+                                    this.vy = (this.vy / speedMag) * this.currentSpeed;
+                                }
+                            }
+                            this.memoryFragments.splice(i, 1);
+                            hit = true;
+                            break;
+                        }
+                        
+                        if (c.splits) {
+                            for (let j = 0; j < c.splits.length; j++) {
+                                const split = c.splits[j];
+                                const splitDist = distance(split.x, split.y, frag.x, frag.y);
+                                if (splitDist < c.radius * 0.7 + frag.radius) {
+                                    if (!split.fragmentHits || !split.fragmentHits.includes(frag)) {
+                                        split.hp -= 40;
+                                        showDamageText({ x: split.x, y: split.y }, 40, '#e74c3c', this);
+                                        if (split.hp <= 0) {
+                                            c.splits.splice(j, 1);
+                                            j--;
+                                        } else {
+                                            if (!split.fragmentHits) split.fragmentHits = [];
+                                            split.fragmentHits.push(frag);
+                                        }
+                                    }
+                                } else {
+                                    if (split.fragmentHits && split.fragmentHits.includes(frag)) {
+                                        split.fragmentHits = split.fragmentHits.filter(f => f !== frag);
+                                    }
+                                }
+                            }
+                        }
+                        if (hit) break;
+                    }
+                }
+            }
+            
+            move() {
+                if (this.timeFieldActive) {
+                    this.timeFieldDuration--;
+                    if (this.timeFieldDuration <= 0) {
+                        this.timeFieldActive = false;
+                    }
+                }
+                
+                this.x += this.vx * gameSpeed;
+                this.y += this.vy * gameSpeed;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                
+                this.attackBonus = Math.min(100, this.attackBonus + 2);
+                
+                if (this.hp <= 0) {
+                    const now = Date.now();
+                    if (!this.hasBacktracked && this.timeHistory.length > 0) {
+                        const targetTime = now - 3000;
+                        let bestRecord = this.timeHistory[0];
+                        for (const record of this.timeHistory) {
+                            if (Math.abs(record.time - targetTime) < Math.abs(bestRecord.time - targetTime)) {
+                                bestRecord = record;
+                            }
+                        }
+                        
+                        this.x = bestRecord.x;
+                        this.y = bestRecord.y;
+                        this.vx = bestRecord.vx;
+                        this.vy = bestRecord.vy;
+                        this.hp = bestRecord.hp;
+                        this.attackBonus = bestRecord.attackBonus;
+                        this.timeCorruption = bestRecord.timeCorruption;
+                        this.hasBacktracked = true;
+                        
+                        floatTexts.push({
+                            x: this.x,
+                            y: this.y - 30,
+                            text: '时光回溯!',
+                            color: '#9b59b6',
+                            alpha: 1,
+                            vy: -0.5,
+                            life: 180,
+                            currentDamage: 0,
+                            targetDamage: 0,
+                            isComplete: true
+                        });
+                        
+                        return { killed: false, damage: damage };
+                    }
+                    
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                const corruptionAlpha = Math.min(0.5, this.timeCorruption * 0.01);
+                ctx.fillStyle = `rgba(155, 89, 182, ${corruptionAlpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius + 10, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (this.timeFieldActive) {
+                    const alpha = this.timeFieldDuration / 60;
+                    ctx.fillStyle = `rgba(155, 89, 182, ${alpha * 0.3})`;
+                    ctx.beginPath();
+                    ctx.arc(this.timeFieldX, this.timeFieldY, this.timeFieldRadius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = `rgba(155, 89, 182, ${alpha})`;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(this.timeFieldX, this.timeFieldY, this.timeFieldRadius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.strokeStyle = `rgba(155, 89, 182, ${alpha * 0.5})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(this.timeFieldX, this.timeFieldY, this.timeFieldRadius * 0.7, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.arc(this.timeFieldX, this.timeFieldY, this.timeFieldRadius * 0.4, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.restore();
+                
+                for (const frag of this.memoryFragments) {
+                    ctx.fillStyle = 'rgba(155, 89, 182, 0.6)';
+                    ctx.beginPath();
+                    ctx.arc(frag.x, frag.y, frag.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+        
+        class MaoNai {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.id = id;
+                this.name = '猫奶';
+                this.color = color;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.team = team;
+                this.radius = 20;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.speed = BASE_SPEED;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1200;
+                this.attackRange = 110;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.checkCollision(allChars);
+                this.attack(allChars, projList, floatTexts);
+                this.move();
+            }
+            
+            attack(chars, projList, floatTexts) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                let closestEnemy = null;
+                let minDist = Infinity;
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    const dist = distance(this.x, this.y, c.x, c.y);
+                    if (dist < this.attackRange && dist < minDist) {
+                        minDist = dist;
+                        closestEnemy = c;
+                    }
+                }
+                
+                if (!closestEnemy) return;
+                
+                this.lastAttackTime = now;
+                
+                const angle = Math.atan2(closestEnemy.y - this.y, closestEnemy.x - this.x);
+                const perpAngle = angle + Math.PI / 2;
+                
+                const clawLength = this.attackRange - this.radius;
+                for (let i = -1; i <= 1; i++) {
+                    const spreadAngle = angle + i * 0.15;
+                    const startX = this.x + Math.cos(angle) * this.radius;
+                    const startY = this.y + Math.sin(angle) * this.radius;
+                    const endX = startX + Math.cos(spreadAngle) * clawLength;
+                    const endY = startY + Math.sin(spreadAngle) * clawLength;
+                    
+                    projList.push({
+                        type: 'claw',
+                        x: startX,
+                        y: startY,
+                        endX: endX,
+                        endY: endY,
+                        damage: 35,
+                        owner: this,
+                        color: this.color,
+                        life: 15,
+                        length: clawLength
+                    });
+                }
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed;
+                this.y += this.vy * gameSpeed;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.restore();
+            }
+        }
+        
+        class MaBa {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.id = id;
+                this.name = '马八';
+                this.color = color;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.team = team;
+                this.radius = 20;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.speed = BASE_SPEED;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1000;
+                this.lastSplitTime = Date.now();
+                this.splitInterval = 7000;
+                this.maxSplits = 8;
+                this.splits = [];
+                this.canSplit = true;
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.attack(projList);
+                this.split(floatTexts);
+                this.updateSplits(projList);
+                this.checkCollision(allChars);
+                this.move();
+            }
+            
+            attack(projList) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                this.lastAttackTime = now;
+                
+                const otherChar = characters.find(c => c !== this && c.hp > 0);
+                if (!otherChar) return;
+                
+                const angle = Math.atan2(otherChar.y - this.y, otherChar.x - this.x);
+                projList.push({
+                    type: 'chalk',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * 4,
+                    vy: Math.sin(angle) * 4,
+                    damage: 30,
+                    owner: this,
+                    radius: 5,
+                    color: this.color,
+                    active: true
+                });
+            }
+            
+            split(floatTexts) {
+                if (!this.canSplit) return;
+                if (this.splits.length >= this.maxSplits) return;
+                
+                const now = Date.now();
+                if (now - this.lastSplitTime < this.splitInterval / gameSpeed) return;
+                
+                this.lastSplitTime = now;
+                
+                if (this.hp <= 30) return;
+                
+                this.hp -= 30;
+                showDamageText(this, 30, '#e74c3c', this);
+                
+                const angleStep = (Math.PI * 2) / this.maxSplits;
+                const baseAngle = angleStep * this.splits.length;
+                
+                const baseDist = 40;
+                const splitX = this.x + Math.cos(baseAngle) * baseDist;
+                const splitY = this.y + Math.sin(baseAngle) * baseDist;
+                
+                this.splits.push({
+                    x: splitX,
+                    y: splitY,
+                    hp: 50,
+                    maxHp: 50,
+                    baseAngle: baseAngle,
+                    target: null,
+                    lastAttackTime: Date.now()
+                });
+            }
+            
+            updateSplits(projList) {
+                const now = Date.now();
+                
+                for (let i = 0; i < this.splits.length; i++) {
+                    const split = this.splits[i];
+                    
+                    if (split.hp <= 0) {
+                        this.splits.splice(i, 1);
+                        i--;
+                        continue;
+                    }
+                    
+                    if (!split.vx || !split.vy) {
+                        const angle = Math.random() * Math.PI * 2;
+                        split.vx = Math.cos(angle) * 0.5;
+                        split.vy = Math.sin(angle) * 0.5;
+                    }
+                    
+                    split.x += split.vx * gameSpeed;
+                    split.y += split.vy * gameSpeed;
+                    
+                    const margin = 20;
+                    if (split.x < PADDING + margin || split.x > WIDTH - PADDING - margin) {
+                        split.vx *= -1;
+                        split.x = Math.max(PADDING + margin, Math.min(WIDTH - PADDING - margin, split.x));
+                    }
+                    if (split.y < PADDING + margin || split.y > HEIGHT - PADDING - margin) {
+                        split.vy *= -1;
+                        split.y = Math.max(PADDING + margin, Math.min(HEIGHT - PADDING - margin, split.y));
+                    }
+                    
+                    if (now - split.lastAttackTime >= 1500 / gameSpeed) {
+                        split.lastAttackTime = now;
+                        
+                        const otherChar = characters.find(c => c !== this && c.hp > 0);
+                        if (otherChar) {
+                            const angle = Math.atan2(otherChar.y - split.y, otherChar.x - split.x);
+                            projList.push({
+                                type: 'chalk',
+                                x: split.x,
+                                y: split.y,
+                                vx: Math.cos(angle) * 4,
+                                vy: Math.sin(angle) * 4,
+                                damage: 30,
+                                owner: this,
+                                radius: 5,
+                                color: this.color,
+                                active: true
+                            });
+                        }
+                    }
+                }
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed;
+                this.y += this.vy * gameSpeed;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.hp <= 0) return { killed: true, damage: 0 };
+                
+                damage = Math.round(damage);
+                
+                if (this.hp - damage <= 0 && this.splits.length > 0) {
+                    let healAmount = 0;
+                    for (const split of this.splits) {
+                        healAmount += split.hp;
+                    }
+                    
+                    this.hp = Math.min(this.maxHp, this.hp + healAmount);
+                    this.splits = [];
+                    this.canSplit = false;
+                    
+                    showDamageText(this, -healAmount, '#2ecc71', this);
+                    floatingTexts.push({
+                        x: this.x,
+                        y: this.y - 40,
+                        text: '归一!',
+                        color: '#9b59b6',
+                        alpha: 1,
+                        vy: -1,
+                        life: 30
+                    });
+                    
+                    return { killed: false, damage: 0 };
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                for (const split of this.splits) {
+                    ctx.save();
+                    ctx.translate(split.x, split.y);
+                    ctx.globalAlpha = 0.6;
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.radius * 0.7, -this.radius * 0.7, this.radius * 1.4, this.radius * 1.4);
+                    
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 8px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`${Math.round(split.hp)}/${split.maxHp}`, 0, -this.radius * 0.7 - 3);
+                    ctx.restore();
+                }
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.restore();
+            }
+        }
+        
+        class HeZiHan {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.id = id;
+                this.name = '盒子含';
+                this.color = color;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.team = team;
+                this.radius = 20;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.speed = BASE_SPEED;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.baseDamage = 1;
+                this.currentDamage = 1;
+                this.baseAttackInterval = 3000;
+                this.currentAttackInterval = 3000;
+                this.lastAttackTime = Date.now();
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.findTarget(allChars);
+                this.attack(projList);
+                this.checkCollision(allChars);
+                this.move();
+            }
+            
+            findTarget(chars) {
+                for (const c of chars) {
+                    if (c !== this && c.hp > 0 && c.team !== this.team) {
+                        this.target = c;
+                        return;
+                    }
+                }
+                this.target = null;
+            }
+            
+            attack(projList) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.currentAttackInterval / gameSpeed) return;
+                
+                if (!this.target) return;
+                
+                this.lastAttackTime = now;
+                
+                const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
+                projList.push({
+                    type: 'chalk',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * 6,
+                    vy: Math.sin(angle) * 6,
+                    damage: this.currentDamage,
+                    owner: this,
+                    radius: 5,
+                    color: this.color,
+                    active: true
+                });
+                
+                this.currentDamage++;
+                this.currentAttackInterval *= 0.9;
+                this.currentAttackInterval = Math.max(500, this.currentAttackInterval);
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed;
+                this.y += this.vy * gameSpeed;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`伤害: ${this.currentDamage}`, 0, -this.radius - 25);
+                
+                ctx.restore();
+            }
+        }
+        
+        function draw() {
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, WIDTH, HEIGHT);
+            
+            ctx.strokeStyle = '#4a6fa5';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(PADDING, PADDING, WIDTH - PADDING * 2, HEIGHT - PADDING * 2);
+            
+            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+            ctx.setLineDash([10, 10]);
+            ctx.beginPath();
+            ctx.moveTo(WIDTH / 2, PADDING);
+            ctx.lineTo(WIDTH / 2, HEIGHT - PADDING);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            for (const proj of projectiles) {
+                if (proj.type === 'laser') {
+                    ctx.save();
+                    ctx.globalAlpha = proj.life / 15;
+                    ctx.strokeStyle = proj.color;
+                    ctx.lineWidth = proj.width;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    
+                    const angle = Math.atan2(proj.targetY - proj.y, proj.targetX - proj.x);
+                    const farX = proj.x + Math.cos(angle) * 1000;
+                    const farY = proj.y + Math.sin(angle) * 1000;
+                    
+                    ctx.moveTo(proj.x, proj.y);
+                    ctx.lineTo(farX, farY);
+                    ctx.stroke();
+                    ctx.restore();
+                } else if (proj.type === 'chalk') {
+                    ctx.save();
+                    ctx.fillStyle = proj.color;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#999';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                    ctx.restore();
+                } else if (proj.type === 'claw') {
+                    ctx.save();
+                    ctx.globalAlpha = proj.life / 8;
+                    ctx.strokeStyle = proj.color;
+                    ctx.lineWidth = 6;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(proj.x, proj.y);
+                    ctx.lineTo(proj.endX, proj.endY);
+                    ctx.stroke();
+                    ctx.restore();
+                } else if (proj.type === 'timePulse') {
+                    ctx.save();
+                    ctx.globalAlpha = proj.life / 30;
+                    ctx.fillStyle = proj.color || '#9b59b6';
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius * 0.6, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+            
+            for (const char of characters) {
+                if (char.hp <= 0) continue;
+                
+                if (char.timeFieldActive) {
+                    const alpha = char.timeFieldDuration / 60;
+                    ctx.fillStyle = `rgba(155, 89, 182, ${alpha * 0.3})`;
+                    ctx.beginPath();
+                    ctx.arc(char.timeFieldX, char.timeFieldY, char.timeFieldRadius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = `rgba(155, 89, 182, ${alpha})`;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(char.timeFieldX, char.timeFieldY, char.timeFieldRadius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.strokeStyle = `rgba(155, 89, 182, ${alpha * 0.5})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(char.timeFieldX, char.timeFieldY, char.timeFieldRadius * 0.7, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.arc(char.timeFieldX, char.timeFieldY, char.timeFieldRadius * 0.4, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                for (const frag of (char.memoryFragments || [])) {
+                    if (frag.color) {
+                        const r = parseInt(frag.color.slice(1, 3), 16);
+                        const g = parseInt(frag.color.slice(3, 5), 16);
+                        const b = parseInt(frag.color.slice(5, 7), 16);
+                        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.6)`;
+                    } else {
+                        ctx.fillStyle = 'rgba(155, 89, 182, 0.6)';
+                    }
+                    ctx.beginPath();
+                    ctx.arc(frag.x, frag.y, frag.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            for (const char of characters) {
+                if (char.hp <= 0) continue;
+                
+                if (char.splits && char.splits.length > 0) {
+                    for (const split of char.splits) {
+                        ctx.save();
+                        ctx.translate(split.x, split.y);
+                        ctx.globalAlpha = 0.6;
+                        ctx.fillStyle = char.color;
+                        ctx.fillRect(-char.radius * 0.7, -char.radius * 0.7, char.radius * 1.4, char.radius * 1.4);
+                        
+                        ctx.fillStyle = '#000';
+                        ctx.font = 'bold 8px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(`${Math.round(split.hp)}/${split.maxHp}`, 0, -char.radius * 0.7 - 3);
+                        ctx.restore();
+                    }
+                }
+                
+                ctx.save();
+                ctx.translate(char.x, char.y);
+                ctx.fillStyle = char.color;
+                ctx.fillRect(-char.radius, -char.radius, char.radius * 2, char.radius * 2);
+                
+                if (char.damageReduction > 0) {
+                    ctx.strokeStyle = '#2ecc71';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, char.radius + 5, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.strokeStyle = 'rgba(46, 204, 113, 0.5)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, char.radius + 8, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+            
+            for (const ft of floatingTexts) {
+                ctx.save();
+                ctx.globalAlpha = ft.alpha;
+                ctx.fillStyle = ft.color;
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(ft.text, ft.x, ft.y);
+                ctx.restore();
+            }
+            
+            for (const char of characters) {
+                if (char.hp <= 0) continue;
+                
+                const nameY = char.y - char.radius - 5;
+                const hpY = char.y - char.radius - 15;
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(char.name, char.x, nameY);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(`${Math.round(char.hp)}/${char.maxHp}`, char.x, hpY);
+                
+                if (char.chargeLevel !== undefined && char.maxCharge !== undefined) {
+                    const chargeWidth = 40;
+                    const chargeHeight = 6;
+                    const chargeY = char.y - char.radius - 30;
+                    
+                    ctx.fillStyle = '#ddd';
+                    ctx.fillRect(char.x - chargeWidth/2, chargeY, chargeWidth, chargeHeight);
+                    ctx.fillStyle = '#f39c12';
+                    ctx.fillRect(char.x - chargeWidth/2, chargeY, chargeWidth * (char.chargeLevel / char.maxCharge), chargeHeight);
+                    
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.fillText(`${char.chargeLevel}/${char.maxCharge}`, char.x, chargeY + 5);
+                }
+            }
+        }
+        
+        function update() {
+            if (gameOver) return;
+            
+            for (const char of characters) {
+                if (char.hp <= 0) continue;
+                
+                if (char.timeFieldEffect > 0) {
+                    char.timeFieldEffect -= gameSpeed;
+                }
+                
+                if (char.damageReduction > 0) {
+                    char.damageReduction -= gameSpeed;
+                }
+            }
+            
+            for (const char of characters) char.update(characters, projectiles, floatingTexts);
+            
+            for (const proj of projectiles) {
+                if (proj.type === 'laser') {
+                    proj.life -= gameSpeed;
+                    
+                    const angle = Math.atan2(proj.targetY - proj.y, proj.targetX - proj.x);
+                    const cos = Math.cos(angle);
+                    const sin = Math.sin(angle);
+                    
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0 || char.team === proj.owner.team) continue;
+                        
+                        const dx = char.x - proj.x;
+                        const dy = char.y - proj.y;
+                        const perpDist = Math.abs(dx * sin - dy * cos);
+                        const alongDist = dx * cos + dy * sin;
+                        
+                        if (perpDist < char.radius + proj.width / 2 && alongDist >= -char.radius && alongDist <= 2000) {
+                            if (!char.laserHit || char.laserHit !== proj) {
+                                const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                                showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                                char.laserHit = proj;
+                            }
+                        }
+                        
+                        if (char.splits) {
+                            for (let j = 0; j < char.splits.length; j++) {
+                                const split = char.splits[j];
+                                const sdx = split.x - proj.x;
+                                const sdy = split.y - proj.y;
+                                const sPerpDist = Math.abs(sdx * sin - sdy * cos);
+                                const sAlongDist = sdx * cos + sdy * sin;
+                                
+                                if (sPerpDist < char.radius * 0.7 + proj.width / 2 && sAlongDist >= -char.radius * 0.7 && sAlongDist <= 2000) {
+                                    if (!split.laserHit || split.laserHit !== proj) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                            continue;
+                                        }
+                                        split.laserHit = proj;
+                                    }
+                                } else if (split.laserHit === proj) {
+                                    split.laserHit = null;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (proj.life <= 0) {
+                        for (const char of characters) {
+                            if (char.laserHit === proj) {
+                                char.laserHit = null;
+                            }
+                            if (char.splits) {
+                                for (const split of char.splits) {
+                                    if (split.laserHit === proj) {
+                                        split.laserHit = null;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (proj.type === 'chalk') {
+                    proj.x += proj.vx * gameSpeed;
+                    proj.y += proj.vy * gameSpeed;
+                    
+                    if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
+                        proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                        proj.active = false;
+                        continue;
+                    }
+                    
+                    let hit = false;
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0) continue;
+                        
+                        if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
+                            const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                            showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                            
+                            if (proj.owner.name === '盒子含') {
+                                proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 10);
+                                showDamageText(proj.owner, -10, '#2ecc71', proj.owner);
+                            }
+                            
+                            proj.active = false;
+                            hit = true;
+                            break;
+                        }
+                        
+                        if (char.splits) {
+                            for (let j = 0; j < char.splits.length; j++) {
+                                const split = char.splits[j];
+                                if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
+                                    if (!split.chalkHits || !split.chalkHits.includes(proj)) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        
+                                        
+                                        
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                        } else {
+                                            if (!split.chalkHits) split.chalkHits = [];
+                                            split.chalkHits.push(proj);
+                                        }
+                                    }
+                                } else {
+                                    if (split.chalkHits && split.chalkHits.includes(proj)) {
+                                        split.chalkHits = split.chalkHits.filter(p => p !== proj);
+                                    }
+                                }
+                            }
+                        }
+                        if (hit) break;
+                    }
+                } else if (proj.type === 'claw') {
+                    proj.life -= gameSpeed;
+                    
+                    const angle = Math.atan2(proj.endY - proj.y, proj.endX - proj.x);
+                    const cos = Math.cos(angle);
+                    const sin = Math.sin(angle);
+                    
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0) continue;
+                        
+                        const dx = char.x - proj.x;
+                        const dy = char.y - proj.y;
+                        const perpDist = Math.abs(dx * sin - dy * cos);
+                        const alongDist = dx * cos + dy * sin;
+                        
+                        if (perpDist < char.radius + 3 && alongDist >= -char.radius && alongDist <= proj.length + char.radius) {
+                            if (!char.clawHits || !char.clawHits.includes(proj)) {
+                                const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                                showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                                
+                                const knockbackAngle = Math.atan2(dy, dx);
+                                char.vx += Math.cos(knockbackAngle) * 1.5;
+                                char.vy += Math.sin(knockbackAngle) * 1.5;
+                                normalizeVelocity(char);
+                                
+                                if (!char.clawHits) char.clawHits = [];
+                                char.clawHits.push(proj);
+                            }
+                        } else if (char.clawHits && char.clawHits.includes(proj)) {
+                            char.clawHits = char.clawHits.filter(p => p !== proj);
+                        }
+                        
+                        if (char.splits) {
+                            for (let j = 0; j < char.splits.length; j++) {
+                                const split = char.splits[j];
+                                const sdx = split.x - proj.x;
+                                const sdy = split.y - proj.y;
+                                const sPerpDist = Math.abs(sdx * sin - sdy * cos);
+                                const sAlongDist = sdx * cos + sdy * sin;
+                                
+                                if (sPerpDist < char.radius * 0.7 + 3 && sAlongDist >= -char.radius * 0.7 && sAlongDist <= proj.length + char.radius * 0.7) {
+                                    if (!split.clawHits || !split.clawHits.includes(proj)) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                            continue;
+                                        }
+                                        if (!split.clawHits) split.clawHits = [];
+                                        split.clawHits.push(proj);
+                                    }
+                                } else if (split.clawHits && split.clawHits.includes(proj)) {
+                                    split.clawHits = split.clawHits.filter(p => p !== proj);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (proj.life <= 0) {
+                        for (const char of characters) {
+                            if (char.clawHits) {
+                                char.clawHits = char.clawHits.filter(p => p !== proj);
+                            }
+                            if (char.splits) {
+                                for (const split of char.splits) {
+                                    if (split.clawHits) {
+                                        split.clawHits = split.clawHits.filter(p => p !== proj);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (proj.type === 'timePulse') {
+                    proj.x += proj.vx * gameSpeed;
+                    proj.y += proj.vy * gameSpeed;
+                    proj.life -= gameSpeed;
+                    
+                    if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
+                        proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                        proj.life = 0;
+                        continue;
+                    }
+                    
+                    if (!proj.hit) {
+                        for (const char of characters) {
+                            if (char === proj.owner || char.hp <= 0) continue;
+                            
+                            if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
+                                const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                                showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                                
+                                char.vx *= -1;
+                                char.vy *= -1;
+                                char.timeFieldEffect = 60;
+                                
+                                proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 20);
+                                showDamageText(proj.owner, -20, '#2ecc71', proj.owner);
+                                
+                                proj.hit = true;
+                                proj.life = 0;
+                                break;
+                            }
+                            
+                            if (char.splits) {
+                                for (let j = 0; j < char.splits.length; j++) {
+                                    const split = char.splits[j];
+                                    if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
+                                        if (!split.pulseHits || !split.pulseHits.includes(proj)) {
+                                            split.hp -= proj.damage;
+                                            showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                            if (split.hp <= 0) {
+                                                char.splits.splice(j, 1);
+                                                j--;
+                                            } else {
+                                                if (!split.pulseHits) split.pulseHits = [];
+                                                split.pulseHits.push(proj);
+                                            }
+                                        }
+                                    } else {
+                                        if (split.pulseHits && split.pulseHits.includes(proj)) {
+                                            split.pulseHits = split.pulseHits.filter(p => p !== proj);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            projectiles = projectiles.filter(p => p.life > 0 || p.active);
+            
+            for (const char of characters) {
+                if (char.clawHits) {
+                    char.clawHits = char.clawHits.filter(p => projectiles.includes(p));
+                }
+                if (char.splits) {
+                    for (const split of char.splits) {
+                        if (split.chalkHits) {
+                            split.chalkHits = split.chalkHits.filter(p => projectiles.includes(p));
+                        }
+                        if (split.pulseHits) {
+                            split.pulseHits = split.pulseHits.filter(p => projectiles.includes(p));
+                        }
+                        if (split.clawHits) {
+                            split.clawHits = split.clawHits.filter(p => projectiles.includes(p));
+                        }
+                    }
+                }
+            }
+            
+            const now = Date.now();
+            damageTracker.forEach((record, key) => {
+                if (now - record.lastTime >= DAMAGE_COMBINE_THRESHOLD / gameSpeed) {
+                    record.floatText.isComplete = true;
+                    damageTracker.delete(key);
+                }
+            });
+            
+            for (const ft of floatingTexts) {
+                ft.y += ft.vy * gameSpeed;
+                ft.life -= gameSpeed;
+                ft.alpha = Math.max(0, ft.life / 120);
+                
+                if (ft.currentDamage !== ft.targetDamage) {
+                    const diff = ft.targetDamage - ft.currentDamage;
+                    ft.currentDamage += diff * 0.2;
+                    ft.text = `-${Math.round(ft.currentDamage)}`;
+                }
+            }
+            
+            floatingTexts = floatingTexts.filter(ft => ft.life > 0);
+            
+            const redAlive = characters.filter(c => c.team === 'red' && c.hp > 0).length;
+            const blueAlive = characters.filter(c => c.team === 'blue' && c.hp > 0).length;
+            
+            const redChar = characters.find(c => c.team === 'red');
+            const blueChar = characters.find(c => c.team === 'blue');
+            document.getElementById('redHpDisplay').textContent = Math.max(0, Math.round(redChar?.hp || 0));
+            document.getElementById('blueHpDisplay').textContent = Math.max(0, Math.round(blueChar?.hp || 0));
+            
+            if (characters.length > 0 && (redAlive === 0 || blueAlive === 0)) {
+                gameOver = true;
+                const winner = redAlive > 0 ? '红方' : '蓝方';
+                const winnerChar = characters.find(c => c.hp > 0);
+                document.getElementById('gameOverTitle').textContent = `${winner}胜利！`;
+                document.getElementById('gameOverInfo').textContent = winnerChar ? `${winnerChar.name} 赢得了胜利！` : '';
+                document.getElementById('gameOverOverlay').style.display = 'flex';
+                
+                if (winner === '红方') {
+                    redWinCount++;
+                    updateCharRecords(currentRedChar, true);
+                    updateCharRecords(currentBlueChar, false);
+                } else {
+                    blueWinCount++;
+                    updateCharRecords(currentBlueChar, true);
+                    updateCharRecords(currentRedChar, false);
+                }
+                document.getElementById('redWinCount').textContent = redWinCount;
+                document.getElementById('blueWinCount').textContent = blueWinCount;
+                document.getElementById('totalMatchCount').textContent = redWinCount + blueWinCount;
+                updateLeaderboard();
+                
+                if (isAutoTest) {
+                    scheduleNextAutoTest();
+                }
+            }
+        }
+        
+        function togglePause() {
+            isPaused = !isPaused;
+            document.querySelector('button[onclick="togglePause()"]').textContent = isPaused ? '继续' : '暂停';
+        }
+        
+        function startAutoTest() {
+            isAutoTest = true;
+            autoTestOriginalSpeed = gameSpeed;
+            gameSpeed = 3;
+            document.getElementById('speedSlider').value = 3;
+            document.getElementById('speedValue').textContent = '3x';
+            
+            resetRecords();
+            
+            const charKeys = ['GUITOU', 'BAIDAN', 'MAONAI', 'HEIDAN', 'SHINIAN', 'MABA', 'HEZIHAN'];
+            autoTestQueue = [];
+            
+            for (let i = 0; i < charKeys.length; i++) {
+                for (let j = i + 1; j < charKeys.length; j++) {
+                    autoTestQueue.push({ red: charKeys[i], blue: charKeys[j] });
+                }
+            }
+            
+            autoTestCurrentMatch = 0;
+            autoTestCurrentGame = 0;
+            
+            startNextAutoTestGame();
+        }
+        
+        function startNextAutoTestGame() {
+            if (autoTestCurrentMatch >= autoTestQueue.length) {
+                finishAutoTest();
+                return;
+            }
+            
+            const match = autoTestQueue[autoTestCurrentMatch];
+            
+            document.querySelector(`input[name="redChar"][value="${match.red}"]`).checked = true;
+            document.querySelector(`input[name="blueChar"][value="${match.blue}"]`).checked = true;
+            
+            document.getElementById('gameOverOverlay').style.display = 'none';
+            
+            const charClasses = {
+                GUITOU: GuiTou,
+                BAIDAN: BaiDan,
+                MAONAI: MaoNai,
+                HEIDAN: HeiDan,
+                SHINIAN: ShiNianZhiHou,
+                MABA: MaBa,
+                HEZIHAN: HeZiHan
+            };
+            
+            characters = [];
+            projectiles = [];
+            floatingTexts = [];
+            gameOver = false;
+            
+            currentRedChar = match.red;
+            currentBlueChar = match.blue;
+            
+            const redChar = new charClasses[match.red](160, 200, '#e74c3c', 'red', 0);
+            const blueChar = new charClasses[match.blue](240, 200, '#3498db', 'blue', 1);
+            
+            normalizeVelocity(redChar);
+            normalizeVelocity(blueChar);
+            
+            characters.push(redChar, blueChar);
+        }
+        
+        function scheduleNextAutoTest() {
+            autoTestCurrentGame++;
+            
+            if (autoTestCurrentGame >= autoTestGamesPerMatch) {
+                autoTestCurrentGame = 0;
+                autoTestCurrentMatch++;
+            }
+            
+            setTimeout(() => {
+                startNextAutoTestGame();
+            }, 500);
+        }
+        
+        function finishAutoTest() {
+            isAutoTest = false;
+            gameSpeed = autoTestOriginalSpeed;
+            document.getElementById('speedSlider').value = autoTestOriginalSpeed;
+            document.getElementById('speedValue').textContent = autoTestOriginalSpeed + 'x';
+            
+            alert('自动测试完成！请查看排行榜结果。');
+        }
+        
+        function updateCharRecords(charKey, isWin) {
+            if (charRecords[charKey]) {
+                charRecords[charKey].matches++;
+                if (isWin) {
+                    charRecords[charKey].wins++;
+                } else {
+                    charRecords[charKey].losses++;
+                }
+            }
+        }
+        
+        function updateLeaderboard() {
+            const body = document.getElementById('leaderboardBody');
+            const sorted = Object.values(charRecords).sort((a, b) => {
+                const rateA = a.matches > 0 ? a.wins / a.matches : 0;
+                const rateB = b.matches > 0 ? b.wins / b.matches : 0;
+                return rateB - rateA;
+            });
+            
+            body.innerHTML = sorted.map((record, index) => {
+                const rate = record.matches > 0 ? ((record.wins / record.matches) * 100).toFixed(1) : '-';
+                return `
+                    <div class="leaderboard-row">
+                        <span class="lb-col-name">${index === 0 ? '🥇 ' : ''}${record.name}</span>
+                        <span class="lb-col">${record.matches}</span>
+                        <span class="lb-col">${record.wins}</span>
+                        <span class="lb-col">${record.losses}</span>
+                        <span class="lb-col">${rate}%</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function resetRecords() {
+            redWinCount = 0;
+            blueWinCount = 0;
+            document.getElementById('redWinCount').textContent = '0';
+            document.getElementById('blueWinCount').textContent = '0';
+            document.getElementById('totalMatchCount').textContent = '0';
+            
+            for (const key in charRecords) {
+                charRecords[key].matches = 0;
+                charRecords[key].wins = 0;
+                charRecords[key].losses = 0;
+            }
+            updateLeaderboard();
+        }
+        
+        function gameLoop() {
+            if (!isPaused) {
+                update();
+            }
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        function startGame() {
+            document.getElementById('gameOverOverlay').style.display = 'none';
+            
+            const redType = document.querySelector('input[name="redChar"]:checked').value;
+            const blueType = document.querySelector('input[name="blueChar"]:checked').value;
+            
+            currentRedChar = redType;
+            currentBlueChar = blueType;
+            
+            const charClasses = {
+                GUITOU: GuiTou,
+                BAIDAN: BaiDan,
+                MAONAI: MaoNai,
+                HEIDAN: HeiDan,
+                SHINIAN: ShiNianZhiHou,
+                MABA: MaBa,
+                HEZIHAN: HeZiHan
+            };
+            
+            const RedCharClass = charClasses[redType];
+            const BlueCharClass = charClasses[blueType];
+            
+            const mapWidth = WIDTH - PADDING * 2;
+            const mapHeight = HEIGHT - PADDING * 2;
+            
+            characters = [
+                new RedCharClass(PADDING + mapWidth * 0.25, PADDING + mapHeight / 2, '#e74c3c', 'red', 0),
+                new BlueCharClass(PADDING + mapWidth * 0.75, PADDING + mapHeight / 2, '#3498db', 'blue', 1)
+            ];
+            
+            for (const char of characters) {
+                const speed = char.currentSpeed || char.speed || BASE_SPEED;
+                const currentSpeed = Math.sqrt(char.vx * char.vx + char.vy * char.vy);
+                
+                if (currentSpeed < speed * 0.1 || currentSpeed > speed * 1.1 || 
+                    Math.abs(char.vx) < speed * 0.3 || Math.abs(char.vy) < speed * 0.3) {
+                    let angle;
+                    do {
+                        angle = Math.random() * Math.PI * 2;
+                    } while (Math.abs(Math.cos(angle)) < 0.3 || Math.abs(Math.sin(angle)) < 0.3);
+                    
+                    char.vx = Math.cos(angle) * speed;
+                    char.vy = Math.sin(angle) * speed;
+                }
+            }
+            
+            projectiles = [];
+            floatingTexts = [];
+            gameOver = false;
+            
+            document.getElementById('redHpDisplay').textContent = 1000;
+            document.getElementById('blueHpDisplay').textContent = 1000;
+        }
+        
+        gameLoop();
+    </script>
+</body>
+</html>
