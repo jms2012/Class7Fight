@@ -3,38 +3,290 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="refresh" content="0; url=./猎7班大乱斗.html" />
-  <title>猎7班大乱斗</title>
+  <title>猎7班大乱斗 | 线上对战页</title>
   <style>
+    :root {
+      color-scheme: dark;
+      --bg-1: #07111f;
+      --bg-2: #17233b;
+      --panel: rgba(15, 23, 42, 0.78);
+      --panel-strong: rgba(15, 23, 42, 0.9);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #f97316;
+      --accent-2: #38bdf8;
+      --border: rgba(255, 255, 255, 0.18);
+    }
+
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
       font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(135deg, #4169E1, #2c3e50);
-      color: #fff;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.25), transparent 35%), linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      color: var(--text);
+      padding: 24px;
     }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(249,115,22,0.12), transparent 40%, rgba(56,189,248,0.16));
+      pointer-events: none;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      padding: 32px;
+      border-radius: 28px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 48px rgba(2, 6, 23, 0.35);
+      backdrop-filter: blur(10px);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(249, 115, 22, 0.2);
+      color: #fdba74;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 3.6vw, 3.2rem);
+      margin: 0 0 12px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 0 20px;
+      max-width: 620px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--accent), #ef4444);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border);
+    }
+
+    .highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .highlights li {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .preview-card {
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border: 1px solid var(--border);
+      display: grid;
+      gap: 14px;
+    }
+
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .preview-screen {
+      background: linear-gradient(180deg, #f8fafc, #e2e8f0);
+      border-radius: 18px;
+      padding: 16px;
+      color: #0f172a;
+      min-height: 260px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .preview-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+    }
+
+    .preview-stage {
+      border-radius: 12px;
+      background: linear-gradient(180deg, #dbeafe, #bfdbfe);
+      min-height: 160px;
+      border: 2px solid #94a3b8;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 48%, rgba(255,255,255,0.25) 50%, transparent 52%);
+      background-size: 30px 100%;
+      opacity: 0.35;
+    }
+
+    .preview-char {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    }
+
+    .preview-char.red { left: 24%; top: 42%; background: #ef4444; }
+    .preview-char.blue { right: 24%; top: 42%; background: #38bdf8; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
     .card {
-      text-align: center;
-      padding: 24px 32px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(6px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      padding: 20px;
+      border-radius: 20px;
+      background: var(--panel-strong);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(2, 6, 23, 0.2);
     }
-    a {
-      color: #fff;
-      font-weight: bold;
-      text-decoration: underline;
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+      padding-bottom: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>猎7班大乱斗</h1>
-    <p>正在跳转到游戏页面……</p>
-    <p><a href="./猎7班大乱斗.html">点击直接进入</a></p>
-  </div>
+  <main>
+    <section class="hero">
+      <div>
+        <div class="badge">🔥 赛季首发 · 线上对战</div>
+        <h1>猎7班大乱斗</h1>
+        <p>一场由 HTML5 Canvas 打造的角色对战模拟，支持红蓝两队、技能释放、自动测试与胜率排行榜，让这场班级“乱斗”在网页里焕然一新。</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="./猎7班大乱斗.html">开始对战</a>
+          <a class="btn btn-secondary" href="#features">了解玩法</a>
+        </div>
+        <ul class="highlights">
+          <li>7 位可选角色</li>
+          <li>实时伤害与浮动提示</li>
+          <li>自动测试与排行榜</li>
+        </ul>
+      </div>
+      <div class="preview-card">
+        <div class="preview-top">
+          <span>战场预览</span>
+          <span>v1.0</span>
+        </div>
+        <div class="preview-screen">
+          <div class="preview-hud">
+            <span>红方 1000</span>
+            <span>蓝方 1000</span>
+          </div>
+          <div class="preview-stage">
+            <div class="preview-char red"></div>
+            <div class="preview-char blue"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="grid">
+      <article class="card">
+        <h2>多角色对战</h2>
+        <p>支持鬼头遗言、白蛋、猫奶、黑蛋、十年之后、马八和盒子含等角色切换，体验不同风格的战斗节奏。</p>
+      </article>
+      <article class="card">
+        <h2>动态技能系统</h2>
+        <p>每个角色都有独特攻击方式与战术表现，包含激光、投掷、爪击、时间脉冲等多种玩法反馈。</p>
+      </article>
+      <article class="card">
+        <h2>比赛记录与自动测试</h2>
+        <p>内置胜负统计、角色排行榜与自动对局测试，方便你观察谁才是最终强者。</p>
+      </article>
+    </section>
+
+    <footer>可直接在线玩 · 由静态网页构建 · 支持 GitHub Pages 部署</footer>
+  </main>
 </body>
 </html>
