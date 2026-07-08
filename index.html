@@ -104,6 +104,13 @@
       line-height: 1.6;
     }
 
+    .secondary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
     .btn {
       display: inline-flex;
       justify-content: center;
@@ -258,10 +265,13 @@
         <div class="badge">🔥 赛季首发 · 线上对战</div>
         <h1>猎7班大乱斗</h1>
         <p>一场由 HTML5 Canvas 打造的角色对战模拟，支持红蓝两队、技能释放、自动测试与胜率排行榜，让这场班级“乱斗”在网页里焕然一新。</p>
-        <p class="intro-note">先看完这里的介绍，再点击按钮进入游戏。你可以在进入对战页后选择角色、开始比赛、查看排行榜和自动测试结果。</p>
+        <p class="intro-note">先看完这里的介绍和角色图鉴，再点击按钮进入游戏。此项目已通过 GitHub Pages 静态部署，访问首页即可直接体验。</p>
         <div class="actions">
           <a class="btn btn-primary" href="./猎7班大乱斗.html">进入游戏页</a>
-          <a class="btn btn-secondary" href="#features">查看玩法介绍</a>
+        </div>
+        <div class="secondary-actions">
+          <a class="btn btn-secondary" href="./guide.html">查看玩法介绍</a>
+          <a class="btn btn-secondary" href="./gallery.html">查看角色图鉴</a>
         </div>
         <ul class="highlights">
           <li>7 位可选角色</li>
