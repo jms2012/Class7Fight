@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>角色图鉴 | 猎7班大乱斗</title>
+  <style>
+    :root { color-scheme: dark; --bg:#07111f; --panel:rgba(15,23,42,0.84); --text:#f8fafc; --muted:#cbd5e1; --accent:#f97316; --border:rgba(255,255,255,0.16); }
+    *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#07111f,#17233b);color:var(--text);padding:24px}
+    .wrap{max-width:1040px;margin:0 auto;display:grid;gap:18px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 16px 40px rgba(0,0,0,0.25)}
+    h1{margin:0 0 10px;font-size:32px} p{color:var(--muted);line-height:1.75}
+    .nav{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:999px;text-decoration:none;color:var(--text);background:rgba(255,255,255,0.1);border:1px solid var(--border)}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#ef4444)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .item{padding:16px;border-radius:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08)}
+    .item h2{margin:0 0 8px;font-size:18px}
+    .item .tag{display:inline-block;padding:5px 8px;border-radius:999px;background:rgba(249,115,22,0.18);color:#fdba74;font-size:12px;margin-bottom:8px}
+    .item .subtitle{color:#93c5fd;font-size:13px;margin:0 0 10px}
+    .item ul{margin:8px 0 0 18px;padding:0;color:var(--muted);line-height:1.7}
+    .item li{margin-bottom:4px}
+    @media (max-width:760px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="nav">
+        <a class="btn" href="./index.html">返回首页</a>
+        <a class="btn primary" href="./猎7班大乱斗.html">开始对战</a>
+      </div>
+      <h1>角色图鉴</h1>
+      <p>这里是所有可选角色的快速介绍，点击“开始对战”后即可直接上场。</p>
+    </div>
+    <div class="grid">
+      <div class="item">
+        <span class="tag">红蓝通用</span>
+        <h2>鬼头遗言</h2>
+        <p class="subtitle">蓄力型远程输出 / 站位型选手</p>
+        <ul>
+          <li><strong>技能：</strong>会定期积蓄“挂挡值”，达到上限后发射强力激光。</li>
+          <li><strong>被动：</strong>拥有较高稳定性，适合在中距离压制敌人。</li>
+          <li><strong>定位：</strong>爆发较强，适合节奏型和控制型玩家。</li>
+        </ul>
+      </div>
+      <div class="item">
+        <span class="tag">投掷型</span>
+        <h2>白蛋</h2>
+        <p class="subtitle">频繁输出 / 低门槛上手</p>
+        <ul>
+          <li><strong>技能：</strong>会不断投掷粉笔弹幕，对敌人形成持续压制。</li>
+          <li><strong>被动：</strong>与敌人碰撞时可短暂反弹并恢复少量生命。</li>
+          <li><strong>定位：</strong>稳定、容易上手，适合压迫节奏和持续伤害。</li>
+        </ul>
+      </div>
+      <div class="item">
+        <span class="tag">近战型</span>
+        <h2>猫奶</h2>
+        <p class="subtitle">贴脸爆发 / 近战强压</p>
+        <ul>
+          <li><strong>技能：</strong>会在攻击范围内释放爪击，打出连续线性伤害。</li>
+          <li><strong>被动：</strong>近距离作战能力突出，能有效打断敌人的节奏。</li>
+          <li><strong>定位：</strong>适合强行贴脸、抢占前排的玩家。</li>
+        </ul>
+      </div>
+      <div class="item">
+        <span class="tag">冲撞型</span>
+        <h2>黑蛋</h2>
+        <p class="subtitle">冲撞爆发 / 反击型</p>
+        <ul>
+          <li><strong>技能：</strong>会在短时间内蓄势冲撞，命中敌人会造成高额伤害。</li>
+          <li><strong>被动：</strong>受到伤害时有概率减免一部分伤害，耐打性不错。</li>
+          <li><strong>定位：</strong>适合打出爆发、抓住机会反杀的局面。</li>
+        </ul>
+      </div>
+      <div class="item">
+        <span class="tag">时间流</span>
+        <h2>十年之后</h2>
+        <p class="subtitle">控制型 / 时空干扰</p>
+        <ul>
+          <li><strong>技能：</strong>释放时间脉冲，能让敌人受到额外的滞缓和控制效果。</li>
+          <li><strong>被动：</strong>会生成记忆碎片并持续积累“时间腐蚀”，战斗中有很强的压迫感。</li>
+          <li><strong>定位：</strong>适合擅长控制节奏、打持久战的玩家。</li>
+        </ul>
+      </div>
+      <div class="item">
+        <span class="tag">分裂型</span>
+        <h2>马八</h2>
+        <p class="subtitle">分裂体 / 牵制与干扰</p>
+        <ul>
+          <li><strong>技能：</strong>能分裂出多个小体，持续对敌人进行骚扰和输出。</li>
+          <li><strong>被动：</strong>在承受致命伤害时可进行归一，回收分裂体并恢复状态。</li>
+          <li><strong>定位：</strong>适合喜欢复杂战术和耐久拉扯的玩家。</li>
+        </ul>
+      </div>
+      <div class="item">
+        <span class="tag">成长型</span>
+        <h2>盒子含</h2>
+        <p class="subtitle">成长型输出 / 后期爆发</p>
+        <ul>
+          <li><strong>技能：</strong>攻击会随时间提升伤害和速度，后期极具威胁。</li>
+          <li><strong>被动：</strong>命中敌人时可回复少量生命，适合拖进后期。</li>
+          <li><strong>定位：</strong>适合慢热、擅长把局势拉到后期再逆转的玩家。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
