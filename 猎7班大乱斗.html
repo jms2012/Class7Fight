@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<html lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>猎7班大乱斗</title>
@@ -21,19 +19,51 @@
             display: flex;
             gap: 20px;
             align-items: flex-start;
+            justify-content: center;
         }
-        .side-panel {
-            width: 160px;
+        .left-panel {
+            width: 340px;
             flex-shrink: 0;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .right-panel {
+            width: 340px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
         .game-area {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 15px;
+        }
+        .game-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .game-controls .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .game-controls .btn {
+            display: inline-block;
+        }
+        .right-panel {
+            width: 200px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
         .char-panel {
             background: rgba(255,255,255,0.8);
-            padding: 12px;
+            padding: 8px;
             border-radius: 10px;
             width: 100%;
         }
@@ -57,18 +87,23 @@
         .char-option.selected { background: #e74c3c; color: #fff; }
         .char-option.blue-selected { background: #3498db; color: #fff; }
         .char-option input[type="radio"] { display: none; }
+        .btn-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
         .speed-control {
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
             background: rgba(255,255,255,0.8);
-            padding: 8px 15px;
+            padding: 6px 10px;
             border-radius: 8px;
+            font-size: 12px;
         }
         .speed-control label { font-weight: bold; }
-        .speed-control input[type="range"] { width: 150px; }
-        .speed-control span { min-width: 40px; text-align: center; }
+        .speed-control input[type="range"] { width: 100px; }
+        .speed-control span { min-width: 35px; text-align: center; }
         .game-container {
             background: rgba(255,255,255,0.6);
             padding: 10px;
@@ -80,34 +115,36 @@
             background: #fff;
         }
         .stats {
-            margin-top: 15px;
             display: flex;
-            gap: 40px;
-            font-size: 18px;
+            gap: 20px;
+            font-size: 14px;
+            justify-content: center;
+            background: rgba(255,255,255,0.8);
+            padding: 8px;
+            border-radius: 8px;
         }
         .stat-item { display: flex; align-items: center; gap: 10px; }
         .stat-value.red-team { color: #e74c3c; }
         .stat-value.blue-team { color: #3498db; }
         
         .record-panel {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             display: flex;
-            gap: 25px;
+            gap: 10px;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
         }
-        .record-item { display: flex; align-items: center; gap: 8px; font-size: 14px; }
-        .record-label { color: #bdc3c7; }
-        .record-value { font-weight: bold; color: #fff; }
+        .record-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+        .record-label { color: #666; }
+        .record-value { font-weight: bold; color: #333; }
         .record-value.red-team { color: #e74c3c; }
         .record-value.blue-team { color: #3498db; }
         .reset-btn {
-            padding: 5px 15px;
-            font-size: 12px;
+            padding: 3px 10px;
+            font-size: 11px;
             background: rgba(231, 76, 60, 0.6);
             border: none;
             border-radius: 5px;
@@ -118,28 +155,26 @@
         .reset-btn:hover { background: rgba(231, 76, 60, 0.8); }
         
         .leaderboard-panel {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             width: 100%;
-            max-width: 500px;
         }
         .leaderboard-title {
-            margin: 0 0 10px 0;
-            font-size: 16px;
-            color: #fff;
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #333;
             text-align: center;
         }
         .leaderboard-header {
             display: flex;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 12px;
-            color: #bdc3c7;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 10px;
+            color: #666;
             font-weight: bold;
         }
-        .lb-col-name { flex: 2; text-align: left; padding-left: 5px; }
+        .lb-col-name { flex: 2; text-align: left; padding-left: 3px; }
         .lb-col { flex: 1; text-align: center; }
         .leaderboard-body {
             max-height: 200px;
@@ -206,11 +241,11 @@
     <h1>猎7班大乱斗</h1>
     
     <div class="main-layout">
-        <div class="side-panel">
+        <div class="left-panel">
             <div class="char-panel red">
                 <h3>红方选择</h3>
                 <label class="char-option selected">
-                    <input type="radio" name="redChar" value="GUITOU" checked>
+                    <input type="radio" name="redChar" value="GUITOU" checked="">
                     <span>鬼头遗言</span>
                 </label>
                 <label class="char-option">
@@ -237,37 +272,105 @@
                     <input type="radio" name="redChar" value="HEZIHAN">
                     <span>盒子含</span>
                 </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="DIKE">
+                    <span>低客的黑调</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="WENSHI">
+                    <span>温室大棚</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="TEST">
+                    <span>测试</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="NIGE">
+                    <span>尼格军团</span>
+                </label>
+            </div>
+            
+            <div class="char-panel blue">
+                <h3>蓝方选择</h3>
+                <label class="char-option blue-selected">
+                    <input type="radio" name="blueChar" value="GUITOU" checked="">
+                    <span>鬼头遗言</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="BAIDAN">
+                    <span>白蛋</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="MAONAI">
+                    <span>猫奶</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="HEIDAN">
+                    <span>黑蛋</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="SHINIAN">
+                    <span>十年之后</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="MABA">
+                    <span>马八</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="HEZIHAN">
+                    <span>盒子含</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="DIKE">
+                    <span>低客的黑调</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="WENSHI">
+                    <span>温室大棚</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="TEST">
+                    <span>测试</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="NIGE">
+                    <span>尼格军团</span>
+                </label>
             </div>
         </div>
         
         <div class="game-area">
-            <div class="speed-control">
-                <label>游戏速度:</label>
-                <input type="range" id="speedSlider" min="0.2" max="2" step="0.1" value="0.8">
-                <span id="speedValue">0.8x</span>
-            </div>
-            
-            <button class="btn" onclick="togglePause()">暂停</button>
-            
-            <button class="btn" onclick="startGame()">开始对战</button>
-            
-            <button class="btn" onclick="startAutoTest()">自动测试</button>
-            
             <div class="game-container">
                 <canvas id="gameCanvas" width="400" height="400"></canvas>
             </div>
             
-            <div class="stats">
-                <div class="stat-item">
-                    <span>红方:</span>
-                    <span class="stat-value red-team" id="redHpDisplay">1000</span>
+            <div class="game-controls">
+                <div class="btn-group">
+                    <button class="btn" onclick="togglePause()">暂停</button>
+                    <button class="btn" onclick="startGame()">开始对战</button>
+                    <button class="btn" onclick="startAutoTest()">自动测试</button>
                 </div>
-                <div class="stat-item">
-                    <span>蓝方:</span>
-                    <span class="stat-value blue-team" id="blueHpDisplay">1000</span>
+                
+                <div class="speed-control">
+                    <label>游戏速度:</label>
+                    <input type="range" id="speedSlider" min="0.2" max="10" step="0.1" value="0.8">
+                    <span id="speedValue">0.8x</span>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span>红方:</span>
+                        <span class="stat-value red-team" id="redHpDisplay">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>蓝方:</span>
+                        <span class="stat-value blue-team" id="blueHpDisplay">0</span>
+                    </div>
                 </div>
             </div>
-            
+        </div>
+        
+        <div class="right-panel">
             <div class="record-panel">
                 <div class="record-item">
                     <span class="record-label">红方胜:</span>
@@ -297,40 +400,6 @@
                 </div>
             </div>
         </div>
-        
-        <div class="side-panel">
-            <div class="char-panel blue">
-                <h3>蓝方选择</h3>
-                <label class="char-option blue-selected">
-                    <input type="radio" name="blueChar" value="GUITOU" checked>
-                    <span>鬼头遗言</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="BAIDAN">
-                    <span>白蛋</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="MAONAI">
-                    <span>猫奶</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="HEIDAN">
-                    <span>黑蛋</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="SHINIAN">
-                    <span>十年之后</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="MABA">
-                    <span>马八</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="HEZIHAN">
-                    <span>盒子含</span>
-                </label>
-            </div>
-        </div>
     </div>
     
     <div class="game-over-overlay" id="gameOverOverlay">
@@ -352,6 +421,8 @@
         let characters = [];
         let projectiles = [];
         let floatingTexts = [];
+        let nigeSpawnQueue = [];
+        let nigeLegionCounter = 0;
         let gameOver = false;
         let isPaused = false;
         
@@ -365,16 +436,22 @@
             HEIDAN: { name: '黑蛋', matches: 0, wins: 0, losses: 0 },
             SHINIAN: { name: '十年之后', matches: 0, wins: 0, losses: 0 },
             MABA: { name: '马八', matches: 0, wins: 0, losses: 0 },
-            HEZIHAN: { name: '盒子含', matches: 0, wins: 0, losses: 0 }
+            HEZIHAN: { name: '盒子含', matches: 0, wins: 0, losses: 0 },
+            DIKE: { name: '低客的黑调', matches: 0, wins: 0, losses: 0 },
+            WENSHI: { name: '温室大棚', matches: 0, wins: 0, losses: 0 },
+            NIGE: { name: '尼格军团', matches: 0, wins: 0, losses: 0 },
+            TEST: { name: '测试', matches: 0, wins: 0, losses: 0 }
         };
         
         let currentRedChar = '';
         let currentBlueChar = '';
         let gameSpeed = 0.8;
+        let lastTime = performance.now();
+        let deltaTime = 1 / 60;
         
         let isAutoTest = false;
         let autoTestQueue = [];
-        let autoTestGamesPerMatch = 5;
+        let autoTestGamesPerMatch = 3;
         let autoTestCurrentMatch = 0;
         let autoTestCurrentGame = 0;
         let autoTestOriginalSpeed = 0.8;
@@ -382,6 +459,28 @@
         const DAMAGE_COMBINE_THRESHOLD = 150;
         const BASE_SPEED = 0.8;
         const damageTracker = new Map();
+        
+        let immersiveMode = false;
+        let cameraX = 0;
+        let cameraY = 0;
+        
+        const leftPanel = document.querySelector('.left-panel');
+        const rightPanel = document.querySelector('.right-panel');
+        const gameControls = document.querySelector('.game-controls');
+        
+        function setImmersiveMode(enabled) {
+            immersiveMode = enabled;
+            leftPanel.style.display = enabled ? 'none' : '';
+            rightPanel.style.display = enabled ? 'none' : '';
+            gameControls.style.display = enabled ? 'none' : '';
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && !gameOver && characters.length > 0) {
+                e.preventDefault();
+                setImmersiveMode(!immersiveMode);
+            }
+        });
         
         document.getElementById('speedSlider').addEventListener('input', function(e) {
             gameSpeed = parseFloat(e.target.value);
@@ -491,7 +590,8 @@
                     color: color,
                     alpha: 1,
                     vy: -0.5,
-                    life: 120,
+                    life: 2,
+                    initialLife: 2,
                     currentDamage: -damage,
                     targetDamage: -damage,
                     isComplete: true
@@ -507,7 +607,28 @@
             if (record && now - record.lastTime < DAMAGE_COMBINE_THRESHOLD / gameSpeed) {
                 record.totalDamage += damage;
                 record.lastTime = now;
-                record.floatText.targetDamage = record.totalDamage;
+                
+                const oldFloatText = record.floatText;
+                const oldIndex = floatingTexts.indexOf(oldFloatText);
+                if (oldIndex !== -1) {
+                    floatingTexts.splice(oldIndex, 1);
+                }
+                
+                const floatText = {
+                    x: target.x,
+                    y: target.y - 20,
+                    text: `-${Math.round(record.totalDamage)}`,
+                    color: color,
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 2,
+                    initialLife: 2,
+                    currentDamage: record.totalDamage,
+                    targetDamage: record.totalDamage,
+                    isComplete: false
+                };
+                floatingTexts.push(floatText);
+                record.floatText = floatText;
             } else {
                 if (record && record.floatText) {
                     record.floatText.isComplete = true;
@@ -520,7 +641,8 @@
                     color: color,
                     alpha: 1,
                     vy: -0.5,
-                    life: 120,
+                    life: 2,
+                    initialLife: 2,
                     currentDamage: damage,
                     targetDamage: damage,
                     isComplete: false
@@ -597,7 +719,8 @@
                         color: '#f39c12',
                         alpha: 1,
                         vy: -0.5,
-                        life: 120
+                        life: 2,
+                        initialLife: 2
                     });
                 } else {
                     this.fireLaser(floatTexts);
@@ -645,7 +768,7 @@
                     damage: damage,
                     owner: this,
                     color: this.color,
-                    life: 15,
+                    life: 0.25,
                     width: 8
                 });
                 
@@ -653,8 +776,8 @@
             }
             
             move() {
-                this.x += this.vx * gameSpeed;
-                this.y += this.vy * gameSpeed;
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
                 
                 if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                     this.vx *= -1;
@@ -743,6 +866,10 @@
                 this.lastCollisionTime = Date.now();
                 this.collisionCooldown = 1000;
                 this.target = null;
+                
+                this.comboCount = 0;
+                this.maxCombo = 2;
+                this.comboBonus = 0.1;
             }
             
             update(allChars, projList, floatTexts) {
@@ -762,18 +889,27 @@
                 const otherChar = characters.find(c => c !== this && c.hp > 0);
                 if (!otherChar) return;
                 
-                const angle = Math.atan2(otherChar.y - this.y, otherChar.x - this.x);
+                const baseAngle = Math.atan2(otherChar.y - this.y, otherChar.x - this.x);
+                const spreadAngle = (Math.random() - 0.5) * 0.4;
+                const angle = baseAngle + spreadAngle;
+                
+                let baseDamage = Math.floor(Math.random() * 21) + 40;
+                if (this.comboCount > 0) {
+                    baseDamage = Math.floor(baseDamage * (1 + this.comboCount * this.comboBonus));
+                }
+                
                 projList.push({
                     type: 'chalk',
                     x: this.x,
                     y: this.y,
                     vx: Math.cos(angle) * 5,
                     vy: Math.sin(angle) * 5,
-                    damage: 60,
+                    damage: baseDamage,
                     owner: this,
                     radius: 6,
                     color: '#fff',
-                    active: true
+                    active: true,
+                    comboCount: this.comboCount
                 });
             }
             
@@ -810,6 +946,8 @@
                             
                             this.hp = Math.min(this.maxHp, this.hp + 10);
                             showDamageText(this, -10, '#2ecc71', this);
+                            
+                            this.comboCount = 0;
                         }
                         
                         hitAny = true;
@@ -850,8 +988,8 @@
             }
             
             move() {
-                this.x += this.vx * gameSpeed;
-                this.y += this.vy * gameSpeed;
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
                 
                 if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                     this.vx *= -1;
@@ -901,6 +1039,13 @@
                 ctx.font = 'bold 10px Arial';
                 ctx.textAlign = 'center';
                 ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                if (this.comboCount > 0) {
+                    ctx.fillStyle = '#e74c3c';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`连击: ${this.comboCount}/${this.maxCombo}`, 0, -this.radius - 25);
+                }
                 
                 ctx.restore();
             }
@@ -962,8 +1107,8 @@
                 this.chargeStartTime = now;
                 
                 const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
-                this.vx = Math.cos(angle) * 3.0;
-                this.vy = Math.sin(angle) * 3.0;
+                this.vx = Math.cos(angle) * 4.0;
+                this.vy = Math.sin(angle) * 4.0;
             }
             
             checkCollision(chars, floatTexts) {
@@ -999,7 +1144,7 @@
             move() {
                 if (this.isCharging) {
                     const now = Date.now();
-                    if (now - this.chargeStartTime >= 75 * (1000 / 60) / gameSpeed) {
+                    if (now - this.chargeStartTime >= 0.8 * 1000 / gameSpeed) {
                         this.isCharging = false;
                         const speedMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
                         if (speedMag > 0.01) {
@@ -1007,8 +1152,8 @@
                             this.vy = (this.vy / speedMag) * this.speed;
                         }
                     }
-                    this.x += this.vx * gameSpeed;
-                    this.y += this.vy * gameSpeed;
+                    this.x += this.vx * gameSpeed * deltaTime * 60;
+                    this.y += this.vy * gameSpeed * deltaTime * 60;
                     
                     if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                         this.isCharging = false;
@@ -1036,7 +1181,7 @@
                         
                         const result = checkSquareCollision(this, c);
                         if (result.collision) {
-                            const damageResult = c.takeDamage(75, this, floatingTexts);
+                            const damageResult = c.takeDamage(90, this, floatingTexts);
                             showDamageText(c, damageResult.damage, '#e74c3c', this);
                             
                             const nx = result.nx;
@@ -1087,8 +1232,8 @@
                     
                     clampToBounds(this);
                 } else {
-                    this.x += this.vx * gameSpeed;
-                    this.y += this.vy * gameSpeed;
+                    this.x += this.vx * gameSpeed * deltaTime * 60;
+                    this.y += this.vy * gameSpeed * deltaTime * 60;
                     
                     if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                         this.vx *= -1;
@@ -1126,7 +1271,8 @@
                         color: '#ffd700',
                         alpha: 1,
                         vy: -0.5,
-                        life: 120,
+                        life: 2,
+                        initialLife: 2,
                         currentDamage: 0,
                         targetDamage: 0,
                         isComplete: true
@@ -1235,7 +1381,7 @@
                     });
                     this.lastRecordTime = now;
                     
-                    while (this.timeHistory.length > 0 && now - this.timeHistory[0].time > 3000) {
+                    while (this.timeHistory.length > 0 && now - this.timeHistory[0].time > 3000 / gameSpeed) {
                         this.timeHistory.shift();
                     }
                 }
@@ -1276,7 +1422,7 @@
                     vy: Math.sin(angle) * 3.0,
                     damage: damage,
                     owner: this,
-                    life: 60,
+                    life: 1,
                     radius: 15,
                     hit: false,
                     color: this.color
@@ -1341,7 +1487,7 @@
                         const dist = distance(c.x, c.y, frag.x, frag.y);
                         if (dist < c.radius + frag.radius) {
                             if (c.team === this.team) {
-                                c.damageReduction = 360;
+                                c.damageReduction = 6;
                             } else {
                                 const damageResult = c.takeDamage(40, this, floatTexts);
                                 showDamageText(c, damageResult.damage, '#e74c3c', this);
@@ -1394,8 +1540,8 @@
                     }
                 }
                 
-                this.x += this.vx * gameSpeed;
-                this.y += this.vy * gameSpeed;
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
                 
                 if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                     this.vx *= -1;
@@ -1449,7 +1595,8 @@
                             color: '#9b59b6',
                             alpha: 1,
                             vy: -0.5,
-                            life: 180,
+                            life: 3,
+                            initialLife: 3,
                             currentDamage: 0,
                             targetDamage: 0,
                             isComplete: true
@@ -1594,10 +1741,10 @@
                         y: startY,
                         endX: endX,
                         endY: endY,
-                        damage: 35,
+                        damage: 30,
                         owner: this,
                         color: this.color,
-                        life: 15,
+                        life: 0.25,
                         length: clawLength
                     });
                 }
@@ -1632,8 +1779,8 @@
             }
             
             move() {
-                this.x += this.vx * gameSpeed;
-                this.y += this.vy * gameSpeed;
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
                 
                 if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                     this.vx *= -1;
@@ -1799,8 +1946,8 @@
                         split.vy = Math.sin(angle) * 0.5;
                     }
                     
-                    split.x += split.vx * gameSpeed;
-                    split.y += split.vy * gameSpeed;
+                    split.x += split.vx * gameSpeed * deltaTime * 60;
+                    split.y += split.vy * gameSpeed * deltaTime * 60;
                     
                     const margin = 20;
                     if (split.x < PADDING + margin || split.x > WIDTH - PADDING - margin) {
@@ -1864,8 +2011,8 @@
             }
             
             move() {
-                this.x += this.vx * gameSpeed;
-                this.y += this.vy * gameSpeed;
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
                 
                 if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                     this.vx *= -1;
@@ -1900,7 +2047,8 @@
                         color: '#9b59b6',
                         alpha: 1,
                         vy: -1,
-                        life: 30
+                        life: 0.5,
+                        initialLife: 0.5
                     });
                     
                     return { killed: false, damage: 0 };
@@ -2008,8 +2156,8 @@
                 });
                 
                 this.currentDamage++;
-                this.currentAttackInterval *= 0.9;
-                this.currentAttackInterval = Math.max(500, this.currentAttackInterval);
+                this.currentAttackInterval *= 0.89;
+                this.currentAttackInterval = Math.max(100, this.currentAttackInterval);
             }
             
             checkCollision(chars) {
@@ -2041,8 +2189,8 @@
             }
             
             move() {
-                this.x += this.vx * gameSpeed;
-                this.y += this.vy * gameSpeed;
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
                 
                 if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
                     this.vx *= -1;
@@ -2050,7 +2198,7 @@
                 }
                 if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
                     this.vy *= -1;
-                    this.y = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.y));
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
                 }
                 
                 normalizeVelocity(this);
@@ -2102,9 +2250,957 @@
             }
         }
         
+        class DiKeDeHeiDiao {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '低客的黑调';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = 0.8;
+                this.vx = (Math.random() - 0.5) * this.speed;
+                this.vy = (Math.random() - 0.5) * this.speed;
+                normalizeVelocity(this);
+                
+                this.attackInterval = 1800;
+                this.lastAttackTime = 0;
+                this.currentDamage = 50;
+                
+                this.lastHealTime = 0;
+                this.healInterval = 3000;
+                this.healAmount = 10;
+                
+                this.lastCrashTime = Date.now();
+                this.crashInterval = 8000;
+                
+                this.collisionCooldown = 1000;
+                this.lastCollisionTime = Date.now();
+                
+                this.codeLibrary = [
+                    'console.log("Hello");',
+                    'function foo() {}',
+                    'const x = 123;',
+                    'if (true) { return; }',
+                    'for(let i=0;i<10;i++){}',
+                    'while(true){break;}',
+                    'class Foo extends Bar {}',
+                    'async function* gen() {}',
+                    'const [a,b,c] = arr;',
+                    '({x,y} = obj);',
+                    'new Promise((r)=>r());',
+                    'Array.from({length:10});',
+                    'Object.keys(obj).map(k=>v);',
+                    '(async()=>{})();',
+                    'function* yieldForever() { while(true) yield; }',
+                    'const result = await fetch(url).then(r=>r.json());',
+                    'document.querySelector(".class").addEventListener("click", handler);',
+                    'Promise.all([p1,p2,p3]).then(results=>console.log(results));',
+                    'const debounce = (fn,d)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d);}};',
+                    'function deepClone(obj){return JSON.parse(JSON.stringify(obj));}',
+                    'const throttle = (fn,d)=>{let l=0;return(...a)=>{if(Date.now()-l>=d){fn(...a);l=Date.now();}};};',
+                    'Array.prototype.flatMap = function(cb){return this.map(cb).flat();};',
+                    'const curry = (fn,...a)=>a.length>=fn.length?fn(...a):(...b)=>curry(fn,...a,...b);',
+                    'const memoize = (fn)=>{const m=new Map();return(...a)=>{const k=JSON.stringify(a);return m.has(k)?m.get(k):(r=fn(...a),m.set(k,r),r);}};',
+                    '(function(){const s=document.createElement("script");s.src="data:text/javascript,...";document.head.appendChild(s);})();',
+                    'const pipe = (...fns)=>x=>fns.reduce((v,f)=>f(v),x);',
+                    'const compose = (...fns)=>x=>fns.reduceRight((v,f)=>f(v),x);',
+                    'const uuid = ()=>Math.random().toString(36).substr(2,9);',
+                    'const formatDate = (d)=>new Date(d).toLocaleDateString();',
+                    'const getQueryParams = (url)=>Object.fromEntries(new URL(url).searchParams);',
+                    'const delay = (ms)=>new Promise(r=>setTimeout(r,ms));',
+                    'const shuffle = (arr)=>arr.sort(()=>Math.random()-0.5);',
+                    'const clamp = (val,min,max)=>Math.min(Math.max(val,min),max);',
+                    'const randomInt = (min,max)=>Math.floor(Math.random()*(max-min+1))+min;',
+                    'const sum = (arr)=>arr.reduce((a,b)=>a+b,0);',
+                    'const avg = (arr)=>sum(arr)/arr.length;',
+                    'const unique = (arr)=>[...new Set(arr)];',
+                    'const flatten = (arr)=>arr.reduce((a,b)=>a.concat(Array.isArray(b)?flatten(b):b),[]);',
+                    'const groupBy = (arr,fn)=>arr.reduce((g,v)=>(g[fn(v)]=[...g[fn(v)]||[],v],g),{});',
+                    'const debouncePromise = (fn,d)=>{let p;return(...a)=>{if(p)clearTimeout(p);return new Promise(r=>{p=setTimeout(()=>r(fn(...a)),d);});};};',
+                    'const createStore = (reducer)=>{let state;const listeners=[];return{getState:()=>state,dispatch:(a)=>(state=reducer(state,a),listeners.forEach(l=>l()),state),subscribe:(l)=>listeners.push(l)}};',
+                    'const useReducer = (reducer,init)=>{const[state,set]=useState(init);return[state,(a)=>set(s=>reducer(s,a))];};',
+                    'const useEffect = (fn,deps)=>{const prev=useRef();if(!prev.current||deps.some((d,i)=>d!==prev.current[i])){fn();prev.current=deps;}};',
+                    'const virtualDOM = (type,props,...children)=>{if(typeof type==="function")return type(props,children);return{type,props,children}};',
+                    'const render = (vdom,container)=>{if(typeof vdom==="string")return container.textContent=vdom;const el=document.createElement(vdom.type);Object.keys(vdom.props).forEach(k=>el[k]=vdom.props[k]);vdom.children.forEach(c=>render(c,el));container.appendChild(el);};',
+                    'const eventEmitter = ()=>{const e={};return{on:(n,f)=>{(e[n]=e[n]||[]).push(f)},emit:(n,...a)=>(e[n]||[]).forEach(f=>f(...a))}};'
+                ];
+                
+                this.isTyping = false;
+                this.currentTypingCode = '';
+                this.typingIndex = 0;
+                this.lastTypeTime = 0;
+                this.typeSpeed = 25;
+                
+                this.optimizationTimer = 0;
+                this.optimizationBonus = 0.3;
+                this.optimizationSpeedBoost = 0.5;
+                this.optimizationChance = 0.3;
+            }
+            
+            update(characters, projectiles, floatingTexts) {
+                if (this.hp <= 0) return;
+                
+                const now = Date.now();
+                
+                if (now - this.lastHealTime >= this.healInterval / gameSpeed) {
+                    this.lastHealTime = now;
+                    this.hp = Math.min(this.maxHp, this.hp + this.healAmount);
+                    showDamageText(this, -this.healAmount, '#2ecc71', this);
+                }
+                
+                if (this.optimizationTimer > 0) {
+                    this.optimizationTimer -= gameSpeed * deltaTime;
+                    if (this.optimizationTimer <= 0) {
+                        this.optimizationTimer = 0;
+                    }
+                }
+                
+                this.attack(characters, projectiles, floatingTexts);
+                this.crashAttack(characters, floatingTexts);
+                this.checkCollision(characters, floatingTexts);
+                this.move();
+            }
+            
+            attack(characters, projectiles, floatingTexts) {
+                const now = Date.now();
+                const currentTypeSpeed = this.optimizationTimer > 0 ? this.typeSpeed * (1 - this.optimizationSpeedBoost) : this.typeSpeed;
+                
+                if (this.isTyping) {
+                    if (now - this.lastTypeTime >= currentTypeSpeed / gameSpeed) {
+                        this.typingIndex++;
+                        this.lastTypeTime = now;
+                        
+                        if (this.typingIndex >= this.currentTypingCode.length) {
+                            const enemies = characters.filter(c => c !== this && c.team !== this.team && c.hp > 0);
+                            if (enemies.length > 0) {
+                                let minDist = Infinity;
+                                let target = enemies[0];
+                                for (const e of enemies) {
+                                    const dist = Math.hypot(e.x - this.x, e.y - this.y);
+                                    if (dist < minDist) {
+                                        minDist = dist;
+                                        target = e;
+                                    }
+                                }
+                                const angle = Math.atan2(target.y - this.y, target.x - this.x);
+                                
+                                let damage = Math.floor(this.currentTypingCode.length * 4);
+                                if (this.optimizationTimer > 0) {
+                                    damage = Math.floor(damage * (1 + this.optimizationBonus));
+                                }
+                                
+                                projectiles.push({
+                                    type: 'code',
+                                    x: this.x,
+                                    y: this.y,
+                                    vx: Math.cos(angle) * 5,
+                                    vy: Math.sin(angle) * 5,
+                                    damage: damage,
+                                    owner: this,
+                                    color: this.color,
+                                    life: 2,
+                                    width: 4,
+                                    height: 15,
+                                    text: this.currentTypingCode,
+                                    optimized: this.optimizationTimer > 0
+                                });
+                            }
+                            
+                            if (this.optimizationTimer > 0) {
+                                floatingTexts.push({
+                                    x: this.x,
+                                    y: this.y - 35,
+                                    text: '优化完成!',
+                                    color: '#3498db',
+                                    alpha: 1,
+                                    vy: -0.5,
+                                    life: 1.5,
+                                    initialLife: 1.5
+                                });
+                                this.optimizationTimer = 0;
+                            } else {
+                                if (Math.random() < this.optimizationChance) {
+                                    this.optimizationTimer = 5;
+                                    floatingTexts.push({
+                                        x: this.x,
+                                        y: this.y - 35,
+                                        text: '代码优化!',
+                                        color: '#3498db',
+                                        alpha: 1,
+                                        vy: -0.5,
+                                        life: 1.5,
+                                        initialLife: 1.5
+                                    });
+                                }
+                            }
+                            
+                            this.isTyping = false;
+                            this.currentTypingCode = '';
+                            this.typingIndex = 0;
+                            this.lastAttackTime = now;
+                        }
+                    }
+                    return;
+                }
+                
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                const enemies = characters.filter(c => c !== this && c.team !== this.team && c.hp > 0);
+                if (enemies.length === 0) return;
+                
+                this.isTyping = true;
+                this.currentTypingCode = this.selectCodeByHp();
+                this.typingIndex = 0;
+                this.lastTypeTime = now;
+            }
+            
+            selectCodeByHp() {
+                const hpPercent = this.hp / this.maxHp;
+                const longCodeChance = 1 - hpPercent;
+                
+                const shortCodes = this.codeLibrary.filter(c => c.length < 30);
+                const longCodes = this.codeLibrary.filter(c => c.length >= 30);
+                
+                if (longCodes.length === 0) {
+                    return this.codeLibrary[Math.floor(Math.random() * this.codeLibrary.length)];
+                }
+                
+                if (Math.random() < longCodeChance) {
+                    return longCodes[Math.floor(Math.random() * longCodes.length)];
+                }
+                
+                if (shortCodes.length > 0) {
+                    return shortCodes[Math.floor(Math.random() * shortCodes.length)];
+                }
+                
+                return this.codeLibrary[Math.floor(Math.random() * this.codeLibrary.length)];
+            }
+            
+            crashAttack(characters, floatingTexts) {
+                const now = Date.now();
+                if (now - this.lastCrashTime < this.crashInterval / gameSpeed) return;
+                
+                const enemies = characters.filter(c => c !== this && c.team !== this.team && c.hp > 0);
+                if (enemies.length === 0) return;
+                
+                let minDist = Infinity;
+                let target = enemies[0];
+                for (const e of enemies) {
+                    const dist = Math.hypot(e.x - this.x, e.y - this.y);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        target = e;
+                    }
+                }
+                
+                this.lastCrashTime = now;
+                
+                const crashBugCount = target.bugCount || 0;
+                
+                let damage = 40;
+                if (crashBugCount > 0) {
+                    damage += crashBugCount * 30;
+                    target.bugCount = 0;
+                    target.bugTimer = 0;
+                    target.slowTimer = 1;
+                }
+                
+                const result = target.takeDamage(damage, this, floatingTexts);
+                showDamageText(target, result.damage, '#e74c3c', this);
+                
+                floatingTexts.push({
+                    x: target.x,
+                    y: target.y - 40,
+                    text: '系统崩溃',
+                    color: '#9b59b6',
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 3,
+                    initialLife: 3
+                });
+                
+                const particleCount = crashBugCount;
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = (Math.PI * 2 / particleCount) * i;
+                    const speed = 2;
+                    floatingTexts.push({
+                        x: target.x,
+                        y: target.y,
+                        text: ['Error', 'Bug', 'Crash', 'Fail'][Math.floor(Math.random() * 4)],
+                        color: '#ff0000',
+                        alpha: 1,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        life: 0.5,
+                        initialLife: 0.5
+                    });
+                }
+            }
+            
+            checkCollision(chars, floatTexts) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`漏洞: ${this.bugCount || 0}`, 0, -this.radius - 25);
+                
+                if (this.optimizationTimer > 0) {
+                    ctx.fillStyle = '#3498db';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`优化: ${this.optimizationTimer.toFixed(1)}s`, 0, -this.radius - 35);
+                }
+                
+                if (this.isTyping && this.currentTypingCode) {
+                    const typedText = this.currentTypingCode.substring(0, this.typingIndex + 1);
+                    ctx.fillStyle = this.color;
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(typedText + '|', 0, -this.radius - 45);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
+        class WenShiDaPeng {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '温室大棚';
+                this.radius = 20;
+                this.maxHp = 1000;
+                this.hp = 1000;
+                this.speed = 0.8;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1200;
+                
+                this.lastWhistleTime = Date.now();
+                this.whistleInterval = 4000;
+                
+                this.lastPunishTime = Date.now();
+                this.punishCooldown = 12000;
+                
+                this.bulletHitCount = 0;
+                
+                this.runDistance = 0;
+                this.lastRunPosX = x;
+                this.lastRunPosY = y;
+                this.fitnessStack = 0;
+                this.maxFitnessStack = 5;
+                this.fitnessBonus = 0.05;
+                
+                this.collisionCooldown = 1000;
+                this.lastCollisionTime = Date.now();
+                this.target = null;
+            }
+            
+            update(characters, projectiles, floatingTexts) {
+                if (this.hp <= 0) return;
+                
+                this.checkCollision(characters, floatingTexts);
+                this.move();
+                this.attack(characters, projectiles, floatingTexts);
+                this.passiveAbility(characters, floatingTexts);
+                this.fitnessTraining();
+            }
+            
+            move() {
+                const currentSpeed = this.currentSpeed || this.speed;
+                const speedMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (speedMag > 0.001) {
+                    this.x += (this.vx / speedMag) * currentSpeed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / speedMag) * currentSpeed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            checkCollision(chars, floatTexts) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            fitnessTraining() {
+                const dx = this.x - this.lastRunPosX;
+                const dy = this.y - this.lastRunPosY;
+                this.runDistance += Math.sqrt(dx * dx + dy * dy);
+                
+                this.lastRunPosX = this.x;
+                this.lastRunPosY = this.y;
+                
+                const circleDistance = Math.PI * 2 * 100;
+                while (this.runDistance >= circleDistance && this.fitnessStack < this.maxFitnessStack) {
+                    this.runDistance -= circleDistance;
+                    this.fitnessStack++;
+                }
+                
+                this.currentSpeed = this.speed * (1 + this.fitnessStack * this.fitnessBonus);
+            }
+            
+            triggerAutoPunish(enemies, projectiles, floatingTexts) {
+                if (enemies.length === 0) return;
+                
+                const target = enemies[Math.floor(Math.random() * enemies.length)];
+                const angle = Math.atan2(target.y - this.y, target.x - this.x);
+                const speed = 4;
+                
+                projectiles.push({
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * speed * 0.8,
+                    vy: Math.sin(angle) * speed * 0.8,
+                    damage: 0,
+                    color: '#f39c12',
+                    life: 1.33,
+                    radius: 12,
+                    type: 'punish',
+                    text: '罚跑',
+                    owner: this
+                });
+                
+                floatingTexts.push({
+                    x: this.x,
+                    y: this.y - 30,
+                    text: '五次命中!',
+                    color: '#f39c12',
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 1.5,
+                    initialLife: 1.5
+                });
+            }
+            
+            passiveAbility(characters, floatingTexts) {
+                if (this.punishTimer && this.punishTimer > 0) return;
+                
+                const now = Date.now();
+                if (now - this.lastWhistleTime < this.whistleInterval / gameSpeed) return;
+                
+                this.lastWhistleTime = now;
+                
+                const enemies = characters.filter(c => c !== this && c.team !== this.team && c.hp > 0);
+                if (enemies.length === 0) return;
+                
+                projectiles.push({
+                    type: 'whistleWave',
+                    x: this.x,
+                    y: this.y,
+                    radius: 20,
+                    maxRadius: 200,
+                    color: '#f39c12',
+                    life: 0.5,
+                    owner: this
+                });
+                
+                for (const enemy of enemies) {
+                    const newAngle = Math.random() * Math.PI * 2;
+                    const oldSpeed = Math.sqrt(enemy.vx * enemy.vx + enemy.vy * enemy.vy);
+                    enemy.vx = Math.cos(newAngle) * oldSpeed * 0.8;
+                    enemy.vy = Math.sin(newAngle) * oldSpeed * 0.8;
+                    enemy.stunTimer = 1;
+                    
+                    floatingTexts.push({
+                        x: enemy.x,
+                        y: enemy.y - 25,
+                        text: '吹哨',
+                        color: '#f39c12',
+                        alpha: 1,
+                        vy: -0.5,
+                        life: 1,
+                        initialLife: 1
+                    });
+                }
+            }
+            
+            attack(characters, projectiles, floatingTexts) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                const enemies = characters.filter(c => c !== this && c.team !== this.team && c.hp > 0);
+                if (enemies.length === 0) return;
+                
+                const target = enemies[Math.floor(Math.random() * enemies.length)];
+                this.target = target;
+                
+                const damage = 40 * (1 + this.fitnessStack * this.fitnessBonus);
+                
+                const angle = Math.atan2(target.y - this.y, target.x - this.x);
+                const speed = 4;
+                
+                projectiles.push({
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    damage: damage,
+                    color: this.color,
+                    life: 1,
+                    radius: 8,
+                    type: 'whistle',
+                    text: '哨',
+                    owner: this
+                });
+                
+                this.lastAttackTime = now;
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                if (this.fitnessStack > 0) {
+                    ctx.fillStyle = '#f39c12';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.fillText(`体能 x${this.fitnessStack}`, 0, this.radius + 15);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
+        class Test {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '测试';
+                this.radius = 20;
+                this.hp = 10000;
+                this.maxHp = 10000;
+                this.speed = 0.8;
+                this.vx = (Math.random() - 0.5) * this.speed;
+                this.vy = (Math.random() - 0.5) * this.speed;
+                normalizeVelocity(this);
+                
+                this.collisionCooldown = 1000;
+                this.lastCollisionTime = Date.now();
+            }
+            
+            update(characters, projectiles, floatingTexts) {
+                this.checkCollision(characters, floatingTexts);
+                this.move();
+            }
+            
+            checkCollision(chars, floatTexts) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.restore();
+            }
+        }
+        
+        class NiGeJunTuan {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '尼格军团';
+                this.radius = 20;
+                this.hp = 100;
+                this.maxHp = 100;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 500;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                
+                this.legionId = Math.floor(Math.random() * 10000);
+                this.soldierIndex = 0;
+                
+                this.lastDirectionChange = Date.now();
+                this.directionChangeInterval = 2000 + Math.random() * 2000;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.checkCollision(allChars, floatTexts);
+                this.attack(allChars, floatTexts);
+                this.move();
+            }
+            
+            attack(chars, floatTexts) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                let nearestEnemy = null;
+                let nearestDist = Infinity;
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    const dx = c.x - this.x;
+                    const dy = c.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearestEnemy = c;
+                    }
+                }
+                
+                if (nearestEnemy && nearestDist < 60) {
+                    this.lastAttackTime = now;
+                    const result = nearestEnemy.takeDamage(60, this, floatTexts);
+                    showDamageText(nearestEnemy, result.damage, '#e74c3c', this);
+                    
+                    const angle = Math.atan2(nearestEnemy.y - this.y, nearestEnemy.x - this.x);
+                    projectiles.push({
+                        type: 'melee',
+                        x: this.x,
+                        y: this.y,
+                        endX: this.x + Math.cos(angle) * 30,
+                        endY: this.y + Math.sin(angle) * 30,
+                        color: this.color,
+                        life: 0.15
+                    });
+                }
+            }
+            
+            checkCollision(chars, floatTexts) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        if (c.team !== this.team && now - this.lastCollisionTime >= this.collisionCooldown / gameSpeed) {
+                            this.lastCollisionTime = now;
+                            const damageResult = c.takeDamage(20, this, floatTexts);
+                            showDamageText(c, damageResult.damage, '#e74c3c', this);
+                        }
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 9px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('尼格', 0, -this.radius - 3);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 8px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 12);
+                
+                ctx.restore();
+            }
+        }
+        
         function draw() {
             ctx.fillStyle = '#fff';
             ctx.fillRect(0, 0, WIDTH, HEIGHT);
+            
+            if (immersiveMode) {
+                const aliveChars = characters.filter(c => c.hp > 0);
+                if (aliveChars.length > 0) {
+                    const avgX = aliveChars.reduce((sum, c) => sum + c.x, 0) / aliveChars.length;
+                    const avgY = aliveChars.reduce((sum, c) => sum + c.y, 0) / aliveChars.length;
+                    cameraX = WIDTH / 2 - avgX;
+                    cameraY = HEIGHT / 2 - avgY;
+                    
+                    cameraX = Math.max(0, Math.min(cameraX, WIDTH - (WIDTH - PADDING * 2)));
+                    cameraY = Math.max(0, Math.min(cameraY, HEIGHT - (HEIGHT - PADDING * 2)));
+                }
+                
+                ctx.save();
+                ctx.translate(cameraX, cameraY);
+            }
             
             ctx.strokeStyle = '#4a6fa5';
             ctx.lineWidth = 3;
@@ -2121,7 +3217,7 @@
             for (const proj of projectiles) {
                 if (proj.type === 'laser') {
                     ctx.save();
-                    ctx.globalAlpha = proj.life / 15;
+                    ctx.globalAlpha = proj.life / 0.25;
                     ctx.strokeStyle = proj.color;
                     ctx.lineWidth = proj.width;
                     ctx.lineCap = 'round';
@@ -2147,7 +3243,7 @@
                     ctx.restore();
                 } else if (proj.type === 'claw') {
                     ctx.save();
-                    ctx.globalAlpha = proj.life / 8;
+                    ctx.globalAlpha = proj.life / 0.25;
                     ctx.strokeStyle = proj.color;
                     ctx.lineWidth = 6;
                     ctx.lineCap = 'round';
@@ -2158,7 +3254,7 @@
                     ctx.restore();
                 } else if (proj.type === 'timePulse') {
                     ctx.save();
-                    ctx.globalAlpha = proj.life / 30;
+                    ctx.globalAlpha = proj.life / 1;
                     ctx.fillStyle = proj.color || '#9b59b6';
                     ctx.beginPath();
                     ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
@@ -2168,6 +3264,74 @@
                     ctx.lineWidth = 2;
                     ctx.beginPath();
                     ctx.arc(proj.x, proj.y, proj.radius * 0.6, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                } else if (proj.type === 'code') {
+                    ctx.save();
+                    ctx.translate(proj.x, proj.y);
+                    ctx.rotate(Math.atan2(proj.vy, proj.vx));
+                    
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillStyle = proj.color;
+                    ctx.textAlign = 'center';
+                    
+                    const text = proj.text || '{}';
+                    const displayText = text.length > 15 ? text.substring(0, 15) + '...' : text;
+                    ctx.fillText(displayText, 0, 4);
+                    ctx.restore();
+                } else if (proj.type === 'whistle') {
+                    ctx.save();
+                    ctx.fillStyle = proj.color;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(proj.text, proj.x, proj.y);
+                    ctx.restore();
+                } else if (proj.type === 'punish') {
+                    ctx.save();
+                    ctx.fillStyle = proj.color;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(proj.text, proj.x, proj.y);
+                    ctx.restore();
+                } else if (proj.type === 'whistleWave') {
+                    ctx.save();
+                    const progress = 1 - proj.life / 0.5;
+                    const currentRadius = proj.radius + (proj.maxRadius - proj.radius) * progress;
+                    ctx.globalAlpha = 1 - progress;
+                    ctx.strokeStyle = proj.color;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, currentRadius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                } else if (proj.type === 'melee') {
+                    ctx.save();
+                    ctx.globalAlpha = proj.life / 0.15;
+                    ctx.strokeStyle = proj.color;
+                    ctx.lineWidth = 6;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(proj.x, proj.y);
+                    ctx.lineTo(proj.endX, proj.endY);
+                    ctx.stroke();
+                    
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.moveTo(proj.x, proj.y);
+                    ctx.lineTo(proj.endX, proj.endY);
                     ctx.stroke();
                     ctx.restore();
                 }
@@ -2294,6 +3458,25 @@
                     ctx.font = 'bold 10px Arial';
                     ctx.fillText(`${char.chargeLevel}/${char.maxCharge}`, char.x, chargeY + 5);
                 }
+                
+                if (char.bugCount && char.bugCount > 0) {
+                    const bugY = char.y - char.radius - 30;
+                    ctx.fillStyle = '#9b59b6';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.fillText(`漏洞: ${char.bugCount}`, char.x, bugY);
+                }
+                
+                if (char.isTyping && char.currentTypingCode) {
+                    const typedText = char.currentTypingCode.substring(0, char.typingIndex + 1);
+                    ctx.fillStyle = char.color;
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(typedText + '|', char.x, char.y - char.radius - 50);
+                }
+            }
+            
+            if (immersiveMode) {
+                ctx.restore();
             }
         }
         
@@ -2304,11 +3487,103 @@
                 if (char.hp <= 0) continue;
                 
                 if (char.timeFieldEffect > 0) {
-                    char.timeFieldEffect -= gameSpeed;
+                    char.timeFieldEffect -= gameSpeed * deltaTime;
                 }
                 
                 if (char.damageReduction > 0) {
-                    char.damageReduction -= gameSpeed;
+                    char.damageReduction -= gameSpeed * deltaTime;
+                }
+                
+                if (char.bugTimer && char.bugTimer > 0) {
+                    char.bugTimer -= gameSpeed * deltaTime;
+                    if (char.bugTimer <= 0) {
+                        char.bugCount = Math.max(0, (char.bugCount || 0) - 1);
+                        if (char.bugCount > 0) {
+                            char.bugTimer = 10;
+                        } else {
+                            char.bugTimer = 0;
+                        }
+                    }
+                }
+                
+                if (char.slowTimer && char.slowTimer > 0) {
+                    char.slowTimer -= gameSpeed * deltaTime;
+                    if (!char.slowApplied) {
+                        char.slowApplied = true;
+                        char.vx = char.vx * 0.5;
+                        char.vy = char.vy * 0.5;
+                        normalizeVelocity(char);
+                    }
+                    if (char.slowTimer <= 0) {
+                        char.slowTimer = 0;
+                        char.slowApplied = false;
+                        char.vx = char.vx / 0.5;
+                        char.vy = char.vy / 0.5;
+                        normalizeVelocity(char);
+                    }
+                } else {
+                    char.slowApplied = false;
+                }
+                
+                if (char.stunTimer && char.stunTimer > 0) {
+                    char.stunTimer -= gameSpeed * deltaTime;
+                    char.vx = 0;
+                    char.vy = 0;
+                    if (char.stunTimer <= 0) {
+                        char.stunTimer = 0;
+                        const angle = Math.random() * Math.PI * 2;
+                        char.vx = Math.cos(angle) * (char.speed || BASE_SPEED);
+                        char.vy = Math.sin(angle) * (char.speed || BASE_SPEED);
+                    }
+                }
+                
+                if (char.punishTimer && char.punishTimer > 0) {
+                    char.punishTimer -= gameSpeed * deltaTime;
+                    
+                    if (char.punishTarget && char.punishTarget.hp > 0) {
+                        const orbitRadius = 80;
+                        const moveDist = (char.speed || BASE_SPEED) * gameSpeed * deltaTime * 60;
+                        const angleIncrement = moveDist / orbitRadius;
+                        char.punishStartAngle += angleIncrement;
+                        
+                        const newX = char.punishTarget.x + Math.cos(char.punishStartAngle) * orbitRadius;
+                        const newY = char.punishTarget.y + Math.sin(char.punishStartAngle) * orbitRadius;
+                        
+                        const actualDx = newX - char.punishLastX;
+                        const actualDy = newY - char.punishLastY;
+                        const actualMoveDist = Math.sqrt(actualDx * actualDx + actualDy * actualDy);
+                        
+                        char.x = newX;
+                        char.y = newY;
+                        char.punishLastX = newX;
+                        char.punishLastY = newY;
+                        char.vx = 0;
+                        char.vy = 0;
+                        
+                        char.punishRunDistance += actualMoveDist;
+                        
+                        while (char.punishRunDistance >= 100) {
+                            char.punishRunDistance -= 100;
+                            const damage = 30;
+                            char.hp -= damage;
+                            showDamageText(char, damage, '#e74c3c', char.punishTarget);
+                            if (char.hp <= 0) {
+                                char.hp = 0;
+                            }
+                        }
+                    }
+                    
+                    if (char.punishTimer <= 0) {
+                        char.punishTimer = 0;
+                        char.punishTarget = null;
+                        char.punishStartAngle = 0;
+                        char.punishRunDistance = 0;
+                        char.punishLastX = 0;
+                        char.punishLastY = 0;
+                        const angle = Math.random() * Math.PI * 2;
+                        char.vx = Math.cos(angle) * (char.speed || BASE_SPEED);
+                        char.vy = Math.sin(angle) * (char.speed || BASE_SPEED);
+                    }
                 }
             }
             
@@ -2316,7 +3591,7 @@
             
             for (const proj of projectiles) {
                 if (proj.type === 'laser') {
-                    proj.life -= gameSpeed;
+                    proj.life -= gameSpeed * deltaTime;
                     
                     const angle = Math.atan2(proj.targetY - proj.y, proj.targetX - proj.x);
                     const cos = Math.cos(angle);
@@ -2379,12 +3654,15 @@
                         }
                     }
                 } else if (proj.type === 'chalk') {
-                    proj.x += proj.vx * gameSpeed;
-                    proj.y += proj.vy * gameSpeed;
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
                     
                     if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
                         proj.y < PADDING || proj.y > HEIGHT - PADDING) {
                         proj.active = false;
+                        if (proj.owner.name === '白蛋') {
+                            proj.owner.comboCount = 0;
+                        }
                         continue;
                     }
                     
@@ -2397,8 +3675,12 @@
                             showDamageText(char, result.damage, '#e74c3c', proj.owner);
                             
                             if (proj.owner.name === '盒子含') {
-                                proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 10);
-                                showDamageText(proj.owner, -10, '#2ecc71', proj.owner);
+                                proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 5);
+                                showDamageText(proj.owner, -5, '#2ecc71', proj.owner);
+                            }
+                            
+                            if (proj.owner.name === '白蛋') {
+                                proj.owner.comboCount = Math.min(proj.owner.maxCombo, proj.owner.comboCount + 1);
                             }
                             
                             proj.active = false;
@@ -2434,7 +3716,7 @@
                         if (hit) break;
                     }
                 } else if (proj.type === 'claw') {
-                    proj.life -= gameSpeed;
+                    proj.life -= gameSpeed * deltaTime;
                     
                     const angle = Math.atan2(proj.endY - proj.y, proj.endX - proj.x);
                     const cos = Math.cos(angle);
@@ -2507,9 +3789,9 @@
                         }
                     }
                 } else if (proj.type === 'timePulse') {
-                    proj.x += proj.vx * gameSpeed;
-                    proj.y += proj.vy * gameSpeed;
-                    proj.life -= gameSpeed;
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
+                    proj.life -= gameSpeed * deltaTime;
                     
                     if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
                         proj.y < PADDING || proj.y > HEIGHT - PADDING) {
@@ -2525,9 +3807,10 @@
                                 const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
                                 showDamageText(char, result.damage, '#e74c3c', proj.owner);
                                 
-                                char.vx *= -1;
-                                char.vy *= -1;
-                                char.timeFieldEffect = 60;
+                                const randomAngle = Math.random() * Math.PI * 2;
+                                char.vx = Math.cos(randomAngle) * (char.speed || BASE_SPEED);
+                                char.vy = Math.sin(randomAngle) * (char.speed || BASE_SPEED);
+                                char.timeFieldEffect = 1;
                                 
                                 proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 20);
                                 showDamageText(proj.owner, -20, '#2ecc71', proj.owner);
@@ -2561,6 +3844,201 @@
                             }
                         }
                     }
+                } else if (proj.type === 'code') {
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
+                    proj.life -= gameSpeed * deltaTime;
+                    
+                    if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
+                        proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                        proj.life = 0;
+                        continue;
+                    }
+                    
+                    let hit = false;
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0) continue;
+                        
+                        if (checkCircleSquareCollision(proj.x, proj.y, 10, char.x, char.y, char.radius)) {
+                            let damage = proj.damage;
+                            if (char.bugCount && char.bugCount > 0) {
+                                damage += char.bugCount * 10;
+                            }
+                            
+                            const result = char.takeDamage(damage, proj.owner, floatingTexts);
+                            showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                            
+                            if (!proj.optimized) {
+                                const codeLength = proj.text ? proj.text.length : 0;
+                                const bugIncrease = Math.min(Math.floor(codeLength / 10), 5);
+                                if (bugIncrease > 0) {
+                                    if (!char.bugCount) char.bugCount = 0;
+                                    if (!char.bugTimer) char.bugTimer = 0;
+                                    char.bugCount = Math.min(5, char.bugCount + bugIncrease);
+                                    char.bugTimer = 10;
+                                }
+                            }
+                            
+                            proj.life = 0;
+                            hit = true;
+                            break;
+                        }
+                        
+                        if (char.splits) {
+                            for (let j = 0; j < char.splits.length; j++) {
+                                const split = char.splits[j];
+                                if (checkCircleSquareCollision(proj.x, proj.y, 6, split.x, split.y, char.radius * 0.7)) {
+                                    if (!split.codeHits || !split.codeHits.includes(proj)) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                        } else {
+                                            if (!split.codeHits) split.codeHits = [];
+                                            split.codeHits.push(proj);
+                                        }
+                                    }
+                                } else {
+                                    if (split.codeHits && split.codeHits.includes(proj)) {
+                                        split.codeHits = split.codeHits.filter(p => p !== proj);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (proj.type === 'whistle') {
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
+                    proj.life -= gameSpeed * deltaTime;
+                    
+                    if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
+                        proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                        proj.life = 0;
+                        continue;
+                    }
+                    
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0) continue;
+                        
+                        if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
+                            const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                            showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                            proj.life = 0;
+                            
+                            if (proj.owner && proj.owner.bulletHitCount !== undefined) {
+                                proj.owner.bulletHitCount++;
+                                if (proj.owner.bulletHitCount >= 5) {
+                                    const enemies = characters.filter(c => c !== proj.owner && c.team !== proj.owner.team && c.hp > 0);
+                                    proj.owner.triggerAutoPunish(enemies, projectiles, floatingTexts);
+                                    proj.owner.bulletHitCount = 0;
+                                }
+                            }
+                            
+                            break;
+                        }
+                        
+                        if (char.splits) {
+                            for (let j = 0; j < char.splits.length; j++) {
+                                const split = char.splits[j];
+                                if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
+                                    if (!split.codeHits || !split.codeHits.includes(proj)) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                        } else {
+                                            if (!split.codeHits) split.codeHits = [];
+                                            split.codeHits.push(proj);
+                                        }
+                                    }
+                                } else {
+                                    if (split.codeHits && split.codeHits.includes(proj)) {
+                                        split.codeHits = split.codeHits.filter(p => p !== proj);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (proj.type === 'whistleWave') {
+                    proj.life -= gameSpeed * deltaTime;
+                } else if (proj.type === 'punish') {
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
+                    proj.life -= gameSpeed * deltaTime;
+                    
+                    if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
+                        proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                        proj.life = 0;
+                        continue;
+                    }
+                    
+                    if (!proj.hit) {
+                        for (const char of characters) {
+                            if (char === proj.owner || char.hp <= 0) continue;
+                            
+                            if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
+                                char.punishTimer = 5;
+                                char.punishTarget = proj.owner;
+                                char.punishStartAngle = Math.random() * Math.PI * 2;
+                                char.stunTimer = 0.5;
+                                char.punishRunDistance = 0;
+                                char.punishLastX = char.x;
+                                char.punishLastY = char.y;
+                                
+                                floatingTexts.push({
+                                    x: char.x,
+                                    y: char.y - 25,
+                                    text: '罚跑!',
+                                    color: '#e74c3c',
+                                    alpha: 1,
+                                    vy: -0.5,
+                                    life: 1,
+                                    initialLife: 1
+                                });
+                                
+                                proj.hit = true;
+                                proj.life = 0;
+                                break;
+                            }
+                            
+                            if (char.splits) {
+                                for (let j = 0; j < char.splits.length; j++) {
+                                    const split = char.splits[j];
+                                    if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
+                                        split.punishTimer = 5;
+                                        split.punishTarget = proj.owner;
+                                        split.punishStartAngle = Math.random() * Math.PI * 2;
+                                        split.punishRunDistance = 0;
+                                        split.punishLastX = split.x;
+                                        split.punishLastY = split.y;
+                                        split.vx = 0;
+                                        split.vy = 0;
+                                        
+                                        floatingTexts.push({
+                                            x: split.x,
+                                            y: split.y - 25,
+                                            text: '罚跑!',
+                                            color: '#e74c3c',
+                                            alpha: 1,
+                                            vy: -0.5,
+                                            life: 1,
+                                            initialLife: 1
+                                        });
+                                        
+                                        proj.hit = true;
+                                        proj.life = 0;
+                                        break;
+                                    }
+                                }
+                                if (proj.hit) break;
+                            }
+                        }
+                    }
+                } else if (proj.type === 'melee') {
+                    proj.life -= gameSpeed * deltaTime;
                 }
             }
             
@@ -2581,6 +4059,9 @@
                         if (split.clawHits) {
                             split.clawHits = split.clawHits.filter(p => projectiles.includes(p));
                         }
+                        if (split.codeHits) {
+                            split.codeHits = split.codeHits.filter(p => projectiles.includes(p));
+                        }
                     }
                 }
             }
@@ -2594,9 +4075,10 @@
             });
             
             for (const ft of floatingTexts) {
-                ft.y += ft.vy * gameSpeed;
-                ft.life -= gameSpeed;
-                ft.alpha = Math.max(0, ft.life / 120);
+                if (ft.vx) ft.x += ft.vx * gameSpeed * deltaTime * 60;
+                if (ft.vy) ft.y += ft.vy * gameSpeed * deltaTime * 60;
+                ft.life -= gameSpeed * deltaTime;
+                ft.alpha = Math.max(0, ft.life / (ft.initialLife || 1));
                 
                 if (ft.currentDamage !== ft.targetDamage) {
                     const diff = ft.targetDamage - ft.currentDamage;
@@ -2607,16 +4089,104 @@
             
             floatingTexts = floatingTexts.filter(ft => ft.life > 0);
             
+            const spawnInterval = 1000;
+            
+            for (const queueEntry of nigeSpawnQueue) {
+                const now = Date.now();
+                if (now - queueEntry.lastSpawnTime < spawnInterval / gameSpeed) continue;
+                
+                const legionMembers = characters.filter(c => c.name === '尼格军团' && c.legionId === queueEntry.legionId);
+                const aliveCount = legionMembers.filter(c => c.hp > 0).length;
+                
+                if (aliveCount < 3 && queueEntry.totalSent < 10) {
+                    let spawnX, spawnY;
+                    let attempts = 0;
+                    const maxAttempts = 50;
+                    
+                    do {
+                        const side = Math.floor(Math.random() * 4);
+                        switch (side) {
+                            case 0:
+                                spawnX = PADDING - 30;
+                                spawnY = PADDING + (HEIGHT - PADDING * 2) * Math.random();
+                                break;
+                            case 1:
+                                spawnX = WIDTH - PADDING + 30;
+                                spawnY = PADDING + (HEIGHT - PADDING * 2) * Math.random();
+                                break;
+                            case 2:
+                                spawnX = PADDING + (WIDTH - PADDING * 2) * Math.random();
+                                spawnY = PADDING - 30;
+                                break;
+                            case 3:
+                                spawnX = PADDING + (WIDTH - PADDING * 2) * Math.random();
+                                spawnY = HEIGHT - PADDING + 30;
+                                break;
+                        }
+                        attempts++;
+                    } while (attempts < maxAttempts && characters.some(c => {
+                        const dx = c.x - spawnX;
+                        const dy = c.y - spawnY;
+                        return Math.sqrt(dx * dx + dy * dy) < 80;
+                    }));
+                    
+                    const newSoldier = new NiGeJunTuan(
+                        spawnX,
+                        spawnY,
+                        queueEntry.team === 'red' ? '#e74c3c' : '#3498db',
+                        queueEntry.team,
+                        characters.length
+                    );
+                    newSoldier.legionId = queueEntry.legionId;
+                    newSoldier.soldierIndex = queueEntry.totalSent;
+                    
+                    const centerX = WIDTH / 2;
+                    const centerY = HEIGHT / 2;
+                    const dx = centerX - spawnX;
+                    const dy = centerY - spawnY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > 0) {
+                        newSoldier.vx = (dx / dist) * newSoldier.speed;
+                        newSoldier.vy = (dy / dist) * newSoldier.speed;
+                    }
+                    
+                    characters.push(newSoldier);
+                    queueEntry.totalSent++;
+                    queueEntry.lastSpawnTime = now;
+                }
+            }
+            
             const redAlive = characters.filter(c => c.team === 'red' && c.hp > 0).length;
             const blueAlive = characters.filter(c => c.team === 'blue' && c.hp > 0).length;
             
             const redChar = characters.find(c => c.team === 'red');
             const blueChar = characters.find(c => c.team === 'blue');
-            document.getElementById('redHpDisplay').textContent = Math.max(0, Math.round(redChar?.hp || 0));
-            document.getElementById('blueHpDisplay').textContent = Math.max(0, Math.round(blueChar?.hp || 0));
+            
+            let redHp = Math.max(0, Math.round(redChar?.hp || 0));
+            let blueHp = Math.max(0, Math.round(blueChar?.hp || 0));
+            
+            const redNigeQueue = nigeSpawnQueue.find(q => q.team === 'red');
+            if (redNigeQueue) {
+                const redNigeMembers = characters.filter(c => c.name === '尼格军团' && c.team === 'red' && c.hp > 0);
+                const aliveHp = redNigeMembers.reduce((sum, c) => sum + c.hp, 0);
+                const remainingCount = 10 - redNigeQueue.totalSent;
+                redHp = Math.max(0, Math.round(aliveHp + remainingCount * 100));
+            }
+            
+            const blueNigeQueue = nigeSpawnQueue.find(q => q.team === 'blue');
+            if (blueNigeQueue) {
+                const blueNigeMembers = characters.filter(c => c.name === '尼格军团' && c.team === 'blue' && c.hp > 0);
+                const aliveHp = blueNigeMembers.reduce((sum, c) => sum + c.hp, 0);
+                const remainingCount = 10 - blueNigeQueue.totalSent;
+                blueHp = Math.max(0, Math.round(aliveHp + remainingCount * 100));
+            }
+            
+            document.getElementById('redHpDisplay').textContent = redHp;
+            document.getElementById('blueHpDisplay').textContent = blueHp;
             
             if (characters.length > 0 && (redAlive === 0 || blueAlive === 0)) {
                 gameOver = true;
+                setImmersiveMode(false);
                 const winner = redAlive > 0 ? '红方' : '蓝方';
                 const winnerChar = characters.find(c => c.hp > 0);
                 document.getElementById('gameOverTitle').textContent = `${winner}胜利！`;
@@ -2651,13 +4221,13 @@
         function startAutoTest() {
             isAutoTest = true;
             autoTestOriginalSpeed = gameSpeed;
-            gameSpeed = 3;
-            document.getElementById('speedSlider').value = 3;
-            document.getElementById('speedValue').textContent = '3x';
+            gameSpeed = 10;
+            document.getElementById('speedSlider').value = 10;
+            document.getElementById('speedValue').textContent = '10x';
             
             resetRecords();
             
-            const charKeys = ['GUITOU', 'BAIDAN', 'MAONAI', 'HEIDAN', 'SHINIAN', 'MABA', 'HEZIHAN'];
+            const charKeys = ['GUITOU', 'BAIDAN', 'MAONAI', 'HEIDAN', 'SHINIAN', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'NIGE'];
             autoTestQueue = [];
             
             for (let i = 0; i < charKeys.length; i++) {
@@ -2692,10 +4262,15 @@
                 HEIDAN: HeiDan,
                 SHINIAN: ShiNianZhiHou,
                 MABA: MaBa,
-                HEZIHAN: HeZiHan
+                HEZIHAN: HeZiHan,
+                DIKE: DiKeDeHeiDiao,
+                WENSHI: WenShiDaPeng,
+                TEST: Test,
+                NIGE: NiGeJunTuan
             };
             
             characters = [];
+            
             projectiles = [];
             floatingTexts = [];
             gameOver = false;
@@ -2703,13 +4278,77 @@
             currentRedChar = match.red;
             currentBlueChar = match.blue;
             
-            const redChar = new charClasses[match.red](160, 200, '#e74c3c', 'red', 0);
-            const blueChar = new charClasses[match.blue](240, 200, '#3498db', 'blue', 1);
+            characters = [];
+            nigeSpawnQueue = [];
             
-            normalizeVelocity(redChar);
-            normalizeVelocity(blueChar);
+            if (match.red === 'NIGE') {
+                const legionId = ++nigeLegionCounter;
+                for (let i = 0; i < 3; i++) {
+                    const offsetAngle = (Math.PI * 2 / 3) * i;
+                    const offsetX = Math.cos(offsetAngle) * 40;
+                    const offsetY = Math.sin(offsetAngle) * 40;
+                    const soldier = new NiGeJunTuan(160 + offsetX, 200 + offsetY, '#e74c3c', 'red', characters.length);
+                    soldier.legionId = legionId;
+                    soldier.soldierIndex = i;
+                    characters.push(soldier);
+                }
+                
+                nigeSpawnQueue.push({
+                    legionId: legionId,
+                    team: 'red',
+                    totalSent: 3,
+                    lastSpawnTime: Date.now() - 1000
+                });
+            } else {
+                const redChar = new charClasses[match.red](160, 200, '#e74c3c', 'red', 0);
+                normalizeVelocity(redChar);
+                characters.push(redChar);
+            }
             
-            characters.push(redChar, blueChar);
+            if (match.blue === 'NIGE') {
+                const legionId = ++nigeLegionCounter;
+                for (let i = 0; i < 3; i++) {
+                    const offsetAngle = (Math.PI * 2 / 3) * i;
+                    const offsetX = Math.cos(offsetAngle) * 40;
+                    const offsetY = Math.sin(offsetAngle) * 40;
+                    const soldier = new NiGeJunTuan(240 + offsetX, 200 + offsetY, '#3498db', 'blue', characters.length);
+                    soldier.legionId = legionId;
+                    soldier.soldierIndex = i;
+                    characters.push(soldier);
+                }
+                
+                nigeSpawnQueue.push({
+                    legionId: legionId,
+                    team: 'blue',
+                    totalSent: 3,
+                    lastSpawnTime: Date.now() - 1000
+                });
+            } else {
+                const blueChar = new charClasses[match.blue](240, 200, '#3498db', 'blue', characters.length);
+                normalizeVelocity(blueChar);
+                characters.push(blueChar);
+            }
+            
+            for (const char of characters) {
+                const speed = char.currentSpeed || char.speed || BASE_SPEED;
+                
+                do {
+                    const currentSpeed = Math.sqrt(char.vx * char.vx + char.vy * char.vy);
+                    
+                    if (currentSpeed < speed * 0.1 || currentSpeed > speed * 1.1 || 
+                        Math.abs(char.vx) < speed * 0.3 || Math.abs(char.vy) < speed * 0.3) {
+                        let angle;
+                        do {
+                            angle = Math.random() * Math.PI * 2;
+                        } while (Math.abs(Math.cos(angle)) < 0.3 || Math.abs(Math.sin(angle)) < 0.3);
+                        
+                        char.vx = Math.cos(angle) * speed;
+                        char.vy = Math.sin(angle) * speed;
+                    } else {
+                        break;
+                    }
+                } while (true);
+            }
         }
         
         function scheduleNextAutoTest() {
@@ -2720,9 +4359,13 @@
                 autoTestCurrentMatch++;
             }
             
+            gameSpeed = 10;
+            document.getElementById('speedSlider').value = gameSpeed;
+            document.getElementById('speedValue').textContent = gameSpeed + 'x';
+            
             setTimeout(() => {
                 startNextAutoTestGame();
-            }, 500);
+            }, 200);
         }
         
         function finishAutoTest() {
@@ -2783,6 +4426,10 @@
         }
         
         function gameLoop() {
+            const currentTime = performance.now();
+            deltaTime = Math.min((currentTime - lastTime) / 1000, 0.1);
+            lastTime = currentTime;
+            
             if (!isPaused) {
                 update();
             }
@@ -2806,7 +4453,11 @@
                 HEIDAN: HeiDan,
                 SHINIAN: ShiNianZhiHou,
                 MABA: MaBa,
-                HEZIHAN: HeZiHan
+                HEZIHAN: HeZiHan,
+                DIKE: DiKeDeHeiDiao,
+                WENSHI: WenShiDaPeng,
+                TEST: Test,
+                NIGE: NiGeJunTuan
             };
             
             const RedCharClass = charClasses[redType];
@@ -2815,25 +4466,87 @@
             const mapWidth = WIDTH - PADDING * 2;
             const mapHeight = HEIGHT - PADDING * 2;
             
-            characters = [
-                new RedCharClass(PADDING + mapWidth * 0.25, PADDING + mapHeight / 2, '#e74c3c', 'red', 0),
-                new BlueCharClass(PADDING + mapWidth * 0.75, PADDING + mapHeight / 2, '#3498db', 'blue', 1)
-            ];
+            characters = [];
+            nigeSpawnQueue = [];
+            
+            if (redType === 'NIGE') {
+                const legionId = ++nigeLegionCounter;
+                for (let i = 0; i < 3; i++) {
+                    const offsetAngle = (Math.PI * 2 / 3) * i;
+                    const offsetX = Math.cos(offsetAngle) * 40;
+                    const offsetY = Math.sin(offsetAngle) * 40;
+                    const soldier = new NiGeJunTuan(
+                        PADDING + mapWidth * 0.25 + offsetX,
+                        PADDING + mapHeight / 2 + offsetY,
+                        '#e74c3c', 'red', characters.length
+                    );
+                    soldier.legionId = legionId;
+                    soldier.soldierIndex = i;
+                    characters.push(soldier);
+                }
+                
+                nigeSpawnQueue.push({
+                    legionId: legionId,
+                    team: 'red',
+                    totalSent: 3,
+                    lastSpawnTime: Date.now() - 1000
+                });
+            } else {
+                characters.push(new RedCharClass(PADDING + mapWidth * 0.25, PADDING + mapHeight / 2, '#e74c3c', 'red', 0));
+            }
+            
+            if (blueType === 'NIGE') {
+                const legionId = ++nigeLegionCounter;
+                for (let i = 0; i < 3; i++) {
+                    const offsetAngle = (Math.PI * 2 / 3) * i;
+                    const offsetX = Math.cos(offsetAngle) * 40;
+                    const offsetY = Math.sin(offsetAngle) * 40;
+                    const soldier = new NiGeJunTuan(
+                        PADDING + mapWidth * 0.75 + offsetX,
+                        PADDING + mapHeight / 2 + offsetY,
+                        '#3498db', 'blue', characters.length
+                    );
+                    soldier.legionId = legionId;
+                    soldier.soldierIndex = i;
+                    characters.push(soldier);
+                }
+                
+                nigeSpawnQueue.push({
+                    legionId: legionId,
+                    team: 'blue',
+                    totalSent: 3,
+                    lastSpawnTime: Date.now() - 1000
+                });
+            } else {
+                characters.push(new BlueCharClass(PADDING + mapWidth * 0.75, PADDING + mapHeight / 2, '#3498db', 'blue', characters.length));
+            }
+            
+            const now = Date.now();
+            for (const char of characters) {
+                if (char.lastCrashTime !== undefined) {
+                    char.lastCrashTime = now;
+                }
+            }
             
             for (const char of characters) {
                 const speed = char.currentSpeed || char.speed || BASE_SPEED;
-                const currentSpeed = Math.sqrt(char.vx * char.vx + char.vy * char.vy);
                 
-                if (currentSpeed < speed * 0.1 || currentSpeed > speed * 1.1 || 
-                    Math.abs(char.vx) < speed * 0.3 || Math.abs(char.vy) < speed * 0.3) {
-                    let angle;
-                    do {
-                        angle = Math.random() * Math.PI * 2;
-                    } while (Math.abs(Math.cos(angle)) < 0.3 || Math.abs(Math.sin(angle)) < 0.3);
+                do {
+                    const currentSpeed = Math.sqrt(char.vx * char.vx + char.vy * char.vy);
                     
-                    char.vx = Math.cos(angle) * speed;
-                    char.vy = Math.sin(angle) * speed;
-                }
+                    if (currentSpeed < speed * 0.1 || currentSpeed > speed * 1.1 || 
+                        Math.abs(char.vx) < speed * 0.3 || Math.abs(char.vy) < speed * 0.3) {
+                        let angle;
+                        do {
+                            angle = Math.random() * Math.PI * 2;
+                        } while (Math.abs(Math.cos(angle)) < 0.3 || Math.abs(Math.sin(angle)) < 0.3);
+                        
+                        char.vx = Math.cos(angle) * speed;
+                        char.vy = Math.sin(angle) * speed;
+                    } else {
+                        break;
+                    }
+                } while (true);
             }
             
             projectiles = [];
@@ -2846,5 +4559,5 @@
         
         gameLoop();
     </script>
-</body>
-</html>
+
+</body></html>
