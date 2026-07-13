@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07111f" />
   <title>角色图鉴 | 猎7班大乱斗</title>
   <style>
-    :root { color-scheme: dark; --bg:#07111f; --panel:rgba(15,23,42,0.84); --text:#f8fafc; --muted:#cbd5e1; --accent:#f97316; --border:rgba(255,255,255,0.16); }
+    :root { color-scheme: dark; --bg:#07111f; --panel:rgba(15,23,42,0.86); --text:#f8fafc; --muted:#cbd5e1; --accent:#f97316; --border:rgba(255,255,255,0.16); }
     *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#07111f,#17233b);color:var(--text);padding:24px}
-    .wrap{max-width:1040px;margin:0 auto;display:grid;gap:18px}
+    .wrap{max-width:1100px;margin:0 auto;display:grid;gap:18px}
     .card{background:var(--panel);border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 16px 40px rgba(0,0,0,0.25)}
-    h1{margin:0 0 10px;font-size:32px} p{color:var(--muted);line-height:1.75}
-    .nav{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+    .topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+    h1{margin:0;font-size:32px} p{color:var(--muted);line-height:1.75}
+    .nav{display:flex;flex-wrap:wrap;gap:10px}
     .btn{display:inline-block;padding:10px 14px;border-radius:999px;text-decoration:none;color:var(--text);background:rgba(255,255,255,0.1);border:1px solid var(--border)}
     .btn.primary{background:linear-gradient(135deg,var(--accent),#ef4444)}
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -26,12 +28,16 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <div class="nav">
-        <a class="btn" href="./index.html">返回首页</a>
-        <a class="btn primary" href="./猎7班大乱斗.html">开始对战</a>
+      <div class="topbar">
+        <div>
+          <h1>角色图鉴</h1>
+          <p>这里是所有可选角色的快速介绍，点击“开始对战”后即可直接上场。</p>
+        </div>
+        <div class="nav">
+          <a class="btn" href="./index.html">返回首页</a>
+          <a class="btn primary" href="./猎7班大乱斗.html">开始对战</a>
+        </div>
       </div>
-      <h1>角色图鉴</h1>
-      <p>这里是所有可选角色的快速介绍，点击“开始对战”后即可直接上场。</p>
     </div>
     <div class="grid">
       <div class="item">
@@ -39,9 +45,9 @@
         <h2>鬼头遗言</h2>
         <p class="subtitle">蓄力型远程输出 / 看点十足</p>
         <ul>
+          <li><strong>定位：</strong>适合喜欢节奏和大招视觉冲击的玩家。</li>
           <li><strong>技能：</strong>会定期积蓄“挂挡值”，到达上限后发射一束炫酷的强力激光。</li>
-          <li><strong>被动：</strong>整体比较稳定，打起来像一场有节奏感的远程对轰。</li>
-          <li><strong>观赏点：</strong>每次蓄力都像在等待一场大招，视觉冲击感很强。</li>
+          <li><strong>亮点：</strong>每次蓄力都像在等待一场大招，视觉冲击感很强。</li>
         </ul>
       </div>
       <div class="item">
@@ -49,9 +55,9 @@
         <h2>白蛋</h2>
         <p class="subtitle">持续投掷 / 观众最容易看懂</p>
         <ul>
+          <li><strong>定位：</strong>适合偏好持续输出和场面热闹的人。</li>
           <li><strong>技能：</strong>会不断投掷粉笔弹幕，场面很有“乱斗感”。</li>
-          <li><strong>被动：</strong>撞上敌人后会短暂反弹，整体很有节奏。</li>
-          <li><strong>观赏点：</strong>像一场不停发射小道具的热闹对决，非常适合当背景板。</li>
+          <li><strong>亮点：</strong>撞上敌人后会短暂反弹，整体节奏很流畅。</li>
         </ul>
       </div>
       <div class="item">
@@ -59,9 +65,9 @@
         <h2>猫奶</h2>
         <p class="subtitle">贴脸爆发 / 直接上头</p>
         <ul>
+          <li><strong>定位：</strong>适合喜欢近身压制和强硬碰撞的玩家。</li>
           <li><strong>技能：</strong>释放爪击后，战斗节奏会一下子变得很紧张。</li>
-          <li><strong>被动：</strong>近身作战非常有冲击力，看起来像是随时要把对手扑倒。</li>
-          <li><strong>观赏点：</strong>适合喜欢“硬碰硬”的观战体验。</li>
+          <li><strong>亮点：</strong>近身作战非常有冲击力，像随时要把对手扑倒。</li>
         </ul>
       </div>
       <div class="item">
@@ -69,9 +75,9 @@
         <h2>黑蛋</h2>
         <p class="subtitle">冲撞爆发 / 一波大招</p>
         <ul>
+          <li><strong>定位：</strong>适合喜欢靠一击定胜负的爆发型打法。</li>
           <li><strong>技能：</strong>蓄势冲撞后，场面会立刻变得非常有戏剧性。</li>
-          <li><strong>被动：</strong>有一定的耐打能力，适合在对局中制造突然的反转。</li>
-          <li><strong>观赏点：</strong>像是一个突然冲出来的“黑色风暴”。</li>
+          <li><strong>亮点：</strong>有一定的耐打能力，适合制造突如其来的反转。</li>
         </ul>
       </div>
       <div class="item">
@@ -79,9 +85,9 @@
         <h2>十年之后</h2>
         <p class="subtitle">控制型 / 时空干扰</p>
         <ul>
-          <li><strong>技能：</strong>释放时间脉冲，能让敌人受到额外的滞缓和控制效果，场面很有“时间错位”的感觉。</li>
-          <li><strong>被动：</strong>会生成记忆碎片并持续积累“时间腐蚀”；在承受致命伤害时还能触发“时光回溯”，像是突然翻出一段过去的影子。</li>
-          <li><strong>观赏点：</strong>非常适合单纯看热闹，尤其是那种“看起来像要挂了，结果又翻盘”的瞬间。</li>
+          <li><strong>定位：</strong>适合喜欢掌控节奏和制造意外反转的玩家。</li>
+          <li><strong>技能：</strong>释放时间脉冲，能让敌人受到额外的滞缓和控制效果。</li>
+          <li><strong>亮点：</strong>承受致命伤害时还能触发“时光回溯”，非常有戏剧性。</li>
         </ul>
       </div>
       <div class="item">
@@ -89,9 +95,9 @@
         <h2>马八</h2>
         <p class="subtitle">分裂体 / 牵制与干扰</p>
         <ul>
-          <li><strong>技能：</strong>能分裂出多个小体，场面会显得特别热闹，像一群小怪一起围着打。</li>
-          <li><strong>被动：</strong>在承受致命伤害时可进行归一，回收分裂体并恢复状态，像是在把局势重新拉回中段。</li>
-          <li><strong>观赏点：</strong>非常适合看“乱中有序”的战斗节奏。</li>
+          <li><strong>定位：</strong>适合喜欢混乱中保持秩序感的节奏型角色。</li>
+          <li><strong>技能：</strong>能分裂出多个小体，场面会显得特别热闹。</li>
+          <li><strong>亮点：</strong>在承受致命伤害时可进行归一并恢复状态，适合拉回局势。</li>
         </ul>
       </div>
       <div class="item">
@@ -99,9 +105,9 @@
         <h2>盒子含</h2>
         <p class="subtitle">成长型输出 / 后期爆发</p>
         <ul>
+          <li><strong>定位：</strong>适合喜欢中后期翻盘、慢热爆发的玩家。</li>
           <li><strong>技能：</strong>攻击会随时间变得越来越强，越打越像一场“后期逆转”的大戏。</li>
-          <li><strong>被动：</strong>命中敌人时可回复少量生命，给人一种“明明还在耗，结果突然变猛”的感觉。</li>
-          <li><strong>观赏点：</strong>很适合当那种慢慢升温、最后突然翻盘的角色。</li>
+          <li><strong>亮点：</strong>命中敌人时可回复少量生命，整体更有耐打感。</li>
         </ul>
       </div>
     </div>

@@ -6,21 +6,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
+  <meta name="theme-color" content="#07111f" />
   <title>猎7班大乱斗 | 线上对战页</title>
   <style>
     :root {
       color-scheme: dark;
       --bg-1: #07111f;
       --bg-2: #17233b;
-      --panel: rgba(15, 23, 42, 0.78);
-      --panel-strong: rgba(15, 23, 42, 0.9);
+      --panel: rgba(15, 23, 42, 0.8);
+      --panel-strong: rgba(15, 23, 42, 0.92);
       --text: #f8fafc;
       --muted: #cbd5e1;
       --accent: #f97316;
       --accent-2: #38bdf8;
-      --border: rgba(255, 255, 255, 0.18);
+      --border: rgba(255, 255, 255, 0.16);
     }
-
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -30,235 +30,125 @@
       color: var(--text);
       padding: 24px;
     }
-
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: linear-gradient(120deg, rgba(249,115,22,0.12), transparent 40%, rgba(56,189,248,0.16));
+      background: linear-gradient(120deg, rgba(249,115,22,0.12), transparent 35%, rgba(56,189,248,0.16));
       pointer-events: none;
     }
-
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 1120px;
-      margin: 0 auto;
-      display: grid;
-      gap: 24px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 24px;
-      padding: 32px;
-      border-radius: 28px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      box-shadow: 0 16px 48px rgba(2, 6, 23, 0.35);
-      backdrop-filter: blur(10px);
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: rgba(249, 115, 22, 0.2);
-      color: #fdba74;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 3.6vw, 3.2rem);
-      margin: 0 0 12px;
-      line-height: 1.1;
-    }
-
-    .hero p {
-      font-size: 1rem;
-      line-height: 1.7;
-      color: var(--muted);
-      margin: 0 0 20px;
-      max-width: 620px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .intro-note {
-      margin: 0 0 16px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fef3c7;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    .secondary-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-primary {
-      color: white;
-      background: linear-gradient(135deg, var(--accent), #ef4444);
-    }
-
-    .btn-secondary {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--border);
-    }
-
-    .highlights {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-
-    .highlights li {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .preview-card {
-      padding: 18px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
-      border: 1px solid var(--border);
-      display: grid;
-      gap: 14px;
-    }
-
-    .preview-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .preview-screen {
-      background: linear-gradient(180deg, #f8fafc, #e2e8f0);
-      border-radius: 18px;
-      padding: 16px;
-      color: #0f172a;
-      min-height: 260px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .preview-hud {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-    }
-
-    .preview-stage {
-      border-radius: 12px;
-      background: linear-gradient(180deg, #dbeafe, #bfdbfe);
-      min-height: 160px;
-      border: 2px solid #94a3b8;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .preview-stage::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent 48%, rgba(255,255,255,0.25) 50%, transparent 52%);
-      background-size: 30px 100%;
-      opacity: 0.35;
-    }
-
-    .preview-char {
-      position: absolute;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
-    }
-
+    main { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; display: grid; gap: 20px; }
+    .site-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 14px; background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 1px solid var(--border); }
+    .site-title { font-size: 1rem; font-weight: 800; letter-spacing: 0.04em; }
+    .site-nav { display: flex; flex-wrap: wrap; gap: 10px; }
+    .site-nav a { color: var(--text); text-decoration: none; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); }
+    .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; padding: 32px; border-radius: 28px; background: var(--panel); border: 1px solid var(--border); box-shadow: 0 16px 48px rgba(2, 6, 23, 0.35); backdrop-filter: blur(10px); }
+    .badge { display: inline-block; padding: 7px 12px; border-radius: 999px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(249, 115, 22, 0.2); color: #fdba74; margin-bottom: 14px; }
+    h1 { font-size: clamp(2rem, 3.6vw, 3.2rem); margin: 0 0 12px; line-height: 1.1; }
+    .hero p { font-size: 1rem; line-height: 1.7; color: var(--muted); margin: 0 0 20px; max-width: 620px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; padding: 12px 18px; border-radius: 999px; font-weight: 700; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2); }
+    .btn-primary { color: white; background: linear-gradient(135deg, var(--accent), #ef4444); }
+    .btn-secondary { color: var(--text); background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border); }
+    .intro-note { margin: 0 0 16px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); color: #fef3c7; font-size: 0.95rem; line-height: 1.6; }
+    .highlights { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; list-style: none; }
+    .highlights li { padding: 8px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); color: var(--muted); font-size: 0.94rem; }
+    .preview-card { padding: 18px; border-radius: 24px; background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)); border: 1px solid var(--border); display: grid; gap: 14px; }
+    .preview-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.95rem; }
+    .preview-screen { background: linear-gradient(180deg, #f8fafc, #e2e8f0); border-radius: 18px; padding: 16px; color: #0f172a; min-height: 260px; display: grid; gap: 10px; }
+    .preview-hud { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+    .preview-stage { border-radius: 12px; background: linear-gradient(180deg, #dbeafe, #bfdbfe); min-height: 160px; border: 2px solid #94a3b8; position: relative; overflow: hidden; }
+    .preview-stage::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 48%, rgba(255,255,255,0.25) 50%, transparent 52%); background-size: 30px 100%; opacity: 0.35; }
+    .preview-char { position: absolute; width: 28px; height: 28px; border-radius: 6px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16); }
     .preview-char.red { left: 24%; top: 42%; background: #ef4444; }
     .preview-char.blue { right: 24%; top: 42%; background: #38bdf8; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      padding: 20px;
-      border-radius: 20px;
-      background: var(--panel-strong);
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 30px rgba(2, 6, 23, 0.2);
-    }
-
-    .card h2 {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 0.95rem;
-    }
-
-    footer {
-      color: var(--muted);
-      text-align: center;
-      font-size: 0.9rem;
-      padding-bottom: 8px;
-    }
-
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: 1fr; }
-    }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .card { padding: 20px; border-radius: 20px; background: var(--panel-strong); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(2, 6, 23, 0.2); }
+    .card h2 { margin: 0 0 8px; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.65; font-size: 0.95rem; }
+    footer { color: var(--muted); text-align: center; font-size: 0.9rem; padding-bottom: 8px; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+  <main>
+    <header class="site-header">
+      <div class="site-title">猎7班大乱斗</div>
+      <nav class="site-nav">
+        <a href="./index.html">首页</a>
+        <a href="./gallery.html">角色图鉴</a>
+        <a href="./猎7班大乱斗.html">开始对战</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="badge">班级 IP 线上乱斗</div>
+        <h1>把教室里的热闹，搬到网页上。</h1>
+        <p>这里是猎7班同学一起做的“班级大乱斗”展示页。每个角色都带着自己的风格，点击“开始对战”后就能直接进入精彩对局体验。</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="./猎7班大乱斗.html">开始对战</a>
+          <a class="btn btn-secondary" href="./gallery.html">查看角色图鉴</a>
+        </div>
+        <p class="intro-note">当前版本已经把角色介绍、对战入口和页面展示整理成更适合分享的形式，适合用于班级活动、社团宣传或作品展示。</p>
+        <ul class="highlights">
+          <li>7位角色</li>
+          <li>支持移动端浏览</li>
+          <li>一键进入战斗页</li>
+        </ul>
+      </div>
+      <div class="preview-card">
+        <div class="preview-top">
+          <span>实时预览</span>
+          <span>v2.0</span>
+        </div>
+        <div class="preview-screen">
+          <div class="preview-hud">
+            <span>战场：班级主舞台</span>
+            <span>READY</span>
+          </div>
+          <div class="preview-stage">
+            <div class="preview-char red"></div>
+            <div class="preview-char blue"></div>
+          </div>
+          <div>红方与蓝方同时冲入场景，爆发点与操作节奏都非常明显。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>角色丰富</h2>
+        <p>从蓄力远程、投掷型、贴脸爆发，到控制型与成长型角色，几乎每种风格都能在这里找到。</p>
+      </article>
+      <article class="card">
+        <h2>页面轻量</h2>
+        <p>无需额外安装，直接打开网页即可观看和体验，适合快速分享给同学和老师。</p>
+      </article>
+      <article class="card">
+        <h2>持续更新</h2>
+        <p>后续可以继续加入新角色、新技能和更多互动玩法，让这个项目越来越像一场完整的“班级大乱斗”。</p>
+      </article>
+    </section>
+  </main>
+  <footer>© 2026 猎7班大乱斗 · 由班级同学共同创作</footer>
+</body>
+</html>
+    .site-nav{display:flex;gap:8px}
+    .site-nav a{padding:8px 12px;border-radius:999px;text-decoration:none;color:var(--text);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);font-weight:700}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">猎7班大乱斗</div>
+    <nav class="site-nav">
+      <a href="./index.html">首页</a>
+      <a href="./guide.html">玩法</a>
+      <a href="./gallery.html">图鉴</a>
+      <a href="./猎7班大乱斗.html">开始</a>
+    </nav>
+  </header>
   <main>
     <section class="hero">
       <div>
