@@ -1,4 +1,6 @@
-<html lang="zh-CN"><head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>猎7班大乱斗</title>
@@ -86,6 +88,7 @@
         .char-option:hover { background: #e8e8e8; }
         .char-option.selected { background: #e74c3c; color: #fff; }
         .char-option.blue-selected { background: #3498db; color: #fff; }
+        .char-option.disabled { opacity: 0.4; pointer-events: none; }
         .char-option input[type="radio"] { display: none; }
         .btn-panel {
             display: flex;
@@ -245,7 +248,7 @@
             <div class="char-panel red">
                 <h3>红方选择</h3>
                 <label class="char-option selected">
-                    <input type="radio" name="redChar" value="GUITOU" checked="">
+                    <input type="radio" name="redChar" value="GUITOU" checked>
                     <span>鬼头遗言</span>
                 </label>
                 <label class="char-option">
@@ -285,15 +288,43 @@
                     <span>测试</span>
                 </label>
                 <label class="char-option">
+                    <input type="radio" name="redChar" value="SHIBING">
+                    <span>陈治宏</span>
+                </label>
+                <label class="char-option">
                     <input type="radio" name="redChar" value="NIGE">
                     <span>尼格军团</span>
+                </label>
+                <label class="char-option disabled">
+                    <input type="radio" name="redChar" value="CHENZHICHONG">
+                    <span>陈智虫</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="MOFANGZHE">
+                    <span>魔怔鸡</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="PO9">
+                    <span>九氧化一磷</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="LIBERTY">
+                    <span>Liberty</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="TANGSHUI">
+                    <span>糖水</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="redChar" value="SHUANGSHENG">
+                    <span>双生·猫日</span>
                 </label>
             </div>
             
             <div class="char-panel blue">
                 <h3>蓝方选择</h3>
                 <label class="char-option blue-selected">
-                    <input type="radio" name="blueChar" value="GUITOU" checked="">
+                    <input type="radio" name="blueChar" value="GUITOU" checked>
                     <span>鬼头遗言</span>
                 </label>
                 <label class="char-option">
@@ -333,8 +364,36 @@
                     <span>测试</span>
                 </label>
                 <label class="char-option">
+                    <input type="radio" name="blueChar" value="SHIBING">
+                    <span>陈治宏</span>
+                </label>
+                <label class="char-option">
                     <input type="radio" name="blueChar" value="NIGE">
                     <span>尼格军团</span>
+                </label>
+                <label class="char-option disabled">
+                    <input type="radio" name="blueChar" value="CHENZHICHONG">
+                    <span>陈智虫</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="MOFANGZHE">
+                    <span>魔怔鸡</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="PO9">
+                    <span>九氧化一磷</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="LIBERTY">
+                    <span>Liberty</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="TANGSHUI">
+                    <span>糖水</span>
+                </label>
+                <label class="char-option">
+                    <input type="radio" name="blueChar" value="SHUANGSHENG">
+                    <span>双生·猫日</span>
                 </label>
             </div>
         </div>
@@ -360,11 +419,11 @@
                 <div class="stats">
                     <div class="stat-item">
                         <span>红方:</span>
-                        <span class="stat-value red-team" id="redHpDisplay">0</span>
+                        <span class="stat-value red-team" id="redHpDisplay">1000</span>
                     </div>
                     <div class="stat-item">
                         <span>蓝方:</span>
-                        <span class="stat-value blue-team" id="blueHpDisplay">0</span>
+                        <span class="stat-value blue-team" id="blueHpDisplay">1000</span>
                     </div>
                 </div>
             </div>
@@ -439,7 +498,14 @@
             HEZIHAN: { name: '盒子含', matches: 0, wins: 0, losses: 0 },
             DIKE: { name: '低客的黑调', matches: 0, wins: 0, losses: 0 },
             WENSHI: { name: '温室大棚', matches: 0, wins: 0, losses: 0 },
+            SHIBING: { name: '陈治宏', matches: 0, wins: 0, losses: 0 },
             NIGE: { name: '尼格军团', matches: 0, wins: 0, losses: 0 },
+            CHENZHICHONG: { name: '陈智虫', matches: 0, wins: 0, losses: 0 },
+            MOFANGZHE: { name: '魔怔鸡', matches: 0, wins: 0, losses: 0 },
+            PO9: { name: '九氧化一磷', matches: 0, wins: 0, losses: 0 },
+            LIBERTY: { name: 'Liberty', matches: 0, wins: 0, losses: 0 },
+            TANGSHUI: { name: '糖水', matches: 0, wins: 0, losses: 0 },
+            SHUANGSHENG: { name: '双生·猫日', matches: 0, wins: 0, losses: 0 },
             TEST: { name: '测试', matches: 0, wins: 0, losses: 0 }
         };
         
@@ -581,26 +647,89 @@
             }
         }
         
+        function findNearestEnemy(self, chars) {
+            let nearest = null;
+            let minDist = Infinity;
+            
+            for (const c of chars) {
+                if (c === self || c.hp <= 0 || c.team === self.team) continue;
+                
+                const dx = c.x - self.x;
+                const dy = c.y - self.y;
+                const dist = dx * dx + dy * dy;
+                
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = c;
+                }
+            }
+            
+            return nearest;
+        }
+        
         function showDamageText(target, damage, color, attacker) {
             if (damage < 0) {
-                floatingTexts.push({
-                    x: target.x,
-                    y: target.y - 20,
-                    text: `+${Math.round(-damage)}`,
-                    color: color,
-                    alpha: 1,
-                    vy: -0.5,
-                    life: 2,
-                    initialLife: 2,
-                    currentDamage: -damage,
-                    targetDamage: -damage,
-                    isComplete: true
-                });
+                const now = Date.now();
+                const key = attacker ? `${attacker.name}-${target.name}-${attacker.team}-${target.team}-heal` : `${target.name}-heal`;
+                
+                let record = damageTracker.get(key);
+                
+                if (record && now - record.lastTime < DAMAGE_COMBINE_THRESHOLD / gameSpeed) {
+                    record.totalDamage += -damage;
+                    record.lastTime = now;
+                    
+                    const oldFloatText = record.floatText;
+                    const oldIndex = floatingTexts.indexOf(oldFloatText);
+                    if (oldIndex !== -1) {
+                        floatingTexts.splice(oldIndex, 1);
+                    }
+                    
+                    const floatText = {
+                        x: target.x,
+                        y: target.y - 20,
+                        text: `+${Math.round(record.totalDamage)}`,
+                        color: color,
+                        alpha: 1,
+                        vy: -0.5,
+                        life: 2,
+                        initialLife: 2,
+                        currentDamage: record.totalDamage,
+                        targetDamage: record.totalDamage,
+                        isComplete: true
+                    };
+                    floatingTexts.push(floatText);
+                    record.floatText = floatText;
+                } else {
+                    if (record && record.floatText) {
+                        record.floatText.isComplete = true;
+                    }
+                    
+                    const floatText = {
+                        x: target.x,
+                        y: target.y - 20,
+                        text: `+${Math.round(-damage)}`,
+                        color: color,
+                        alpha: 1,
+                        vy: -0.5,
+                        life: 2,
+                        initialLife: 2,
+                        currentDamage: -damage,
+                        targetDamage: -damage,
+                        isComplete: true
+                    };
+                    floatingTexts.push(floatText);
+                    
+                    damageTracker.set(key, {
+                        totalDamage: -damage,
+                        lastTime: now,
+                        floatText: floatText
+                    });
+                }
                 return;
             }
             
             const now = Date.now();
-            const key = `${attacker.name}-${target.name}-${attacker.team}-${target.team}`;
+            const key = attacker ? `${attacker.name}-${target.name}-${attacker.team}-${target.team}` : `${target.name}-damage`;
             
             let record = damageTracker.get(key);
             
@@ -693,13 +822,7 @@
             }
             
             findTarget(chars) {
-                for (const c of chars) {
-                    if (c !== this && c.hp > 0 && c.team !== this.team) {
-                        this.target = c;
-                        return;
-                    }
-                }
-                this.target = null;
+                this.target = findNearestEnemy(this, chars);
             }
             
             chargeAction(floatTexts) {
@@ -886,14 +1009,14 @@
                 
                 this.lastAttackTime = now;
                 
-                const otherChar = characters.find(c => c !== this && c.hp > 0);
+                const otherChar = findNearestEnemy(this, characters);
                 if (!otherChar) return;
                 
                 const baseAngle = Math.atan2(otherChar.y - this.y, otherChar.x - this.x);
                 const spreadAngle = (Math.random() - 0.5) * 0.4;
                 const angle = baseAngle + spreadAngle;
                 
-                let baseDamage = Math.floor(Math.random() * 21) + 40;
+                let baseDamage = Math.floor(Math.random() * 41) + 40;
                 if (this.comboCount > 0) {
                     baseDamage = Math.floor(baseDamage * (1 + this.comboCount * this.comboBonus));
                 }
@@ -915,7 +1038,6 @@
             
             checkCollision(chars, floatTexts) {
                 const now = Date.now();
-                let hitAny = false;
                 
                 for (const c of chars) {
                     if (c === this || c.hp <= 0 || c.team === this.team) continue;
@@ -939,6 +1061,15 @@
                         clampToBounds(this);
                         clampToBounds(c);
                         
+                        break;
+                    }
+                }
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
                         if (now - this.lastCollisionTime >= this.collisionCooldown / gameSpeed) {
                             this.lastCollisionTime = now;
                             const damageResult = c.takeDamage(30, this, floatTexts);
@@ -949,8 +1080,6 @@
                             
                             this.comboCount = 0;
                         }
-                        
-                        hitAny = true;
                         break;
                     }
                     
@@ -975,14 +1104,11 @@
                                         j--;
                                     }
                                 }
-                                
-                                hitAny = true;
                                 break;
                             } else if (split.chalkHit) {
                                 split.chalkHit = false;
                             }
                         }
-                        if (hitAny) break;
                     }
                 }
             }
@@ -1087,13 +1213,7 @@
             }
             
             findTarget(chars) {
-                for (const c of chars) {
-                    if (c !== this && c.hp > 0 && c.team !== this.team) {
-                        this.target = c;
-                        return;
-                    }
-                }
-                this.target = null;
+                this.target = findNearestEnemy(this, chars);
             }
             
             attack(projList, floatTexts) {
@@ -1394,13 +1514,7 @@
             }
             
             findTarget(chars) {
-                for (const c of chars) {
-                    if (c !== this && c.hp > 0 && c.team !== this.team) {
-                        this.target = c;
-                        return;
-                    }
-                }
-                this.target = null;
+                this.target = findNearestEnemy(this, chars);
             }
             
             attack(projList, floatTexts) {
@@ -1752,7 +1866,10 @@
             
             checkCollision(chars) {
                 for (const c of chars) {
-                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    if (c === this || c.hp <= 0) continue;
+                    
+                    const sameTeam = c.team === this.team;
+                    if (sameTeam && !(this.isShuangshengUnit && c.isShuangshengUnit)) continue;
                     
                     if (c.id > this.id) continue;
                     
@@ -1835,6 +1952,180 @@
             }
         }
         
+        // 双生·猫日的第二形态：刘川川，发射脏话文字弹幕
+        class LiuChuanChuan {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '刘川川';
+                this.radius = 20;
+                this.hp = 500;
+                this.maxHp = 500;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1500;
+                this.attackRange = 220;
+                this.target = null;
+                this.profanities = ['废物', '菜鸡', '滚开', '闭嘴', '丢人', '胡说', '就这', '呵呵'];
+                
+                // 红温模式：受伤累积怒气，满 100 进入红温 5 秒，伤害与射速提升
+                this.rage = 0;
+                this.rageMax = 100;
+                this.isRedHot = false;
+                this.redHotTimer = 0;
+                this.redHotDuration = 5;
+                this.redHotInterval = 900;
+                this.redHotDamage = 48;
+                this.redHotWords = ['红温!', '破防!', '急了!', '炸了!'];
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                if (this.isRedHot) {
+                    this.redHotTimer -= gameSpeed * deltaTime;
+                    if (this.redHotTimer <= 0) {
+                        this.isRedHot = false;
+                        this.redHotTimer = 0;
+                        this.rage = 0;
+                    }
+                }
+                
+                this.findTarget(allChars);
+                this.attack(projList);
+                this.checkCollision(allChars);
+                this.move();
+            }
+            
+            findTarget(chars) {
+                this.target = findNearestEnemy(this, chars);
+            }
+            
+            attack(projList) {
+                const now = Date.now();
+                const interval = this.isRedHot ? this.redHotInterval : this.attackInterval;
+                if (now - this.lastAttackTime < interval / gameSpeed) return;
+                if (!this.target || this.target.hp <= 0) return;
+                
+                const dx = this.target.x - this.x;
+                const dy = this.target.y - this.y;
+                if (Math.sqrt(dx * dx + dy * dy) > this.attackRange) return;
+                
+                this.lastAttackTime = now;
+                const angle = Math.atan2(dy, dx);
+                const speed = this.isRedHot ? 5.4 : 4.5;
+                const words = this.isRedHot ? this.redHotWords : this.profanities;
+                
+                projList.push({
+                    type: 'whistle',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    damage: this.isRedHot ? this.redHotDamage : 28,
+                    color: this.isRedHot ? '#e74c3c' : '#8e44ad',
+                    life: this.isRedHot ? 1.4 : 1.2,
+                    radius: this.isRedHot ? 16 : 13,
+                    text: words[Math.floor(Math.random() * words.length)],
+                    owner: this,
+                    skipTeamHit: true
+                });
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0) continue;
+                    
+                    const sameTeam = c.team === this.team;
+                    if (sameTeam && !(this.isShuangshengUnit && c.isShuangshengUnit)) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                // 受伤累积怒气，满值进入红温模式
+                if (!this.isRedHot) {
+                    this.rage = Math.min(this.rageMax, this.rage + damage * 0.6);
+                    if (this.rage >= this.rageMax) {
+                        this.isRedHot = true;
+                        this.redHotTimer = this.redHotDuration;
+                        if (floatTexts) {
+                            floatTexts.push({
+                                x: this.x,
+                                y: this.y - this.radius - 20,
+                                text: '红温！！',
+                                color: '#e74c3c',
+                                alpha: 1,
+                                vy: -0.5,
+                                life: 1.1,
+                                initialLife: 1.1
+                            });
+                        }
+                    }
+                }
+                return { killed: false, damage: damage };
+            }
+        }
+        
         class MaBa {
             constructor(x, y, color, team, id) {
                 this.x = x;
@@ -1878,7 +2169,7 @@
                 
                 this.lastAttackTime = now;
                 
-                const otherChar = characters.find(c => c !== this && c.hp > 0);
+                const otherChar = findNearestEnemy(this, characters);
                 if (!otherChar) return;
                 
                 const angle = Math.atan2(otherChar.y - this.y, otherChar.x - this.x);
@@ -1962,7 +2253,7 @@
                     if (now - split.lastAttackTime >= 1500 / gameSpeed) {
                         split.lastAttackTime = now;
                         
-                        const otherChar = characters.find(c => c !== this && c.hp > 0);
+                        const otherChar = findNearestEnemy(this, characters);
                         if (otherChar) {
                             const angle = Math.atan2(otherChar.y - split.y, otherChar.x - split.x);
                             projList.push({
@@ -2085,6 +2376,18 @@
                 ctx.fillStyle = this.color;
                 ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
                 
+                // 作为魔怔鸡的变身形态时，全局名字/血量绘制会跳过模仿者，这里自行补画
+                if (this.mofangOwner) {
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 11px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'alphabetic';
+                    ctx.fillText(this.name, 0, -this.radius - 5);
+                    
+                    ctx.font = 'bold 10px Arial';
+                    ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                }
+                
                 ctx.restore();
             }
         }
@@ -2124,13 +2427,7 @@
             }
             
             findTarget(chars) {
-                for (const c of chars) {
-                    if (c !== this && c.hp > 0 && c.team !== this.team) {
-                        this.target = c;
-                        return;
-                    }
-                }
-                this.target = null;
+                this.target = findNearestEnemy(this, chars);
             }
             
             attack(projList) {
@@ -2689,6 +2986,8 @@
             update(characters, projectiles, floatingTexts) {
                 if (this.hp <= 0) return;
                 
+                this.hasPunishedEnemy = characters.some(c => c !== this && c.team !== this.team && c.hp > 0 && c.punishTimer && c.punishTimer > 0);
+                
                 this.checkCollision(characters, floatingTexts);
                 this.move();
                 this.attack(characters, projectiles, floatingTexts);
@@ -2697,7 +2996,11 @@
             }
             
             move() {
-                const currentSpeed = this.currentSpeed || this.speed;
+                let currentSpeed = this.currentSpeed || this.speed;
+                if (this.hasPunishedEnemy) {
+                    currentSpeed *= 1.5;
+                }
+                
                 const speedMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
                 if (speedMag > 0.001) {
                     this.x += (this.vx / speedMag) * currentSpeed * gameSpeed * deltaTime * 60;
@@ -2767,33 +3070,39 @@
                 if (enemies.length === 0) return;
                 
                 const target = enemies[Math.floor(Math.random() * enemies.length)];
-                const angle = Math.atan2(target.y - this.y, target.x - this.x);
-                const speed = 4;
-                
-                projectiles.push({
-                    x: this.x,
-                    y: this.y,
-                    vx: Math.cos(angle) * speed * 0.8,
-                    vy: Math.sin(angle) * speed * 0.8,
-                    damage: 0,
-                    color: '#f39c12',
-                    life: 1.33,
-                    radius: 12,
-                    type: 'punish',
-                    text: '罚跑',
-                    owner: this
-                });
+                target.punishTimer = 5;
+                target.punishTarget = this;
+                target.punishStartAngle = Math.random() * Math.PI * 2;
+                target.stunTimer = 0.5;
+                target.punishRunDistance = 0;
+                target.punishLastX = target.x;
+                target.punishLastY = target.y;
+                target.vx = 0;
+                target.vy = 0;
                 
                 floatingTexts.push({
-                    x: this.x,
-                    y: this.y - 30,
-                    text: '五次命中!',
-                    color: '#f39c12',
+                    x: target.x,
+                    y: target.y - 25,
+                    text: '罚跑!',
+                    color: '#e74c3c',
                     alpha: 1,
                     vy: -0.5,
-                    life: 1.5,
-                    initialLife: 1.5
+                    life: 1,
+                    initialLife: 1
                 });
+                
+                if (target.splits) {
+                    for (const split of target.splits) {
+                        split.punishTimer = 5;
+                        split.punishTarget = this;
+                        split.punishStartAngle = Math.random() * Math.PI * 2;
+                        split.punishRunDistance = 0;
+                        split.punishLastX = split.x;
+                        split.punishLastY = split.y;
+                        split.vx = 0;
+                        split.vy = 0;
+                    }
+                }
             }
             
             passiveAbility(characters, floatingTexts) {
@@ -2839,6 +3148,11 @@
             }
             
             attack(characters, projectiles, floatingTexts) {
+                if (this.punishTimer && this.punishTimer > 0) return;
+                
+                const hasPunishedEnemy = characters.some(c => c !== this && c.team !== this.team && c.hp > 0 && c.punishTimer && c.punishTimer > 0);
+                if (hasPunishedEnemy) return;
+                
                 const now = Date.now();
                 if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
                 
@@ -3024,6 +3338,481 @@
             }
         }
         
+        class ShiBing {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '陈治宏';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1200;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                
+                this.lastAssaultTime = Date.now();
+                this.assaultInterval = 6000;
+                this.assaultDuration = 1500;
+                this.isAssaulting = false;
+                this.assaultExtraCount = 0;
+                
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                const now = Date.now();
+                
+                if (now - this.lastAssaultTime >= this.assaultInterval / gameSpeed) {
+                    this.isAssaulting = true;
+                    this.lastAssaultTime = now;
+                }
+                
+                if (this.isAssaulting && now - this.lastAssaultTime >= this.assaultDuration / gameSpeed) {
+                    this.isAssaulting = false;
+                    this.assaultExtraCount = 0;
+                }
+                
+                this.findTarget(allChars);
+                this.checkCollision(allChars);
+                this.attack(projList);
+                this.fireAssaultExtra(projList);
+                this.move();
+            }
+            
+            findTarget(chars) {
+                this.target = findNearestEnemy(this, chars);
+            }
+            
+            attack(projList) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                if (!this.target) return;
+                
+                this.lastAttackTime = now;
+                
+                const dx = this.target.x - this.x;
+                const dy = this.target.y - this.y;
+                const baseAngle = Math.atan2(dy, dx);
+                
+                let damage = 25;
+                if (this.isAssaulting) {
+                    damage = Math.floor(damage * 1.5);
+                }
+                
+                const bulletType = Math.floor(Math.random() * 3);
+                
+                if (bulletType === 0) {
+                    const angle = baseAngle + (Math.random() - 0.5) * 0.15;
+                    projList.push({
+                        type: 'bullet',
+                        x: this.x,
+                        y: this.y,
+                        vx: Math.cos(angle) * 6,
+                        vy: Math.sin(angle) * 6,
+                        damage: damage,
+                        owner: this,
+                        radius: 3,
+                        color: '#fff200',
+                        bounces: 4,
+                        maxBounces: 4,
+                        trail: [],
+                        maxTrail: 40,
+                        active: true
+                    });
+                    
+                    if (this.isAssaulting) {
+                        this.assaultExtraCount = 2;
+                        this.lastAssaultExtraTime = now;
+                        this.lastAssaultBulletType = 0;
+                    }
+                } else if (bulletType === 1) {
+                    projList.push({
+                        type: 'tracking',
+                        x: this.x,
+                        y: this.y,
+                        vx: Math.cos(baseAngle) * 5,
+                        vy: Math.sin(baseAngle) * 5,
+                        damage: damage,
+                        owner: this,
+                        radius: 3,
+                        color: '#fff200',
+                        bounces: 3,
+                        maxBounces: 3,
+                        trail: [],
+                        maxTrail: 40,
+                        trackStrength: 0.03,
+                        active: true
+                    });
+                    
+                    if (this.isAssaulting) {
+                        this.assaultExtraCount = 2;
+                        this.lastAssaultExtraTime = now;
+                        this.lastAssaultBulletType = 1;
+                    }
+                } else {
+                    for (let i = -1; i <= 1; i++) {
+                        const angle = baseAngle + i * 0.35;
+                        projList.push({
+                            type: 'bullet',
+                            x: this.x,
+                            y: this.y,
+                            vx: Math.cos(angle) * 5,
+                            vy: Math.sin(angle) * 5,
+                            damage: damage,
+                            owner: this,
+                            radius: 3,
+                            color: '#fff200',
+                            bounces: 0,
+                            maxBounces: 0,
+                            canBounce: false,
+                            maxPenetrate: 1,
+                            trail: [],
+                            maxTrail: 30,
+                            active: true
+                        });
+                    }
+                }
+            }
+            
+            fireAssaultExtra(projList) {
+                if (!this.isAssaulting || this.assaultExtraCount <= 0) return;
+                if (!this.target) return;
+                
+                const now = Date.now();
+                const extraInterval = 200;
+                if (now - this.lastAssaultExtraTime < extraInterval / gameSpeed) return;
+                
+                const dx = this.target.x - this.x;
+                const dy = this.target.y - this.y;
+                const baseAngle = Math.atan2(dy, dx);
+                
+                let damage = 25;
+                if (this.isAssaulting) {
+                    damage = Math.floor(damage * 1.5);
+                }
+                
+                const extraAngle = baseAngle + (Math.random() - 0.5) * 0.15;
+                
+                if (this.lastAssaultBulletType === 0) {
+                    projList.push({
+                        type: 'bullet',
+                        x: this.x,
+                        y: this.y,
+                        vx: Math.cos(extraAngle) * 6,
+                        vy: Math.sin(extraAngle) * 6,
+                        damage: damage,
+                        owner: this,
+                        radius: 3,
+                        color: '#fff200',
+                        bounces: 4,
+                        maxBounces: 4,
+                        trail: [],
+                        maxTrail: 40,
+                        active: true
+                    });
+                } else if (this.lastAssaultBulletType === 1) {
+                    projList.push({
+                        type: 'tracking',
+                        x: this.x,
+                        y: this.y,
+                        vx: Math.cos(extraAngle) * 5,
+                        vy: Math.sin(extraAngle) * 5,
+                        damage: damage,
+                        owner: this,
+                        radius: 3,
+                        color: '#fff200',
+                        bounces: 3,
+                        maxBounces: 3,
+                        trail: [],
+                        maxTrail: 40,
+                        trackStrength: 0.03,
+                        active: true
+                    });
+                }
+                
+                this.assaultExtraCount--;
+                this.lastAssaultExtraTime = now;
+            }
+            
+            checkCollision(chars) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                let currentSpeed = this.speed;
+                if (this.isAssaulting) {
+                    currentSpeed = this.speed * 1.5;
+                }
+                
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * currentSpeed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * currentSpeed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                if (this.isAssaulting) {
+                    ctx.fillStyle = 'rgba(255, 200, 0, 0.3)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius + 15, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                if (this.isAssaulting) {
+                    ctx.fillStyle = '#f1c40f';
+                    ctx.font = 'bold 9px Arial';
+                    ctx.fillText('突击!', 0, -this.radius - 25);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
+        class ChenZhiChong {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '陈智虫';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 800;       // 近战攻击间隔
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                
+                // 学习机制：平时持续学习，伤害 +10/次，越学越快；进入近战攻击范围时中断
+                this.learnCount = 0;             // 已学习次数
+                this.learnDamage = 0;            // 累计伤害加成（每次学习 +10）
+                this.learnInterval = 500;        // 当前学习间隔(毫秒)，越学越快会变小
+                this.lastLearnTime = Date.now();
+                this.isLearning = true;
+                this.attackRange = 50;           // 近战攻击范围（进入后才近战，本体不射击）
+                
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                const now = Date.now();
+                
+                // 寻找最近的敌人，判断是否进入近战攻击范围
+                const enemy = findNearestEnemy(this, allChars);
+                this.target = enemy;
+                const inAttackRange = enemy && Math.hypot(enemy.x - this.x, enemy.y - this.y) <= this.attackRange;
+                
+                if (inAttackRange) {
+                    // 进入攻击范围：进行近战攻击（本体不射击），并中断学习
+                    this.isLearning = false;
+                    if (now - this.lastAttackTime >= this.attackInterval / gameSpeed) {
+                        this.lastAttackTime = now;
+                        const dmg = Math.max(10, this.learnDamage);
+                        for (const c of allChars) {
+                            if (c !== this && c.hp > 0 && c.team !== this.team &&
+                                Math.hypot(c.x - this.x, c.y - this.y) <= this.attackRange) {
+                                c.takeDamage(dmg, this, floatTexts);
+                            }
+                        }
+                    }
+                } else {
+                    // 远离敌人：持续学习，伤害 +10/次，越学越快（学习间隔随次数缩短，下限 120ms）
+                    this.isLearning = true;
+                    this.learnInterval = Math.max(120, 500 * Math.pow(0.9, this.learnCount));
+                    if (now - this.lastLearnTime >= this.learnInterval / gameSpeed) {
+                        this.learnCount++;
+                        this.learnDamage += 10;
+                        this.lastLearnTime = now;
+                    }
+                }
+                
+                this.checkCollision(allChars);
+                this.move();
+            }
+            
+            checkCollision(chars) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * this.speed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#2ecc71';
+                ctx.font = 'bold 9px Arial';
+                ctx.textBaseline = 'top';
+                ctx.fillText(`学${this.learnCount} 伤+${this.learnDamage}`, 0, this.radius + 5);
+                
+                ctx.fillStyle = this.isLearning ? '#9b59b6' : '#e74c3c';
+                ctx.font = 'bold 9px Arial';
+                ctx.textBaseline = 'top';
+                ctx.fillText(this.isLearning ? '学习中' : '战斗!', 0, this.radius + 17);
+                
+                ctx.restore();
+            }
+        }
+        
         class NiGeJunTuan {
             constructor(x, y, color, team, id) {
                 this.x = x;
@@ -3040,6 +3829,7 @@
                 this.moveAngle = Math.random() * Math.PI * 2;
                 this.vx = Math.cos(this.moveAngle) * this.speed;
                 this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
                 
                 this.lastAttackTime = Date.now();
                 this.attackInterval = 500;
@@ -3067,6 +3857,7 @@
                 
                 let nearestEnemy = null;
                 let nearestDist = Infinity;
+                let attacked = false;
                 
                 for (const c of chars) {
                     if (c === this || c.hp <= 0 || c.team === this.team) continue;
@@ -3079,12 +3870,39 @@
                         nearestDist = dist;
                         nearestEnemy = c;
                     }
+                    
+                    if (c.splits) {
+                        for (let j = 0; j < c.splits.length; j++) {
+                            const split = c.splits[j];
+                            const splitDx = split.x - this.x;
+                            const splitDy = split.y - this.y;
+                            const splitDist = Math.sqrt(splitDx * splitDx + splitDy * splitDy);
+                            
+                            if (splitDist < 60) {
+                                if (!split.meleeHit) {
+                                    this.lastAttackTime = now;
+                                    split.hp -= 60;
+                                    showDamageText({ x: split.x, y: split.y }, 60, '#e74c3c', this);
+                                    split.meleeHit = true;
+                                    attacked = true;
+                                    
+                                    if (split.hp <= 0) {
+                                        c.splits.splice(j, 1);
+                                        j--;
+                                    }
+                                }
+                            } else if (split.meleeHit) {
+                                split.meleeHit = false;
+                            }
+                        }
+                    }
                 }
                 
                 if (nearestEnemy && nearestDist < 60) {
                     this.lastAttackTime = now;
                     const result = nearestEnemy.takeDamage(60, this, floatTexts);
                     showDamageText(nearestEnemy, result.damage, '#e74c3c', this);
+                    attacked = true;
                     
                     const angle = Math.atan2(nearestEnemy.y - this.y, nearestEnemy.x - this.x);
                     projectiles.push({
@@ -3123,12 +3941,6 @@
                         
                         clampToBounds(this);
                         clampToBounds(c);
-                        
-                        if (c.team !== this.team && now - this.lastCollisionTime >= this.collisionCooldown / gameSpeed) {
-                            this.lastCollisionTime = now;
-                            const damageResult = c.takeDamage(20, this, floatTexts);
-                            showDamageText(c, damageResult.damage, '#e74c3c', this);
-                        }
                         
                         break;
                     }
@@ -3177,6 +3989,1317 @@
                 ctx.font = 'bold 8px Arial';
                 ctx.textAlign = 'center';
                 ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 12);
+                
+                ctx.restore();
+            }
+        }
+        
+        class MoFangZhe {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '魔怔鸡';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastTransformTime = Date.now();
+                this.transformInterval = 3000;
+                this.transformDuration = 10000;
+                this.isTransforming = false;
+                this.currentForm = null;
+                this.originalName = '魔怔鸡';
+                this.savedSplits = [];
+                
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                const now = Date.now();
+                
+                if (this.isTransforming) {
+                    if (now - this.lastTransformTime >= this.transformDuration / gameSpeed) {
+                        this.revertToNormal();
+                    } else {
+                        if (this.currentForm) {
+                            this.currentForm.x = this.x;
+                            this.currentForm.y = this.y;
+                            this.currentForm.vx = this.vx;
+                            this.currentForm.vy = this.vy;
+                            this.currentForm.hp = this.hp;
+                            this.maxHp = this.currentForm.maxHp;
+                            this.currentForm.team = this.team;
+                            this.currentForm.id = this.id;
+                            
+                            const beforeCount = projList.length;
+                            this.currentForm.update(allChars, projList, floatTexts);
+                            
+                            for (let i = beforeCount; i < projList.length; i++) {
+                                projList[i].owner = this;
+                                if (projList[i].damage) {
+                                    projList[i].damage = Math.floor(projList[i].damage * 1.2);
+                                }
+                            }
+                            
+                            this.x = this.currentForm.x;
+                            this.y = this.currentForm.y;
+                            this.vx = this.currentForm.vx;
+                            this.vy = this.currentForm.vy;
+                            this.hp = this.currentForm.hp;
+                            // 兜底：确保变身后模仿者始终在地图边界内，避免任何来源导致的越界卡死
+                            clampToBounds(this);
+
+                            // 把模仿者身上由全局弹幕逻辑写入的状态（连击计数等）同步回被模仿角色
+                            if (this.comboCount !== undefined && this.currentForm.comboCount !== undefined) this.currentForm.comboCount = this.comboCount;
+                            
+                            if (this.currentForm.splits) {
+                                this.splits = this.currentForm.splits;
+                            }
+                        }
+                    }
+                } else {
+                    if (now - this.lastTransformTime >= this.transformInterval / gameSpeed) {
+                        this.transform(allChars);
+                    }
+                    
+                    this.findTarget(allChars);
+                    this.checkCollision(allChars);
+                    this.move();
+                }
+            }
+            
+            transform(allChars) {
+                this.savedSplits = this.splits || [];
+                
+                const charClasses = {
+                    GUITOU: GuiTou,
+                    BAIDAN: BaiDan,
+                    MAONAI: MaoNai,
+                    HEIDAN: HeiDan,
+                    SHINIAN: ShiNianZhiHou,
+                    MABA: MaBa,
+                    HEZIHAN: HeZiHan,
+                    DIKE: DiKeDeHeiDiao,
+                    WENSHI: WenShiDaPeng,
+                    SHIBING: ShiBing,
+                    PO9: PO9,
+                    LIBERTY: Liberty,
+                    TANGSHUI: TangShui
+                };
+                
+                const classKeys = Object.keys(charClasses);
+                let randomKey;
+                do {
+                    randomKey = classKeys[Math.floor(Math.random() * classKeys.length)];
+                } while (charClasses[randomKey].name === '魔怔鸡' || 
+                         (this.currentForm && charClasses[randomKey].name === this.currentForm.name));
+                
+                this.currentForm = new charClasses[randomKey](this.x, this.y, this.color, this.team, this.id);
+                this.currentForm.x = this.x;
+                this.currentForm.y = this.y;
+                this.currentForm.vx = this.vx;
+                this.currentForm.vy = this.vy;
+                // 变身不重置血量：按当前血量百分比带入变身形态
+                const hpRatio = this.maxHp > 0 ? Math.max(0, this.hp / this.maxHp) : 1;
+                this.currentForm.hp = Math.max(1, Math.round(this.currentForm.maxHp * hpRatio));
+                this.currentForm.mofangOwner = this;
+                this.currentForm.mofangDamageBoost = true;
+
+                // 让模仿者作为弹幕拥有者时也能正确触发被模仿角色依赖 owner 的机制
+                // （如温室大棚的“罚跑”、白蛋的连击计数等）
+                this.bulletHitCount = this.currentForm.bulletHitCount !== undefined ? this.currentForm.bulletHitCount : 0;
+                if (this.currentForm.maxCombo !== undefined) this.maxCombo = this.currentForm.maxCombo;
+                if (this.currentForm.comboCount !== undefined) this.comboCount = this.currentForm.comboCount;
+                this.triggerAutoPunish = (enemies, projectiles, floatingTexts) => {
+                    if (this.currentForm && this.currentForm.triggerAutoPunish) {
+                        return this.currentForm.triggerAutoPunish(enemies, projectiles, floatingTexts);
+                    }
+                };
+
+                this.isTransforming = true;
+                this.lastTransformTime = Date.now();
+                this.name = this.currentForm.name;
+                this.maxHp = this.currentForm.maxHp;
+                this.hp = this.currentForm.hp;
+            }
+            
+            revertToNormal() {
+                this.isTransforming = false;
+                this.currentForm = null;
+                this.name = this.originalName;
+                this.lastTransformTime = Date.now();
+                this.splits = this.savedSplits;
+                this.savedSplits = [];
+                // 变回原形：按百分比还原到 1000 上限，并保留 +100 治疗
+                const hpRatio = this.maxHp > 0 ? Math.max(0, this.hp / this.maxHp) : 1;
+                this.maxHp = 1000;
+                this.hp = Math.min(this.maxHp, Math.round(this.maxHp * hpRatio) + 100);
+                this.bulletHitCount = 0;
+                this.maxCombo = undefined;
+                this.triggerAutoPunish = undefined;
+            }
+            
+            findTarget(chars) {
+                this.target = findNearestEnemy(this, chars);
+            }
+            
+            attack(projList) {
+                if (this.isTransforming) return;
+                
+                const now = Date.now();
+                if (now - this.lastAttackTime < (this.attackInterval || 800) / gameSpeed) return;
+                
+                if (!this.target) return;
+                
+                this.lastAttackTime = now;
+                
+                const dx = this.target.x - this.x;
+                const dy = this.target.y - this.y;
+                const angle = Math.atan2(dy, dx);
+                
+                projList.push({
+                    type: 'bullet',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * 7,
+                    vy: Math.sin(angle) * 7,
+                    damage: 30,
+                    owner: this,
+                    radius: 3,
+                    color: '#9b59b6',
+                    bounces: 0,
+                    maxBounces: 0,
+                    maxPenetrate: 1,
+                    trail: [],
+                    maxTrail: 30,
+                    active: true
+                });
+            }
+            
+            checkCollision(chars) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * this.speed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.isTransforming && this.currentForm) {
+                    // currentForm.draw() 内部已自行 translate 到角色坐标，这里不要再平移一次
+                    this.currentForm.draw(ctx);
+                    
+                    // 叠加“模仿者”虚线标识圈
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.strokeStyle = '#9b59b6';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius + 8, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.restore();
+                } else {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 11px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(this.name, 0, -this.radius - 5);
+                    
+                    ctx.fillStyle = '#2ecc71';
+                    ctx.font = 'bold 9px Arial';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, this.radius + 5);
+                    ctx.restore();
+                }
+            }
+        }
+        
+        class PO9 {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '九氧化一磷';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1600;
+                
+                // 缓慢氧化：自身随时间积攒「氧」层，满 9 层自动引爆
+                this.oxygenStacks = 0;
+                this.maxOxygen = 9;
+                this.lastOxygenTime = Date.now();
+                this.oxygenInterval = 1500;
+                
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                
+                this.detonateFx = 0;
+                this.oxygenSpin = 0;
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.attack(projList);
+                this.accumulateOxygen(floatTexts);
+                this.checkCollision(allChars, floatTexts);
+                this.move();
+                
+                this.oxygenSpin += deltaTime * 1.6;
+                
+                if (this.detonateFx > 0) {
+                    this.detonateFx = Math.max(0, this.detonateFx - gameSpeed * deltaTime);
+                }
+            }
+            
+            attack(projList) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                this.lastAttackTime = now;
+                
+                const target = findNearestEnemy(this, characters);
+                if (!target) return;
+                
+                const angle = Math.atan2(target.y - this.y, target.x - this.x);
+                projList.push({
+                    type: 'chalk',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * 4.5,
+                    vy: Math.sin(angle) * 4.5,
+                    damage: 32,
+                    owner: this,
+                    radius: 5,
+                    color: '#dfff00',
+                    active: true
+                });
+            }
+            
+            accumulateOxygen(floatTexts) {
+                const now = Date.now();
+                if (now - this.lastOxygenTime < this.oxygenInterval / gameSpeed) return;
+                
+                this.lastOxygenTime = now;
+                if (this.oxygenStacks < this.maxOxygen) {
+                    this.oxygenStacks++;
+                }
+                
+                if (this.oxygenStacks >= this.maxOxygen) {
+                    this.detonate(floatTexts);
+                }
+            }
+            
+            detonate(floatTexts) {
+                this.oxygenStacks = 0;
+                this.lastOxygenTime = Date.now();
+                this.detonateFx = 0.6;
+                
+                for (const c of characters) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    if (Math.hypot(c.x - this.x, c.y - this.y) > 130) continue;
+                    
+                    const result = c.takeDamage(150, this, floatTexts);
+                    showDamageText(c, result.damage, '#e74c3c', this);
+                    this.applyOxidation(c, 2, floatTexts);
+                }
+                
+                this.hp = Math.min(this.maxHp, this.hp + 40);
+                showDamageText(this, -40, '#2ecc71', this);
+                
+                floatTexts.push({
+                    x: this.x,
+                    y: this.y - 45,
+                    text: '九氧化一磷！',
+                    color: '#dfff00',
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 1.5,
+                    initialLife: 1.5
+                });
+            }
+            
+            applyOxidation(target, stacks, floatTexts) {
+                const prevStacks = target.oxidationStacks || 0;
+                target.oxidationStacks = Math.min(5, prevStacks + stacks);
+                if (prevStacks <= 0) {
+                    target.lastOxidationTick = Date.now();
+                    target.lastOxidationDecay = Date.now();
+                }
+                target.oxidationSource = this;
+                
+                floatTexts.push({
+                    x: target.x,
+                    y: target.y - 32,
+                    text: `氧化 ${target.oxidationStacks}/5`,
+                    color: '#9acd32',
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 1,
+                    initialLife: 1
+                });
+            }
+            
+            checkCollision(chars, floatTexts) {
+                const now = Date.now();
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+                
+                // 触碰自燃：接触敌人造成灼伤并附加 1 层氧化
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        if (now - this.lastCollisionTime >= this.collisionCooldown / gameSpeed) {
+                            this.lastCollisionTime = now;
+                            const damageResult = c.takeDamage(10, this, floatTexts);
+                            showDamageText(c, damageResult.damage, '#e74c3c', this);
+                            this.applyOxidation(c, 1, floatTexts);
+                        }
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * this.speed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                // 氧化膜钝化：每层氧减伤 1.5%
+                damage = damage * (1 - 0.015 * this.oxygenStacks);
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                const spin = this.oxygenSpin;
+                for (let i = 0; i < this.maxOxygen; i++) {
+                    const a = spin + (Math.PI * 2 / this.maxOxygen) * i;
+                    const ox = Math.cos(a) * (this.radius + 10);
+                    const oy = Math.sin(a) * (this.radius + 10);
+                    const filled = i < this.oxygenStacks;
+                    ctx.beginPath();
+                    ctx.arc(ox, oy, filled ? 4 : 2, 0, Math.PI * 2);
+                    ctx.fillStyle = filled ? '#dfff00' : 'rgba(255,255,255,0.55)';
+                    ctx.fill();
+                }
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                // 中心磷核
+                ctx.fillStyle = 'rgba(223,255,0,0.85)';
+                ctx.beginPath();
+                ctx.arc(0, 0, 7 + this.oxygenStacks * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (this.detonateFx > 0) {
+                    const progress = 1 - this.detonateFx / 0.6;
+                    ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 30 + 100 * progress, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.fillStyle = '#9acd32';
+                ctx.font = 'bold 10px Arial';
+                ctx.textBaseline = 'top';
+                ctx.fillText(`氧 ${this.oxygenStacks}/${this.maxOxygen}`, 0, this.radius + 5);
+                
+                ctx.restore();
+            }
+        }
+        
+        class Liberty {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = 'Liberty';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1000;
+                
+                // 自由 / 守护双姿态：每 6 秒自动切换一次
+                this.stance = 'freedom';
+                this.lastStanceSwitchTime = Date.now();
+                this.stanceDuration = 6000;
+                
+                // 解放值：命中与受伤累积，满 100 强化下一次切换
+                this.libertyMeter = 0;
+                this.maxLiberty = 100;
+                this.empowerTimer = 0;
+                
+                this.declarationFx = 0;
+                this.empoweredFx = 0;
+                this.stanceSpin = 0;
+                
+                this.lastRegenTime = Date.now();
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.updateStance(floatTexts);
+                this.attack(projList);
+                this.checkCollision(allChars);
+                this.move();
+                this.updateRegen(floatTexts);
+                
+                this.stanceSpin += deltaTime * 1.6;
+                if (this.empowerTimer > 0) this.empowerTimer = Math.max(0, this.empowerTimer - gameSpeed * deltaTime);
+                if (this.declarationFx > 0) this.declarationFx = Math.max(0, this.declarationFx - gameSpeed * deltaTime);
+                if (this.empoweredFx > 0) this.empoweredFx = Math.max(0, this.empoweredFx - gameSpeed * deltaTime);
+            }
+            
+            attack(projList) {
+                const now = Date.now();
+                const baseInterval = this.stance === 'freedom' ? 1000 : 1500;
+                const interval = baseInterval * (this.empowerTimer > 0 ? 0.7 : 1);
+                if (now - this.lastAttackTime < interval / gameSpeed) return;
+                
+                this.lastAttackTime = now;
+                
+                const target = findNearestEnemy(this, characters);
+                if (!target) return;
+                
+                const baseAngle = Math.atan2(target.y - this.y, target.x - this.x);
+                
+                if (this.stance === 'freedom') {
+                    for (const offset of [-0.28, 0, 0.28]) {
+                        const angle = baseAngle + offset;
+                        projList.push({
+                            type: 'chalk',
+                            x: this.x,
+                            y: this.y,
+                            vx: Math.cos(angle) * 5,
+                            vy: Math.sin(angle) * 5,
+                            damage: 16,
+                            owner: this,
+                            radius: 4,
+                            color: '#f1c40f',
+                            active: true
+                        });
+                    }
+                } else {
+                    projList.push({
+                        type: 'chalk',
+                        x: this.x,
+                        y: this.y,
+                        vx: Math.cos(baseAngle) * 4.5,
+                        vy: Math.sin(baseAngle) * 4.5,
+                        damage: 55,
+                        owner: this,
+                        radius: 6,
+                        color: '#3498db',
+                        active: true
+                    });
+                }
+            }
+            
+            updateStance(floatTexts) {
+                const now = Date.now();
+                if (now - this.lastStanceSwitchTime < this.stanceDuration / gameSpeed) return;
+                
+                this.lastStanceSwitchTime = now;
+                this.stance = this.stance === 'freedom' ? 'guardian' : 'freedom';
+                
+                const empowered = this.libertyMeter >= this.maxLiberty;
+                const radius = empowered ? 160 : 110;
+                const damage = empowered ? 80 : 35;
+                
+                for (const c of characters) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    const dist = Math.hypot(c.x - this.x, c.y - this.y);
+                    if (dist > radius) continue;
+                    
+                    const result = c.takeDamage(damage, this, floatTexts);
+                    showDamageText(c, result.damage, '#e74c3c', this);
+                    
+                    const nx = (c.x - this.x) / (dist || 1);
+                    const ny = (c.y - this.y) / (dist || 1);
+                    c.x += nx * 20;
+                    c.y += ny * 20;
+                    clampToBounds(c);
+                }
+                
+                // 独立宣言：解除自身所有负面状态
+                this.slowTimer = 0;
+                this.stunTimer = 0;
+                this.isNagged = false;
+                this.questions = 0;
+                this.oxidationStacks = 0;
+                this.lastOxidationTick = 0;
+                this.lastOxidationDecay = 0;
+                
+                this.declarationFx = 0.6;
+                this.empoweredFx = empowered ? 0.8 : 0;
+                
+                if (empowered) {
+                    this.hp = Math.min(this.maxHp, this.hp + 60);
+                    showDamageText(this, -60, '#2ecc71', this);
+                    this.libertyMeter = 0;
+                    this.empowerTimer = 4;
+                }
+                
+                floatTexts.push({
+                    x: this.x,
+                    y: this.y - 45,
+                    text: empowered ? '解放！' : '独立宣言',
+                    color: empowered ? '#f1c40f' : '#ffffff',
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 1.2,
+                    initialLife: 1.2
+                });
+            }
+            
+            gainLiberty(amount) {
+                if (this.empowerTimer > 0) return;
+                this.libertyMeter = Math.min(this.maxLiberty, this.libertyMeter + amount);
+            }
+            
+            updateRegen(floatTexts) {
+                if (this.stance !== 'guardian') return;
+                
+                const now = Date.now();
+                if (now - this.lastRegenTime < 3000 / gameSpeed) return;
+                
+                this.lastRegenTime = now;
+                if (this.hp >= this.maxHp) return;
+                
+                const heal = Math.min(15, this.maxHp - this.hp);
+                this.hp += heal;
+                showDamageText(this, -heal, '#2ecc71', this);
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                const stanceSpeed = this.stance === 'freedom' ? 1.35 : 0.8;
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * this.speed * stanceSpeed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * stanceSpeed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                damage = damage * (this.stance === 'freedom' ? 1.1 : 0.9);
+                if (this.empowerTimer > 0) {
+                    damage = damage * 0.85;
+                }
+                
+                this.gainLiberty(6);
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                const isFree = this.stance === 'freedom';
+                ctx.strokeStyle = isFree ? 'rgba(241,196,15,0.9)' : 'rgba(52,152,219,0.9)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius + 9, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                if (isFree) {
+                    for (let i = 0; i < 3; i++) {
+                        const a = this.stanceSpin + i * Math.PI * 2 / 3;
+                        ctx.beginPath();
+                        ctx.arc(Math.cos(a) * (this.radius + 14), Math.sin(a) * (this.radius + 14), 3, 0, Math.PI * 2);
+                        ctx.fillStyle = '#f1c40f';
+                        ctx.fill();
+                    }
+                } else {
+                    ctx.strokeStyle = 'rgba(52,152,219,0.7)';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius + 5, Math.PI * 0.15, Math.PI * 0.85);
+                    ctx.stroke();
+                }
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                if (this.declarationFx > 0) {
+                    const progress = 1 - this.declarationFx / 0.6;
+                    ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 20 + 110 * progress, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                if (this.empoweredFx > 0) {
+                    const progress = 1 - this.empoweredFx / 0.8;
+                    ctx.strokeStyle = `rgba(241,196,15,${1 - progress})`;
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 20 + 160 * progress, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                ctx.fillStyle = isFree ? '#f1c40f' : '#3498db';
+                ctx.font = 'bold 10px Arial';
+                ctx.textBaseline = 'top';
+                ctx.fillText(isFree ? '自由姿态' : '守护姿态', 0, this.radius + 5);
+                
+                for (let i = 0; i < 10; i++) {
+                    ctx.fillStyle = this.libertyMeter >= (i + 1) * 10 ? '#f1c40f' : 'rgba(255,255,255,0.35)';
+                    ctx.fillRect(-21 + i * 4.5, this.radius + 18, 3, 6);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
+        class TangShui {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '糖水';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 1300;
+                
+                // 糖度：随时间与命中上升，越高伤害越高、移速越慢
+                this.sugar = 30;
+                this.maxSugar = 100;
+                this.slashFx = 0;
+                this.slashAngle = 0;
+                this.slashRange = 0;
+                this.target = null;
+                
+                // 冲刺劈砍
+                this.lastDashTime = Date.now();
+                this.isDashing = false;
+                this.dashStartTime = 0;
+                this.dashDuration = 600;
+                this.dashVx = 0;
+                this.dashVy = 0;
+                this.dashAngle = 0;
+                this.dashTrail = [];
+                
+                // 铠甲合体
+                this.armorTimer = 0;
+                this.lastArmorTime = Date.now();
+                this.armorCooldown = 10000;
+                this.armorDuration = 4;
+                // 铠甲固定回血：4 秒内每秒 20，共 80
+                this.armorHealAccum = 0;
+                this.armorHealPerTick = 20;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.sugar = Math.min(this.maxSugar, this.sugar + 6 * gameSpeed * deltaTime);
+                this.updateArmor(floatTexts);
+                if (this.armorTimer > 0) {
+                    this.armorTimer = Math.max(0, this.armorTimer - gameSpeed * deltaTime);
+
+                    this.armorHealAccum += gameSpeed * deltaTime;
+                    while (this.armorHealAccum >= 1) {
+                        this.armorHealAccum -= 1;
+                        const before = this.hp;
+                        this.hp = Math.min(this.maxHp, this.hp + this.armorHealPerTick);
+                        const healed = this.hp - before;
+                        if (healed > 0) showDamageText(this, -healed, '#2ecc71', this);
+                    }
+                }
+                
+                for (const trail of this.dashTrail) trail.life -= gameSpeed * deltaTime;
+                this.dashTrail = this.dashTrail.filter(t => t.life > 0);
+                
+                if (this.isDashing) {
+                    if (Date.now() - this.dashStartTime >= this.dashDuration / gameSpeed) {
+                        this.finishDash(allChars, floatTexts);
+                        this.checkCollision(allChars);
+                        this.move();
+                    } else {
+                        this.moveDash();
+                    }
+                } else {
+                    this.tryDash(allChars);
+                    if (this.isDashing) {
+                        this.moveDash();
+                    } else {
+                        this.attack(allChars, projList, floatTexts);
+                        this.checkCollision(allChars);
+                        this.move();
+                    }
+                }
+                
+                if (this.slashFx > 0) this.slashFx = Math.max(0, this.slashFx - gameSpeed * deltaTime);
+            }
+            
+            tryDash(chars) {
+                const now = Date.now();
+                if (now - this.lastDashTime < 3500 / gameSpeed) return;
+                
+                let closestEnemy = null;
+                let minDist = Infinity;
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    const dist = distance(this.x, this.y, c.x, c.y);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        closestEnemy = c;
+                    }
+                }
+                
+                // 只在敌人处于中距离时冲刺；贴身时保留冷却
+                if (!closestEnemy || minDist <= 60 || minDist > 300) return;
+                
+                this.lastDashTime = now;
+                this.isDashing = true;
+                this.dashStartTime = now;
+                this.dashAngle = Math.atan2(closestEnemy.y - this.y, closestEnemy.x - this.x);
+                this.dashVx = Math.cos(this.dashAngle) * this.speed * 3.2;
+                this.dashVy = Math.sin(this.dashAngle) * this.speed * 3.2;
+            }
+            
+            moveDash() {
+                this.dashTrail.push({ x: this.x, y: this.y, life: 0.28 });
+                if (this.dashTrail.length > 8) this.dashTrail.shift();
+                
+                this.x += this.dashVx * gameSpeed * deltaTime * 60;
+                this.y += this.dashVy * gameSpeed * deltaTime * 60;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.dashVx = 0;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.dashVy = 0;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+            }
+            
+            finishDash(chars, floatTexts) {
+                this.isDashing = false;
+                this.dashStartTime = 0;
+                this.dashVx = 0;
+                this.dashVy = 0;
+                this.vx = Math.cos(this.dashAngle) * this.speed;
+                this.vy = Math.sin(this.dashAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                const slashRange = this.getAttackRange() + 20;
+                const damage = (28 + this.sugar * 0.22) * 1.5;
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    const dist = distance(this.x, this.y, c.x, c.y);
+                    if (dist > slashRange + c.radius) continue;
+                    
+                    const angleToTarget = Math.atan2(c.y - this.y, c.x - this.x);
+                    const angleDiff = Math.abs(Math.atan2(
+                        Math.sin(angleToTarget - this.dashAngle),
+                        Math.cos(angleToTarget - this.dashAngle)
+                    ));
+                    if (angleDiff > 0.85) continue;
+                    
+                    const result = c.takeDamage(damage, this, floatTexts);
+                    showDamageText(c, result.damage, '#e74c3c', this);
+                    this.applySugarStacks(c, floatTexts);
+                }
+                
+                this.slashAngle = this.dashAngle;
+                this.slashRange = slashRange;
+                this.slashFx = 0.3;
+            }
+            
+            updateArmor(floatTexts) {
+                if (this.armorTimer > 0) return;
+                
+                const now = Date.now();
+                if (now - this.lastArmorTime < this.armorCooldown / gameSpeed) return;
+                
+                this.armorTimer = this.armorDuration;
+                this.armorHealAccum = 0;
+                this.lastArmorTime = now;
+                
+                floatTexts.push({
+                    x: this.x,
+                    y: this.y - this.radius - 20,
+                    text: '铠甲合体！',
+                    color: '#f1c40f',
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 1.1,
+                    initialLife: 1.1
+                });
+            }
+            
+            getAttackRange() {
+                return 45 + this.sugar * 0.3;
+            }
+            
+            attack(chars, projList, floatTexts) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                const attackRange = this.getAttackRange();
+                let closestEnemy = null;
+                let minDist = Infinity;
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    const dist = distance(this.x, this.y, c.x, c.y);
+                    if (dist <= attackRange && dist < minDist) {
+                        minDist = dist;
+                        closestEnemy = c;
+                    }
+                }
+                
+                if (!closestEnemy) return;
+                
+                this.lastAttackTime = now;
+                
+                const swingAngle = Math.atan2(closestEnemy.y - this.y, closestEnemy.x - this.x);
+                const damage = 28 + this.sugar * 0.22;
+                
+                // 挥砍：朝目标方向劈出扇形，命中范围内所有敌人
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    const dist = distance(this.x, this.y, c.x, c.y);
+                    if (dist > attackRange + c.radius) continue;
+                    
+                    const angleToTarget = Math.atan2(c.y - this.y, c.x - this.x);
+                    const angleDiff = Math.abs(Math.atan2(
+                        Math.sin(angleToTarget - swingAngle),
+                        Math.cos(angleToTarget - swingAngle)
+                    ));
+                    if (angleDiff > 0.6) continue;
+                    
+                    const result = c.takeDamage(damage, this, floatTexts);
+                    showDamageText(c, result.damage, '#e74c3c', this);
+                    this.applySugarStacks(c, floatTexts);
+                }
+                
+                this.slashAngle = swingAngle;
+                this.slashRange = attackRange;
+                this.slashFx = 0.25;
+            }
+            
+            gainSugar(amount) {
+                this.sugar = Math.max(0, Math.min(this.maxSugar, this.sugar + amount));
+            }
+            
+            applySugarStacks(target, floatTexts) {
+                if (target.hp <= 0) return;
+                
+                const stacksToAdd = this.sugar >= 90 ? 2 : 1;
+                target.sugarStacks = Math.min(4, (target.sugarStacks || 0) + stacksToAdd);
+                target.sugarSource = this;
+                target.lastSugarStackTime = Date.now();
+                if (!target.lastSugarTick) target.lastSugarTick = Date.now();
+                
+                this.gainSugar(12);
+                
+                floatTexts.push({
+                    x: target.x,
+                    y: target.y - target.radius - 12,
+                    text: `糖渍 ${target.sugarStacks}/4`,
+                    color: '#e67e22',
+                    alpha: 1,
+                    vy: -0.5,
+                    life: 0.8,
+                    initialLife: 0.8
+                });
+                
+                if (target.sugarStacks >= 4) {
+                    target.sugarStacks = 0;
+                    target.lastSugarTick = 0;
+                    target.stunTimer = Math.max(target.stunTimer || 0, 1.2);
+                    
+                    const result = target.takeDamage(45, this, floatTexts);
+                    showDamageText(target, result.damage, '#e74c3c', this);
+                    
+                    this.gainSugar(-40);
+                    
+                    floatTexts.push({
+                        x: target.x,
+                        y: target.y - 45,
+                        text: '结晶！',
+                        color: '#f39c12',
+                        alpha: 1,
+                        vy: -0.5,
+                        life: 1.1,
+                        initialLife: 1.1
+                    });
+                }
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                const sugarSpeed = 1.1 - this.sugar * 0.0025;
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * this.speed * sugarSpeed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * sugarSpeed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.armorTimer > 0) {
+                    damage = damage * 0.55;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                if (this.hp <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                if (this.slashFx > 0) {
+                    const progress = 1 - this.slashFx / 0.25;
+                    const current = this.slashAngle - 0.6 + progress * 1.2;
+                    const slashRange = this.slashRange || 45;
+                    
+                    ctx.strokeStyle = `rgba(230,126,34,${1 - progress})`;
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, slashRange * 0.9, this.slashAngle - 0.6, this.slashAngle + 0.6);
+                    ctx.stroke();
+                    
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(Math.cos(current) * slashRange, Math.sin(current) * slashRange);
+                    ctx.stroke();
+                }
+                
+                for (const trail of this.dashTrail) {
+                    ctx.fillStyle = `rgba(230,126,34,${(trail.life / 0.28) * 0.35})`;
+                    ctx.fillRect(
+                        trail.x - this.x - this.radius * 0.5,
+                        trail.y - this.y - this.radius * 0.5,
+                        this.radius,
+                        this.radius
+                    );
+                }
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                if (this.armorTimer > 0) {
+                    ctx.fillStyle = 'rgba(241,196,15,0.35)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius * 0.95, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = 'rgba(241,196,15,0.9)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
                 
                 ctx.restore();
             }
@@ -3334,6 +5457,69 @@
                     ctx.lineTo(proj.endX, proj.endY);
                     ctx.stroke();
                     ctx.restore();
+                } else if (proj.type === 'question') {
+                    ctx.save();
+                    ctx.fillStyle = proj.color;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 8px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('?', proj.x, proj.y);
+                    ctx.restore();
+                } else if (proj.type === 'bullet') {
+                    ctx.save();
+                    
+                    if (proj.trail && proj.trail.length > 1) {
+                        for (let i = 1; i < proj.trail.length; i++) {
+                            const alpha = (i / proj.trail.length) * 0.5;
+                            ctx.globalAlpha = alpha;
+                            ctx.strokeStyle = proj.color;
+                            ctx.lineWidth = proj.radius * (i / proj.trail.length);
+                            ctx.beginPath();
+                            ctx.moveTo(proj.trail[i - 1].x, proj.trail[i - 1].y);
+                            ctx.lineTo(proj.trail[i].x, proj.trail[i].y);
+                            ctx.stroke();
+                        }
+                    }
+                    
+                    ctx.globalAlpha = 1;
+                    ctx.fillStyle = proj.color;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                } else if (proj.type === 'tracking') {
+                    ctx.save();
+                    
+                    if (proj.trail && proj.trail.length > 1) {
+                        for (let i = 1; i < proj.trail.length; i++) {
+                            const alpha = (i / proj.trail.length) * 0.5;
+                            ctx.globalAlpha = alpha;
+                            ctx.strokeStyle = proj.color;
+                            ctx.lineWidth = proj.radius * (i / proj.trail.length);
+                            ctx.beginPath();
+                            ctx.moveTo(proj.trail[i - 1].x, proj.trail[i - 1].y);
+                            ctx.lineTo(proj.trail[i].x, proj.trail[i].y);
+                            ctx.stroke();
+                        }
+                    }
+                    
+                    ctx.globalAlpha = 1;
+                    ctx.fillStyle = proj.color;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#f1c40f';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.radius + 3, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
                 }
             }
             
@@ -3398,6 +5584,10 @@
                     }
                 }
                 
+                if (char.currentForm && char.isTransforming) {
+                    // 变身后直接调用被模仿角色自己的 draw()，蓄力条、体能等专属显示都能正确呈现
+                    char.draw(ctx);
+                } else {
                 ctx.save();
                 ctx.translate(char.x, char.y);
                 ctx.fillStyle = char.color;
@@ -3416,7 +5606,146 @@
                     ctx.arc(0, 0, char.radius + 8, 0, Math.PI * 2);
                     ctx.stroke();
                 }
+                
+                if (char.isAssaulting && char.name === '陈治宏') {
+                    const pulse = Math.sin(Date.now() / 100) * 0.3 + 0.7;
+                    ctx.fillStyle = `rgba(255, 242, 0, ${pulse * 0.3})`;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, char.radius + 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = `rgba(255, 242, 0, ${pulse})`;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, char.radius + 12, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                if (char.name === '九氧化一磷') {
+                    const spin = char.oxygenSpin || 0;
+                    for (let i = 0; i < 9; i++) {
+                        const a = spin + (Math.PI * 2 / 9) * i;
+                        const ox = Math.cos(a) * (char.radius + 10);
+                        const oy = Math.sin(a) * (char.radius + 10);
+                        const filled = i < (char.oxygenStacks || 0);
+                        ctx.beginPath();
+                        ctx.arc(ox, oy, filled ? 4 : 2, 0, Math.PI * 2);
+                        ctx.fillStyle = filled ? '#dfff00' : 'rgba(255,255,255,0.55)';
+                        ctx.fill();
+                    }
+                    
+                    ctx.fillStyle = 'rgba(223,255,0,0.85)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 7 + (char.oxygenStacks || 0) * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    if (char.detonateFx > 0) {
+                        const progress = 1 - char.detonateFx / 0.6;
+                        ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, 30 + 100 * progress, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
+                
+                if (char.name === 'Liberty') {
+                    const isFree = char.stance === 'freedom';
+                    ctx.strokeStyle = isFree ? 'rgba(241,196,15,0.9)' : 'rgba(52,152,219,0.9)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, char.radius + 9, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    if (isFree) {
+                        for (let i = 0; i < 3; i++) {
+                            const a = (char.stanceSpin || 0) + i * Math.PI * 2 / 3;
+                            ctx.beginPath();
+                            ctx.arc(Math.cos(a) * (char.radius + 14), Math.sin(a) * (char.radius + 14), 3, 0, Math.PI * 2);
+                            ctx.fillStyle = '#f1c40f';
+                            ctx.fill();
+                        }
+                    } else {
+                        ctx.strokeStyle = 'rgba(52,152,219,0.7)';
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, char.radius + 5, Math.PI * 0.15, Math.PI * 0.85);
+                        ctx.stroke();
+                    }
+                    
+                    if (char.declarationFx > 0) {
+                        const progress = 1 - char.declarationFx / 0.6;
+                        ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, 20 + 110 * progress, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    if (char.empoweredFx > 0) {
+                        const progress = 1 - char.empoweredFx / 0.8;
+                        ctx.strokeStyle = `rgba(241,196,15,${1 - progress})`;
+                        ctx.lineWidth = 5;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, 20 + 160 * progress, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
+                
+                if (char.isRedHot) {
+                    ctx.fillStyle = 'rgba(231,76,60,0.18)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, char.radius * 1.15, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = 'rgba(231,76,60,0.9)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, char.radius * 1.15, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                if (char.name === '糖水') {
+                    if (char.slashFx > 0) {
+                        const progress = 1 - char.slashFx / 0.25;
+                        const current = char.slashAngle - 0.6 + progress * 1.2;
+                        const slashRange = char.slashRange || 45;
+                        
+                        ctx.strokeStyle = `rgba(230,126,34,${1 - progress})`;
+                        ctx.lineWidth = 5;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, slashRange * 0.9, char.slashAngle - 0.6, char.slashAngle + 0.6);
+                        ctx.stroke();
+                        
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(Math.cos(current) * slashRange, Math.sin(current) * slashRange);
+                        ctx.stroke();
+                    }
+                    
+                    for (const trail of char.dashTrail || []) {
+                        ctx.fillStyle = `rgba(230,126,34,${(trail.life / 0.28) * 0.35})`;
+                        ctx.fillRect(
+                            trail.x - char.x - char.radius * 0.5,
+                            trail.y - char.y - char.radius * 0.5,
+                            char.radius,
+                            char.radius
+                        );
+                    }
+                    
+                    if (char.armorTimer > 0) {
+                        ctx.fillStyle = 'rgba(241,196,15,0.35)';
+                        ctx.beginPath();
+                        ctx.arc(0, 0, char.radius * 0.95, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        ctx.strokeStyle = 'rgba(241,196,15,0.9)';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                }
                 ctx.restore();
+                }
             }
             
             for (const ft of floatingTexts) {
@@ -3431,6 +5760,8 @@
             
             for (const char of characters) {
                 if (char.hp <= 0) continue;
+                // 变身中的模仿者由 currentForm.draw() 负责绘制名字/血量/蓄力条，避免重复绘制
+                if (char.currentForm && char.isTransforming) continue;
                 
                 const nameY = char.y - char.radius - 5;
                 const hpY = char.y - char.radius - 15;
@@ -3466,12 +5797,67 @@
                     ctx.fillText(`漏洞: ${char.bugCount}`, char.x, bugY);
                 }
                 
+                if (char.questions && char.questions > 0) {
+                    const questionY = char.y - char.radius - 30;
+                    ctx.fillStyle = '#00ffff';
+                    ctx.font = 'bold 12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('?' + '?'.repeat(char.questions - 1), char.x, questionY);
+                }
+                
+                if (char.oxidationStacks > 0) {
+                    ctx.fillStyle = '#9acd32';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`氧化 ${char.oxidationStacks}/5`, char.x, char.y - char.radius - 30);
+                }
+                
+                if (char.name === 'Liberty') {
+                    ctx.fillStyle = char.stance === 'freedom' ? '#f1c40f' : '#3498db';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(char.stance === 'freedom' ? '自由姿态' : '守护姿态', char.x, char.y - char.radius - 30);
+                    
+                    const pipY = char.y + char.radius + 12;
+                    for (let i = 0; i < 10; i++) {
+                        ctx.fillStyle = (char.libertyMeter || 0) >= (i + 1) * 10 ? '#f1c40f' : 'rgba(255,255,255,0.35)';
+                        ctx.fillRect(char.x - 21 + i * 4.5, pipY, 3, 6);
+                    }
+                }
+                
+                if (char.sugarStacks > 0) {
+                    ctx.fillStyle = '#e67e22';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`糖渍 ${char.sugarStacks}/4`, char.x, char.y - char.radius - 42);
+                }
+                
+                if (char.isNagged) {
+                    const nagY = char.y - char.radius - 45;
+                    ctx.fillStyle = '#e74c3c';
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('...', char.x, nagY);
+                }
+                
                 if (char.isTyping && char.currentTypingCode) {
                     const typedText = char.currentTypingCode.substring(0, char.typingIndex + 1);
                     ctx.fillStyle = char.color;
                     ctx.font = 'bold 14px Arial';
                     ctx.textAlign = 'center';
                     ctx.fillText(typedText + '|', char.x, char.y - char.radius - 50);
+                }
+                
+                // 陈智虫专属 UI：普通角色不走自身的 draw()，故在此统一绘制学习进度与状态
+                if (char.name === '陈智虫') {
+                    const learnY = char.y + char.radius + 14;
+                    ctx.fillStyle = '#2ecc71';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`学${char.learnCount} 伤+${char.learnDamage}`, char.x, learnY);
+                    
+                    ctx.fillStyle = char.isLearning ? '#9b59b6' : '#e74c3c';
+                    ctx.fillText(char.isLearning ? '学习中' : '战斗!', char.x, learnY + 12);
                 }
             }
             
@@ -3542,7 +5928,7 @@
                     
                     if (char.punishTarget && char.punishTarget.hp > 0) {
                         const orbitRadius = 80;
-                        const moveDist = (char.speed || BASE_SPEED) * gameSpeed * deltaTime * 60;
+                        const moveDist = (char.speed || BASE_SPEED) * 1.5 * gameSpeed * deltaTime * 60;
                         const angleIncrement = moveDist / orbitRadius;
                         char.punishStartAngle += angleIncrement;
                         
@@ -3555,8 +5941,9 @@
                         
                         char.x = newX;
                         char.y = newY;
-                        char.punishLastX = newX;
-                        char.punishLastY = newY;
+                        clampToBounds(char);
+                        char.punishLastX = char.x;
+                        char.punishLastY = char.y;
                         char.vx = 0;
                         char.vy = 0;
                         
@@ -3588,6 +5975,76 @@
             }
             
             for (const char of characters) char.update(characters, projectiles, floatingTexts);
+            
+            const questionNow = Date.now();
+            for (const char of characters) {
+                if (char.hp <= 0) continue;
+                
+                if (char.questions && char.questions > 0) {
+                    if (questionNow - char.lastQuestionTime >= 2000 / gameSpeed) {
+                        const damage = char.questions * 15;
+                        char.hp -= damage;
+                        
+                        const owner = characters.find(c => c.name === '陈智虫' && c.team !== char.team);
+                        showDamageText(char, damage, '#9b59b6', owner || null);
+                        
+                        if (owner) {
+                            owner.hp = Math.min(owner.maxHp, owner.hp + damage * 0.5);
+                        }
+                        
+                        char.lastQuestionTime = questionNow;
+                    }
+                }
+                
+                if (char.isNagged && questionNow < char.nagEndTime) {
+                    if (questionNow - char.lastNagDirectionChange >= 500 / gameSpeed) {
+                        char.vx *= -1;
+                        char.vy *= -1;
+                        char.lastNagDirectionChange = questionNow;
+                    }
+                } else {
+                    char.isNagged = false;
+                }
+                
+                // 氧化侵蚀：每层每秒造成 4 点伤害；每 2 秒缓慢衰减 1 层
+                if (char.oxidationStacks > 0) {
+                    const tickNow = Date.now();
+                    if (tickNow - (char.lastOxidationTick || 0) >= 1000 / gameSpeed) {
+                        char.lastOxidationTick = tickNow;
+                        const dotDamage = char.oxidationStacks * 4;
+                        char.hp -= dotDamage;
+                        if (char.hp < 0) char.hp = 0;
+                        showDamageText(char, dotDamage, '#e74c3c', char.oxidationSource || null);
+                    }
+                    
+                    if (tickNow - (char.lastOxidationDecay || 0) >= 2000 / gameSpeed) {
+                        char.lastOxidationDecay = tickNow;
+                        char.oxidationStacks = Math.max(0, char.oxidationStacks - 1);
+                        if (char.oxidationStacks <= 0) {
+                            char.lastOxidationTick = 0;
+                            char.lastOxidationDecay = 0;
+                        }
+                    }
+                }
+                
+                // 糖渍：每层每秒 3 点伤害；4 秒内未被刷新则消散
+                if (char.sugarStacks > 0) {
+                    const sugarNow = Date.now();
+                    if (sugarNow - (char.lastSugarTick || 0) >= 1000 / gameSpeed) {
+                        char.lastSugarTick = sugarNow;
+                        const sugarDamage = char.sugarStacks * 3;
+                        char.hp -= sugarDamage;
+                        if (char.hp < 0) char.hp = 0;
+                        showDamageText(char, sugarDamage, '#e74c3c', char.sugarSource || null);
+                    }
+                    
+                    if (sugarNow - (char.lastSugarStackTime || 0) >= 4000 / gameSpeed) {
+                        char.sugarStacks = 0;
+                        char.lastSugarTick = 0;
+                        char.lastSugarStackTime = 0;
+                    }
+                }
+            }
             
             for (const proj of projectiles) {
                 if (proj.type === 'laser') {
@@ -3681,6 +6138,16 @@
                             
                             if (proj.owner.name === '白蛋') {
                                 proj.owner.comboCount = Math.min(proj.owner.maxCombo, proj.owner.comboCount + 1);
+                            }
+                            
+                            const chalkSource = proj.owner.currentForm || proj.owner;
+                            
+                            if (proj.owner.name === '九氧化一磷' && char.team !== proj.owner.team) {
+                                chalkSource.applyOxidation(char, 1, floatingTexts);
+                            }
+                            
+                            if (proj.owner.name === 'Liberty' && char.team !== proj.owner.team && chalkSource.gainLiberty) {
+                                chalkSource.gainLiberty(4);
                             }
                             
                             proj.active = false;
@@ -3921,6 +6388,7 @@
                     
                     for (const char of characters) {
                         if (char === proj.owner || char.hp <= 0) continue;
+                        if (proj.skipTeamHit && proj.owner && char.team === proj.owner.team) continue;
                         
                         if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
                             const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
@@ -3964,6 +6432,215 @@
                     }
                 } else if (proj.type === 'whistleWave') {
                     proj.life -= gameSpeed * deltaTime;
+                } else if (proj.type === 'tracking') {
+                    proj.trail.push({ x: proj.x, y: proj.y });
+                    if (proj.trail.length > (proj.maxTrail || 10)) {
+                        proj.trail.shift();
+                    }
+                    
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
+                    
+                    if (proj.owner && proj.owner.target && proj.owner.target.hp > 0) {
+                        const target = proj.owner.target;
+                        const dx = target.x - proj.x;
+                        const dy = target.y - proj.y;
+                        const targetAngle = Math.atan2(dy, dx);
+                        const currentAngle = Math.atan2(proj.vy, proj.vx);
+                        const angleDiff = targetAngle - currentAngle;
+                        const clampedDiff = ((angleDiff % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+                        let adjustedDiff = clampedDiff;
+                        if (adjustedDiff > Math.PI) adjustedDiff -= Math.PI * 2;
+                        const newAngle = currentAngle + adjustedDiff * (proj.trackStrength || 0.02);
+                        const speed = Math.sqrt(proj.vx * proj.vx + proj.vy * proj.vy);
+                        proj.vx = Math.cos(newAngle) * speed;
+                        proj.vy = Math.sin(newAngle) * speed;
+                    }
+                    
+                    let bounced = false;
+                    if (proj.x < PADDING || proj.x > WIDTH - PADDING) {
+                        proj.vx *= -1;
+                        proj.x = Math.max(PADDING, Math.min(WIDTH - PADDING, proj.x));
+                        bounced = true;
+                    }
+                    if (proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                        proj.vy *= -1;
+                        proj.y = Math.max(PADDING, Math.min(HEIGHT - PADDING, proj.y));
+                        bounced = true;
+                    }
+                    
+                    if (bounced) {
+                        proj.bounces--;
+                        const speed = Math.sqrt(proj.vx * proj.vx + proj.vy * proj.vy);
+                        proj.vx = (proj.vx / speed) * speed * 0.7;
+                        proj.vy = (proj.vy / speed) * speed * 0.7;
+                        
+                        if (proj.bounces <= 0) {
+                            proj.life = 0;
+                            proj.active = false;
+                            continue;
+                        }
+                    }
+                    
+                    let hit = false;
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0) continue;
+                        
+                        if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
+                            const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                            showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                            proj.life = 0;
+                            proj.active = false;
+                            hit = true;
+                            break;
+                        }
+                        
+                        if (char.splits) {
+                            for (let j = 0; j < char.splits.length; j++) {
+                                const split = char.splits[j];
+                                if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
+                                    split.hp -= proj.damage;
+                                    showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                    proj.life = 0;
+                                    proj.active = false;
+                                    if (split.hp <= 0) {
+                                        char.splits.splice(j, 1);
+                                        j--;
+                                    }
+                                    hit = true;
+                                    break;
+                                }
+                            }
+                            if (hit) break;
+                        }
+                    }
+                } else if (proj.type === 'question') {
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
+                    
+                    if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
+                        proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                        proj.active = false;
+                        continue;
+                    }
+                    
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0) continue;
+                        
+                        if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
+                            if (!char.questions) char.questions = 0;
+                            if (char.questions < 3) {
+                                char.questions++;
+                                char.lastQuestionTime = Date.now();
+                            }
+                            proj.active = false;
+                            break;
+                        }
+                    }
+                } else if (proj.type === 'bullet') {
+                    proj.trail.push({ x: proj.x, y: proj.y });
+                    if (proj.trail.length > (proj.maxTrail || 10)) {
+                        proj.trail.shift();
+                    }
+                    
+                    proj.x += proj.vx * gameSpeed * deltaTime * 60;
+                    proj.y += proj.vy * gameSpeed * deltaTime * 60;
+                    
+                    if (proj.canBounce !== false) {
+                        let bounced = false;
+                        if (proj.x < PADDING || proj.x > WIDTH - PADDING) {
+                            proj.vx *= -1;
+                            proj.x = Math.max(PADDING, Math.min(WIDTH - PADDING, proj.x));
+                            bounced = true;
+                        }
+                        if (proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                            proj.vy *= -1;
+                            proj.y = Math.max(PADDING, Math.min(HEIGHT - PADDING, proj.y));
+                            bounced = true;
+                        }
+                        
+                        if (bounced) {
+                            proj.bounces--;
+                            const speed = Math.sqrt(proj.vx * proj.vx + proj.vy * proj.vy);
+                            proj.vx = (proj.vx / speed) * speed * 0.7;
+                            proj.vy = (proj.vy / speed) * speed * 0.7;
+                            
+                            if (proj.bounces <= 0) {
+                                proj.life = 0;
+                                proj.active = false;
+                                continue;
+                            }
+                        }
+                    } else {
+                        if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
+                            proj.y < PADDING || proj.y > HEIGHT - PADDING) {
+                            proj.life = 0;
+                            proj.active = false;
+                            continue;
+                        }
+                    }
+                    
+                    if (!proj.currentHitTargets) proj.currentHitTargets = [];
+                    
+                    const stillHitting = [];
+                    
+                    for (const char of characters) {
+                        if (char === proj.owner || char.hp <= 0) continue;
+                        
+                        const isColliding = checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius);
+                        
+                        if (isColliding) {
+                            stillHitting.push(char);
+                            
+                            if (!proj.currentHitTargets.includes(char)) {
+                                const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                                showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                                proj.currentHitTargets.push(char);
+                                proj.damage = Math.floor(proj.damage * 0.7);
+                                
+                                if (char.questions && char.questions > 0) {
+                                    char.questions--;
+                                }
+                                
+                                if (proj.currentHitTargets.length >= (proj.maxPenetrate || 3)) {
+                                    proj.life = 0;
+                                    proj.active = false;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (char.splits) {
+                            for (let j = 0; j < char.splits.length; j++) {
+                                const split = char.splits[j];
+                                const splitColliding = checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7);
+                                
+                                if (splitColliding) {
+                                    stillHitting.push(split);
+                                    
+                                    if (!proj.currentHitTargets.includes(split)) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        proj.currentHitTargets.push(split);
+                                        proj.damage = Math.floor(proj.damage * 0.7);
+                                        
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                        }
+                                        
+                                        if (proj.currentHitTargets.length >= (proj.maxPenetrate || 3)) {
+                                            proj.life = 0;
+                                            proj.active = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    proj.currentHitTargets = stillHitting;
                 } else if (proj.type === 'punish') {
                     proj.x += proj.vx * gameSpeed * deltaTime * 60;
                     proj.y += proj.vy * gameSpeed * deltaTime * 60;
@@ -4066,9 +6743,9 @@
                 }
             }
             
-            const now = Date.now();
+            const damageNow = Date.now();
             damageTracker.forEach((record, key) => {
-                if (now - record.lastTime >= DAMAGE_COMBINE_THRESHOLD / gameSpeed) {
+                if (damageNow - record.lastTime >= DAMAGE_COMBINE_THRESHOLD / gameSpeed) {
                     record.floatText.isComplete = true;
                     damageTracker.delete(key);
                 }
@@ -4150,6 +6827,8 @@
                         newSoldier.vy = (dy / dist) * newSoldier.speed;
                     }
                     
+                    normalizeVelocity(newSoldier);
+                    
                     characters.push(newSoldier);
                     queueEntry.totalSent++;
                     queueEntry.lastSpawnTime = now;
@@ -4181,10 +6860,27 @@
                 blueHp = Math.max(0, Math.round(aliveHp + remainingCount * 100));
             }
             
+            if (currentRedChar === 'SHUANGSHENG') {
+                redHp = Math.max(0, Math.round(
+                    characters.filter(c => c.team === 'red' && c.hp > 0).reduce((sum, c) => sum + c.hp, 0)
+                ));
+            }
+            if (currentBlueChar === 'SHUANGSHENG') {
+                blueHp = Math.max(0, Math.round(
+                    characters.filter(c => c.team === 'blue' && c.hp > 0).reduce((sum, c) => sum + c.hp, 0)
+                ));
+            }
+            
             document.getElementById('redHpDisplay').textContent = redHp;
             document.getElementById('blueHpDisplay').textContent = blueHp;
             
-            if (characters.length > 0 && (redAlive === 0 || blueAlive === 0)) {
+            const redNigeHasRemaining = nigeSpawnQueue.some(q => q.team === 'red' && q.totalSent < 10);
+            const blueNigeHasRemaining = nigeSpawnQueue.some(q => q.team === 'blue' && q.totalSent < 10);
+            
+            const redStillActive = redAlive > 0 || redNigeHasRemaining;
+            const blueStillActive = blueAlive > 0 || blueNigeHasRemaining;
+            
+            if (characters.length > 0 && (redStillActive === false || blueStillActive === false)) {
                 gameOver = true;
                 setImmersiveMode(false);
                 const winner = redAlive > 0 ? '红方' : '蓝方';
@@ -4227,7 +6923,7 @@
             
             resetRecords();
             
-            const charKeys = ['GUITOU', 'BAIDAN', 'MAONAI', 'HEIDAN', 'SHINIAN', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'NIGE'];
+            const charKeys = ['GUITOU', 'BAIDAN', 'MAONAI', 'HEIDAN', 'SHINIAN', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'SHIBING', 'NIGE', 'PO9', 'LIBERTY', 'TANGSHUI', 'MOFANGZHE', 'SHUANGSHENG'];
             autoTestQueue = [];
             
             for (let i = 0; i < charKeys.length; i++) {
@@ -4265,8 +6961,15 @@
                 HEZIHAN: HeZiHan,
                 DIKE: DiKeDeHeiDiao,
                 WENSHI: WenShiDaPeng,
+                SHIBING: ShiBing,
                 TEST: Test,
-                NIGE: NiGeJunTuan
+                NIGE: NiGeJunTuan,
+                CHENZHICHONG: ChenZhiChong,
+                MOFANGZHE: MoFangZhe,
+                PO9: PO9,
+                LIBERTY: Liberty,
+                TANGSHUI: TangShui,
+                SHUANGSHENG: MaoNai
             };
             
             characters = [];
@@ -4281,7 +6984,19 @@
             characters = [];
             nigeSpawnQueue = [];
             
-            if (match.red === 'NIGE') {
+            if (match.red === 'SHUANGSHENG') {
+                const mao = new MaoNai(160, 165, '#e74c3c', 'red', characters.length);
+                mao.hp = 500;
+                mao.maxHp = 500;
+                mao.isShuangshengUnit = true;
+                normalizeVelocity(mao);
+                characters.push(mao);
+                
+                const liu = new LiuChuanChuan(160, 235, '#e74c3c', 'red', characters.length);
+                liu.isShuangshengUnit = true;
+                normalizeVelocity(liu);
+                characters.push(liu);
+            } else if (match.red === 'NIGE') {
                 const legionId = ++nigeLegionCounter;
                 for (let i = 0; i < 3; i++) {
                     const offsetAngle = (Math.PI * 2 / 3) * i;
@@ -4305,7 +7020,19 @@
                 characters.push(redChar);
             }
             
-            if (match.blue === 'NIGE') {
+            if (match.blue === 'SHUANGSHENG') {
+                const mao = new MaoNai(240, 165, '#3498db', 'blue', characters.length);
+                mao.hp = 500;
+                mao.maxHp = 500;
+                mao.isShuangshengUnit = true;
+                normalizeVelocity(mao);
+                characters.push(mao);
+                
+                const liu = new LiuChuanChuan(240, 235, '#3498db', 'blue', characters.length);
+                liu.isShuangshengUnit = true;
+                normalizeVelocity(liu);
+                characters.push(liu);
+            } else if (match.blue === 'NIGE') {
                 const legionId = ++nigeLegionCounter;
                 for (let i = 0; i < 3; i++) {
                     const offsetAngle = (Math.PI * 2 / 3) * i;
@@ -4456,8 +7183,15 @@
                 HEZIHAN: HeZiHan,
                 DIKE: DiKeDeHeiDiao,
                 WENSHI: WenShiDaPeng,
+                SHIBING: ShiBing,
                 TEST: Test,
-                NIGE: NiGeJunTuan
+                NIGE: NiGeJunTuan,
+                CHENZHICHONG: ChenZhiChong,
+                MOFANGZHE: MoFangZhe,
+                PO9: PO9,
+                LIBERTY: Liberty,
+                TANGSHUI: TangShui,
+                SHUANGSHENG: MaoNai
             };
             
             const RedCharClass = charClasses[redType];
@@ -4469,7 +7203,21 @@
             characters = [];
             nigeSpawnQueue = [];
             
-            if (redType === 'NIGE') {
+            if (redType === 'SHUANGSHENG') {
+                const baseX = PADDING + mapWidth * 0.25;
+                const baseY = PADDING + mapHeight / 2;
+                const mao = new MaoNai(baseX, baseY - 35, '#e74c3c', 'red', characters.length);
+                mao.hp = 500;
+                mao.maxHp = 500;
+                mao.isShuangshengUnit = true;
+                normalizeVelocity(mao);
+                characters.push(mao);
+                
+                const liu = new LiuChuanChuan(baseX, baseY + 35, '#e74c3c', 'red', characters.length);
+                liu.isShuangshengUnit = true;
+                normalizeVelocity(liu);
+                characters.push(liu);
+            } else if (redType === 'NIGE') {
                 const legionId = ++nigeLegionCounter;
                 for (let i = 0; i < 3; i++) {
                     const offsetAngle = (Math.PI * 2 / 3) * i;
@@ -4495,7 +7243,21 @@
                 characters.push(new RedCharClass(PADDING + mapWidth * 0.25, PADDING + mapHeight / 2, '#e74c3c', 'red', 0));
             }
             
-            if (blueType === 'NIGE') {
+            if (blueType === 'SHUANGSHENG') {
+                const baseX = PADDING + mapWidth * 0.75;
+                const baseY = PADDING + mapHeight / 2;
+                const mao = new MaoNai(baseX, baseY - 35, '#3498db', 'blue', characters.length);
+                mao.hp = 500;
+                mao.maxHp = 500;
+                mao.isShuangshengUnit = true;
+                normalizeVelocity(mao);
+                characters.push(mao);
+                
+                const liu = new LiuChuanChuan(baseX, baseY + 35, '#3498db', 'blue', characters.length);
+                liu.isShuangshengUnit = true;
+                normalizeVelocity(liu);
+                characters.push(liu);
+            } else if (blueType === 'NIGE') {
                 const legionId = ++nigeLegionCounter;
                 for (let i = 0; i < 3; i++) {
                     const offsetAngle = (Math.PI * 2 / 3) * i;
@@ -4559,5 +7321,5 @@
         
         gameLoop();
     </script>
-
-</body></html>
+</body>
+</html>
