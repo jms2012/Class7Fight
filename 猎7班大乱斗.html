@@ -63,33 +63,79 @@
             flex-direction: column;
             gap: 10px;
         }
-        .char-panel {
+        .roster-panel {
             background: rgba(255,255,255,0.8);
-            padding: 8px;
+            padding: 10px;
             border-radius: 10px;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        .char-panel.red { border: 2px solid #e74c3c; }
-        .char-panel.blue { border: 2px solid #3498db; }
-        .char-panel h3 { margin-bottom: 8px; text-align: center; }
-        .char-panel.red h3 { color: #e74c3c; }
-        .char-panel.blue h3 { color: #3498db; }
-        .char-option {
+        .roster-panel h3 { text-align: center; color: #e74c3c; }
+        .asym-controls {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 6px 8px;
+            background: #eef3fb;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #333;
+        }
+        .asym-controls.show { display: flex; }
+        .asym-controls label {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 6px;
-            padding: 4px 6px;
-            margin: 2px 0;
-            border-radius: 5px;
-            cursor: pointer;
-            background: #f5f5f5;
-            font-size: 13px;
         }
-        .char-option:hover { background: #e8e8e8; }
-        .char-option.selected { background: #e74c3c; color: #fff; }
-        .char-option.blue-selected { background: #3498db; color: #fff; }
-        .char-option.disabled { opacity: 0.4; pointer-events: none; }
-        .char-option input[type="radio"] { display: none; }
+        .asym-controls select {
+            padding: 2px 6px;
+            border-radius: 5px;
+            border: 1px solid #b8c7e0;
+        }
+        .asym-balance { justify-content: flex-start !important; }
+        .slot-area { display: flex; flex-direction: column; gap: 6px; }
+        .team-slots { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+        .team-slots-label { font-size: 12px; font-weight: bold; min-width: 34px; }
+        .slot-btn {
+            flex: 1 1 auto;
+            min-width: 105px;
+            padding: 5px 6px;
+            font-size: 11px;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+            background: #f5f5f5;
+            cursor: pointer;
+            text-align: left;
+            color: #333;
+            transition: all 0.2s;
+        }
+        .slot-btn.active { background: #fff; font-weight: bold; }
+        .slot-btn.empty { color: #999; font-style: italic; }
+        .slot-clear { margin-left: 4px; color: #c0392b; font-weight: bold; }
+        .roster-hint { min-height: 14px; font-size: 11px; color: #c0392b; text-align: center; }
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 2px;
+        }
+        .role-card {
+            padding: 5px 6px;
+            font-size: 12px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .role-card:hover { background: #e8e8e8; }
+        .role-card.disabled { opacity: 0.35; pointer-events: none; }
         .btn-panel {
             display: flex;
             flex-direction: column;
@@ -238,163 +284,91 @@
             margin-bottom: 20px;
             color: #666;
         }
+        .mode-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 6px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 12px;
+        }
+        .mode-btn {
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-btn:hover { background: #eef2fa; }
+        .mode-btn.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+        }
+        .stat-value.green-team { color: #2ecc71; }
+        .stat-value.yellow-team { color: #d4ac0d; }
+        .endless-stats {
+            display: none;
+            gap: 16px;
+            font-size: 13px;
+            justify-content: center;
+            background: rgba(255,255,255,0.8);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        .endless-stats b { color: #e74c3c; }
+        .codex-entry {
+            padding: 3px 10px;
+            font-size: 11px;
+            background: linear-gradient(135deg, #3498db, #2471a3);
+            border-radius: 5px;
+            color: #fff;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .codex-entry:hover { background: linear-gradient(135deg, #5dade2, #2e86c1); }
     </style>
 </head>
 <body>
     <h1>猎7班大乱斗</h1>
     
+    <div class="mode-bar">
+        <button class="mode-btn active" data-mode="classic" onclick="setMode('classic')">经典 1v1</button>
+        <button class="mode-btn" data-mode="2v2" onclick="setMode('2v2')">2v2 队伍战</button>
+        <button class="mode-btn" data-mode="ffa" onclick="setMode('ffa')">4 方混战</button>
+        <button class="mode-btn" data-mode="endless" onclick="setMode('endless')">无尽军团</button>
+        <button class="mode-btn" data-mode="asym" onclick="setMode('asym')">非对称竞技</button>
+    </div>
+    
     <div class="main-layout">
         <div class="left-panel">
-            <div class="char-panel red">
-                <h3>红方选择</h3>
-                <label class="char-option selected">
-                    <input type="radio" name="redChar" value="GUITOU" checked>
-                    <span>鬼头遗言</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="BAIDAN">
-                    <span>白蛋</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="MAONAI">
-                    <span>猫奶</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="HEIDAN">
-                    <span>黑蛋</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="SHINIAN">
-                    <span>十年之后</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="MABA">
-                    <span>马八</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="HEZIHAN">
-                    <span>盒子含</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="DIKE">
-                    <span>低客的黑调</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="WENSHI">
-                    <span>温室大棚</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="TEST">
-                    <span>测试</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="SHIBING">
-                    <span>陈治宏</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="NIGE">
-                    <span>尼格军团</span>
-                </label>
-                <label class="char-option disabled">
-                    <input type="radio" name="redChar" value="CHENZHICHONG">
-                    <span>陈智虫</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="MOFANGZHE">
-                    <span>魔怔鸡</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="PO9">
-                    <span>九氧化一磷</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="LIBERTY">
-                    <span>Liberty</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="TANGSHUI">
-                    <span>糖水</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="redChar" value="SHUANGSHENG">
-                    <span>双生·猫日</span>
-                </label>
-            </div>
-            
-            <div class="char-panel blue">
-                <h3>蓝方选择</h3>
-                <label class="char-option blue-selected">
-                    <input type="radio" name="blueChar" value="GUITOU" checked>
-                    <span>鬼头遗言</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="BAIDAN">
-                    <span>白蛋</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="MAONAI">
-                    <span>猫奶</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="HEIDAN">
-                    <span>黑蛋</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="SHINIAN">
-                    <span>十年之后</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="MABA">
-                    <span>马八</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="HEZIHAN">
-                    <span>盒子含</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="DIKE">
-                    <span>低客的黑调</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="WENSHI">
-                    <span>温室大棚</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="TEST">
-                    <span>测试</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="SHIBING">
-                    <span>陈治宏</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="NIGE">
-                    <span>尼格军团</span>
-                </label>
-                <label class="char-option disabled">
-                    <input type="radio" name="blueChar" value="CHENZHICHONG">
-                    <span>陈智虫</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="MOFANGZHE">
-                    <span>魔怔鸡</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="PO9">
-                    <span>九氧化一磷</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="LIBERTY">
-                    <span>Liberty</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="TANGSHUI">
-                    <span>糖水</span>
-                </label>
-                <label class="char-option">
-                    <input type="radio" name="blueChar" value="SHUANGSHENG">
-                    <span>双生·猫日</span>
-                </label>
+            <div class="roster-panel">
+                <h3>角色选择</h3>
+                <div class="asym-controls" id="asymControls">
+                    <label>红方人数
+                        <select id="asymRedCount">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </label>
+                    <label>蓝方人数
+                        <select id="asymBlueCount">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </label>
+                    <label class="asym-balance">
+                        <input type="checkbox" id="asymBalance" checked> 少人方生命 + 攻击补偿
+                    </label>
+                </div>
+                <div class="slot-area" id="slotArea"></div>
+                <div class="roster-hint" id="rosterHint"></div>
+                <div class="role-grid" id="roleGrid"></div>
             </div>
         </div>
         
@@ -425,6 +399,20 @@
                         <span>蓝方:</span>
                         <span class="stat-value blue-team" id="blueHpDisplay">1000</span>
                     </div>
+                    <div class="stat-item" id="greenHpItem" style="display:none;">
+                        <span>绿方:</span>
+                        <span class="stat-value green-team" id="greenHpDisplay">1000</span>
+                    </div>
+                    <div class="stat-item" id="yellowHpItem" style="display:none;">
+                        <span>黄方:</span>
+                        <span class="stat-value yellow-team" id="yellowHpDisplay">1000</span>
+                    </div>
+                </div>
+                
+                <div class="endless-stats" id="endlessStats">
+                    <span>出兵: <b id="endlessSpawned">0</b></span>
+                    <span>击杀: <b id="endlessKilled">0</b></span>
+                    <span>存活: <b id="endlessTime">0.0s</b></span>
                 </div>
             </div>
         </div>
@@ -443,6 +431,7 @@
                     <span class="record-label">总场次:</span>
                     <span class="record-value" id="totalMatchCount">0</span>
                 </div>
+                <a class="codex-entry" href="图鉴.html" target="_blank" rel="noopener">角色图鉴</a>
                 <button class="reset-btn" onclick="resetRecords()">重置记录</button>
             </div>
             
@@ -488,8 +477,62 @@
         let redWinCount = 0;
         let blueWinCount = 0;
         
+        const TEAM_ORDER = ['red', 'blue', 'green', 'yellow'];
+        const TEAM_CONFIG = {
+            red:    { name: '红方', color: '#e74c3c' },
+            blue:   { name: '蓝方', color: '#3498db' },
+            green:  { name: '绿方', color: '#2ecc71' },
+            yellow: { name: '黄方', color: '#f1c40f' }
+        };
+        function hexToRgba(hex, alpha) {
+            const value = parseInt(hex.slice(1), 16);
+            const r = (value >> 16) & 255;
+            const g = (value >> 8) & 255;
+            const b = value & 255;
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+        
+        let currentMode = 'classic';
+        let matchTeams = {};
+        let endlessStats = { spawned: 0, killed: 0, startedAt: 0 };
+        
+        const ROLE_LIST = [
+            { key: 'GUITOU', name: '鸡头发言' },
+            { key: 'BAIDAN', name: '白蛋' },
+            { key: 'MAONAI', name: '猫奶' },
+            { key: 'HEIDAN', name: '黑蛋' },
+            { key: 'SHINIAN', name: '十年之后' },
+            { key: 'MABA', name: '马八' },
+            { key: 'HEZIHAN', name: '盒子含' },
+            { key: 'DIKE', name: '低客的黑调' },
+            { key: 'WENSHI', name: '温室大棚' },
+            { key: 'TEST', name: '测试' },
+            { key: 'SHIBING', name: '陈治宏' },
+            { key: 'NIGE', name: '尼格军团' },
+            { key: 'MOFANGZHE', name: '魔怔鸡' },
+            { key: 'PO9', name: '九氧化一磷' },
+            { key: 'LIBERTY', name: 'Liberty' },
+            { key: 'TANGSHUI', name: '糖水' },
+            { key: 'SHUANGSHENG', name: '双生·猫日' },
+            { key: 'SHUANGSHINIAN', name: '双生·十年' },
+            { key: 'DENGJIE', name: '邓杰' }
+        ];
+        const ROLE_NAME_MAP = Object.fromEntries(ROLE_LIST.map(role => [role.key, role.name]));
+
+        let selectionState = {
+            red: ['GUITOU', 'BAIDAN', 'HEIDAN'],
+            blue: ['GUITOU', 'HEIDAN', 'BAIDAN'],
+            green: ['PO9', null, null],
+            yellow: ['LIBERTY', null, null]
+        };
+        let asymTeamSize = { red: 1, blue: 2 };
+        let asymBalanceEnabled = true;
+        let activeSlot = { team: 'red', index: 0 };
+        let matchHandicap = { red: 1, blue: 1, green: 1, yellow: 1 };
+        let matchAttackHandicap = { red: 1, blue: 1, green: 1, yellow: 1 };
+        
         let charRecords = {
-            GUITOU: { name: '鬼头遗言', matches: 0, wins: 0, losses: 0 },
+            GUITOU: { name: '鸡头发言', matches: 0, wins: 0, losses: 0 },
             BAIDAN: { name: '白蛋', matches: 0, wins: 0, losses: 0 },
             MAONAI: { name: '猫奶', matches: 0, wins: 0, losses: 0 },
             HEIDAN: { name: '黑蛋', matches: 0, wins: 0, losses: 0 },
@@ -506,6 +549,8 @@
             LIBERTY: { name: 'Liberty', matches: 0, wins: 0, losses: 0 },
             TANGSHUI: { name: '糖水', matches: 0, wins: 0, losses: 0 },
             SHUANGSHENG: { name: '双生·猫日', matches: 0, wins: 0, losses: 0 },
+            SHUANGSHINIAN: { name: '双生·十年', matches: 0, wins: 0, losses: 0 },
+            DENGJIE: { name: '邓杰', matches: 0, wins: 0, losses: 0 },
             TEST: { name: '测试', matches: 0, wins: 0, losses: 0 }
         };
         
@@ -522,7 +567,7 @@
         let autoTestCurrentGame = 0;
         let autoTestOriginalSpeed = 0.8;
         
-        const DAMAGE_COMBINE_THRESHOLD = 150;
+        const DAMAGE_COMBINE_THRESHOLD = 300;
         const BASE_SPEED = 0.8;
         const damageTracker = new Map();
         
@@ -553,18 +598,187 @@
             document.getElementById('speedValue').textContent = gameSpeed.toFixed(1) + 'x';
         });
         
-        document.querySelectorAll('.char-option').forEach(opt => {
-            opt.addEventListener('click', function() {
-                const panel = this.closest('.char-panel');
-                panel.querySelectorAll('.char-option').forEach(o => {
-                    o.classList.remove('selected', 'blue-selected');
-                });
-                if (panel.classList.contains('red')) {
-                    this.classList.add('selected');
-                } else {
-                    this.classList.add('blue-selected');
+        function getVisibleTeams() {
+            return currentMode === 'ffa' ? ['red', 'blue', 'green', 'yellow'] : ['red', 'blue'];
+        }
+        
+        function getTeamSlotCount(team) {
+            switch (currentMode) {
+                case '2v2':
+                    return team === 'red' || team === 'blue' ? 2 : 0;
+                case 'ffa':
+                    return getVisibleTeams().includes(team) ? 1 : 0;
+                case 'endless':
+                    return team === 'red' ? 1 : 0;
+                case 'asym':
+                    if (team === 'red') return asymTeamSize.red;
+                    if (team === 'blue') return asymTeamSize.blue;
+                    return 0;
+                default:
+                    return team === 'red' || team === 'blue' ? 1 : 0;
+            }
+        }
+        
+        function buildRosterHint(teams) {
+            for (const team of teams) {
+                const count = getTeamSlotCount(team);
+                for (let i = 0; i < count; i++) {
+                    if (!selectionState[team][i]) return '请为所有槽位选择角色';
                 }
+            }
+            
+            if (currentMode === 'asym') {
+                const redCount = asymTeamSize.red;
+                const blueCount = asymTeamSize.blue;
+                const summary = `红方 ${redCount} 人 vs 蓝方 ${blueCount} 人`;
+                if (redCount === blueCount) return summary;
+                if (!asymBalanceEnabled) return `${summary}（未开启人数补偿）`;
+                const bonus = computeAsymBonus(redCount, blueCount);
+                const weakSide = bonus.side === 'red' ? '红方' : '蓝方';
+                const hpBonus = (bonus.hp - 1) * 100;
+                const atkBonus = (bonus.atk - 1) * 100;
+                return `${summary}（${weakSide}生命 +${hpBonus.toFixed(0)}%、攻击 +${atkBonus.toFixed(0)}%）`;
+            }
+            
+            return '';
+        }
+        
+        function renderRoster() {
+            const usedTeams = getVisibleTeams().filter(team => getTeamSlotCount(team) > 0);
+            if (!usedTeams.includes(activeSlot.team) || activeSlot.index >= getTeamSlotCount(activeSlot.team)) {
+                activeSlot = { team: usedTeams[0] || 'red', index: 0 };
+            }
+            
+            const slotArea = document.getElementById('slotArea');
+            slotArea.innerHTML = usedTeams.map(team => {
+                const count = getTeamSlotCount(team);
+                const config = TEAM_CONFIG[team];
+                let buttons = '';
+                for (let i = 0; i < count; i++) {
+                    const roleKey = selectionState[team][i];
+                    const isActive = activeSlot.team === team && activeSlot.index === i;
+                    const label = roleKey ? ROLE_NAME_MAP[roleKey] : '未选择';
+                    const slotStyle = isActive
+                        ? `border-color:${config.color};box-shadow:0 0 0 2px ${hexToRgba(config.color, 0.35)};background:${hexToRgba(config.color, 0.08)};font-weight:bold;`
+                        : `border-color:${hexToRgba(config.color, 0.45)}`;
+                    buttons += `<button class="slot-btn${isActive ? ' active' : ''}${roleKey ? '' : ' empty'}" style="${slotStyle}" onclick="selectSlot('${team}', ${i})">${i + 1}. ${label}</button>`;
+                }
+                return `<div class="team-slots"><span class="team-slots-label" style="color:${config.color}">${config.name}</span>${buttons}</div>`;
+            }).join('');
+            
+            const team = activeSlot.team;
+            const slotCount = getTeamSlotCount(team);
+            const activeRole = selectionState[team][activeSlot.index];
+            const assignedRoles = new Set();
+            for (let i = 0; i < slotCount; i++) {
+                if (selectionState[team][i]) assignedRoles.add(selectionState[team][i]);
+            }
+            
+            const teamColor = TEAM_CONFIG[team].color;
+            const roleGrid = document.getElementById('roleGrid');
+            roleGrid.innerHTML = ROLE_LIST.map(role => {
+                const isActiveRole = activeRole === role.key;
+                const isAssigned = assignedRoles.has(role.key);
+                const cls = `role-card${isActiveRole ? ' active-role' : ''}${isAssigned && !isActiveRole ? ' assigned' : ''}`;
+                let cardStyle;
+                if (isActiveRole) {
+                    cardStyle = `background:${teamColor};border-color:${teamColor};color:#fff;`;
+                } else if (isAssigned) {
+                    cardStyle = `background:${hexToRgba(teamColor, 0.12)};border-color:${hexToRgba(teamColor, 0.55)};`;
+                } else {
+                    cardStyle = `border-color:${hexToRgba(teamColor, 0.3)};`;
+                }
+                return `<div class="${cls}" style="${cardStyle}" onclick="assignRole('${role.key}')">${role.name}</div>`;
+            }).join('');
+            
+            document.getElementById('rosterHint').textContent = buildRosterHint(usedTeams);
+        }
+        
+        function selectSlot(team, index) {
+            activeSlot = { team, index };
+            renderRoster();
+        }
+        
+        function assignRole(roleKey) {
+            const team = activeSlot.team;
+            const slotCount = getTeamSlotCount(team);
+            const slotIndex = activeSlot.index;
+            const slots = selectionState[team];
+            
+            if (slots[slotIndex] === roleKey) {
+                renderRoster();
+                return;
+            }
+            
+            // 同队不可重复：若该角色已在同队其他槽位，则两个槽位互换
+            const otherIndex = slots.findIndex((key, index) => index < slotCount && index !== slotIndex && key === roleKey);
+            if (otherIndex !== -1) {
+                slots[otherIndex] = slots[slotIndex] || null;
+            }
+            slots[slotIndex] = roleKey;
+            renderRoster();
+        }
+        
+        // 切换模式时清空当前对局，回到待开局状态
+        function resetMatchState() {
+            characters = [];
+            projectiles = [];
+            floatingTexts = [];
+            nigeSpawnQueue = [];
+            damageTracker.clear();
+            gameOver = false;
+            isPaused = false;
+            matchTeams = {};
+            matchHandicap = { red: 1, blue: 1, green: 1, yellow: 1 };
+            matchAttackHandicap = { red: 1, blue: 1, green: 1, yellow: 1 };
+            endlessStats = { spawned: 0, killed: 0, startedAt: 0 };
+            
+            document.getElementById('gameOverOverlay').style.display = 'none';
+            document.getElementById('redHpDisplay').textContent = '0';
+            document.getElementById('blueHpDisplay').textContent = '0';
+            document.getElementById('greenHpDisplay').textContent = '0';
+            document.getElementById('yellowHpDisplay').textContent = '0';
+            document.getElementById('endlessSpawned').textContent = '0';
+            document.getElementById('endlessKilled').textContent = '0';
+            document.getElementById('endlessTime').textContent = '0.0s';
+            
+            const pauseBtn = document.querySelector('button[onclick="togglePause()"]');
+            if (pauseBtn) pauseBtn.textContent = '暂停';
+            
+            setImmersiveMode(false);
+        }
+        
+        function setMode(mode) {
+            currentMode = mode;
+            resetMatchState();
+            
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
             });
+            
+            document.getElementById('asymControls').classList.toggle('show', mode === 'asym');
+            
+            const isFfa = mode === 'ffa';
+            document.getElementById('greenHpItem').style.display = isFfa ? 'flex' : 'none';
+            document.getElementById('yellowHpItem').style.display = isFfa ? 'flex' : 'none';
+            document.getElementById('endlessStats').style.display = mode === 'endless' ? 'flex' : 'none';
+            
+            renderRoster();
+        }
+        
+        document.getElementById('asymRedCount').addEventListener('change', function(e) {
+            asymTeamSize.red = parseInt(e.target.value, 10);
+            renderRoster();
+        });
+        
+        document.getElementById('asymBlueCount').addEventListener('change', function(e) {
+            asymTeamSize.blue = parseInt(e.target.value, 10);
+            renderRoster();
+        });
+        
+        document.getElementById('asymBalance').addEventListener('change', function(e) {
+            asymBalanceEnabled = e.target.checked;
+            renderRoster();
         });
         
         function distance(x1, y1, x2, y2) {
@@ -586,6 +800,11 @@
         }
         
         function checkSquareCollision(a, b) {
+            // 上升中的 20 处于空中，不与任何角色发生碰撞
+            if (a.ignoreBodyCollision || b.ignoreBodyCollision) {
+                return { collision: false };
+            }
+            
             const dx = b.x - a.x;
             const dy = b.y - a.y;
             const absDx = Math.abs(dx);
@@ -647,12 +866,58 @@
             }
         }
         
+        // 同队角色之间也应该有物理碰撞（只分离、不造成伤害）
+        // 各角色自身的 checkCollision 会跳过同队，因此这里统一结算同队重叠与反弹
+        function resolveSameTeamCollisions() {
+            for (let i = 0; i < characters.length; i++) {
+                const a = characters[i];
+                if (a.hp <= 0 || a.ignoreBodyCollision || (a.slamState && a.slamState !== 'idle')) continue;
+                
+                for (let j = i + 1; j < characters.length; j++) {
+                    const b = characters[j];
+                    if (b.hp <= 0 || a.team !== b.team) continue;
+                    if (b.ignoreBodyCollision || (b.slamState && b.slamState !== 'idle')) continue;
+                    // 双生双单位之间的碰撞已由各自角色的 checkCollision 处理，避免重复反弹
+                    if ((a.isTwinTenUnit && b.isTwinTenUnit) || (a.isShuangshengUnit && b.isShuangshengUnit)) continue;
+                    
+                    const dx = b.x - a.x;
+                    const dy = b.y - a.y;
+                    const combinedRadius = (a.radius || 10) + (b.radius || 10);
+                    if (dx * dx + dy * dy >= combinedRadius * combinedRadius) continue;
+                    
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const nx = dist > 0.001 ? dx / dist : 1;
+                    const ny = dist > 0.001 ? dy / dist : 0;
+                    const overlap = combinedRadius - dist + 0.5;
+                    
+                    a.x -= nx * overlap * 0.5;
+                    a.y -= ny * overlap * 0.5;
+                    b.x += nx * overlap * 0.5;
+                    b.y += ny * overlap * 0.5;
+                    
+                    clampToBounds(a);
+                    clampToBounds(b);
+                    
+                    const relativeNormalSpeed = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+                    if (relativeNormalSpeed < 0) {
+                        a.vx += relativeNormalSpeed * nx;
+                        a.vy += relativeNormalSpeed * ny;
+                        b.vx -= relativeNormalSpeed * nx;
+                        b.vy -= relativeNormalSpeed * ny;
+                        normalizeVelocity(a);
+                        normalizeVelocity(b);
+                    }
+                }
+            }
+        }
+        
         function findNearestEnemy(self, chars) {
             let nearest = null;
             let minDist = Infinity;
             
             for (const c of chars) {
                 if (c === self || c.hp <= 0 || c.team === self.team) continue;
+                if (c.untargetable) continue;
                 
                 const dx = c.x - self.x;
                 const dy = c.y - self.y;
@@ -667,7 +932,60 @@
             return nearest;
         }
         
+        const TWIN_REGEN_INTERVAL = 2000;
+        const TWIN_REGEN_AMOUNT = 8;
+        const TWIN_ENRAGE_MULTIPLIER = 1.5;
+        
+        // 罚跑压制：被罚跑的角色行动速度与造成的伤害均下降
+        const PUNISH_ACTION_SPEED_FACTOR = 0.7;
+        const PUNISH_DAMAGE_FACTOR = 0.7;
+        
+        // 双生羁绊：两人存活时间隔回血，同伴阵亡后攻击提升
+        function updateTwinBond(unit, twinFlag, allChars) {
+            let partnerAlive = false;
+            for (const c of allChars) {
+                if (c === unit || c.hp <= 0 || c.team !== unit.team || !c[twinFlag]) continue;
+                partnerAlive = true;
+                break;
+            }
+            
+            if (partnerAlive) {
+                const now = Date.now();
+                if (!unit.lastTwinRegenTime) unit.lastTwinRegenTime = now;
+                if (now - unit.lastTwinRegenTime >= TWIN_REGEN_INTERVAL / gameSpeed) {
+                    unit.lastTwinRegenTime = now;
+                    const healed = Math.min(TWIN_REGEN_AMOUNT, unit.maxHp - unit.hp);
+                    if (healed > 0) {
+                        unit.hp += healed;
+                        showDamageText(unit, -healed, '#2ecc71', unit);
+                    }
+                }
+                return;
+            }
+            
+            unit.partnerDead = true;
+        }
+        
         function showDamageText(target, damage, color, attacker) {
+            if (damage === 0) return;
+            // 罚跑压制：被罚跑的角色造成的伤害降低（伤害已先结算，这里按比例退还）
+            if (damage > 0 && attacker && attacker.punishTimer > 0 && target.hp > 0) {
+                const reduced = Math.max(1, Math.round(damage * PUNISH_DAMAGE_FACTOR));
+                if (reduced < damage) {
+                    target.hp += damage - reduced;
+                    damage = reduced;
+                }
+            }
+            
+            // 非对称攻击增益：少人方造成的伤害提升（伤害已先结算，这里补扣差额）
+            if (damage > 0 && attacker && attacker !== target && attacker.attackMultiplier > 1 && target.hp > 0) {
+                const boosted = Math.round(damage * attacker.attackMultiplier);
+                if (boosted > damage) {
+                    target.hp = Math.max(0, target.hp - (boosted - damage));
+                    damage = boosted;
+                }
+            }
+            
             if (damage < 0) {
                 const now = Date.now();
                 const key = attacker ? `${attacker.name}-${target.name}-${attacker.team}-${target.team}-heal` : `${target.name}-heal`;
@@ -688,7 +1006,7 @@
                         x: target.x,
                         y: target.y - 20,
                         text: `+${Math.round(record.totalDamage)}`,
-                        color: color,
+                        color: '#2ecc71',
                         alpha: 1,
                         vy: -0.5,
                         life: 2,
@@ -708,7 +1026,7 @@
                         x: target.x,
                         y: target.y - 20,
                         text: `+${Math.round(-damage)}`,
-                        color: color,
+                        color: '#2ecc71',
                         alpha: 1,
                         vy: -0.5,
                         life: 2,
@@ -791,7 +1109,7 @@
                 this.x = x;
                 this.y = y;
                 this.id = id;
-                this.name = '鬼头遗言';
+                this.name = '鸡头发言';
                 this.color = color;
                 this.maxHp = 1000;
                 this.hp = 1000;
@@ -1013,10 +1331,10 @@
                 if (!otherChar) return;
                 
                 const baseAngle = Math.atan2(otherChar.y - this.y, otherChar.x - this.x);
-                const spreadAngle = (Math.random() - 0.5) * 0.4;
+                const spreadAngle = (Math.random() - 0.5) * 0.2;
                 const angle = baseAngle + spreadAngle;
                 
-                let baseDamage = Math.floor(Math.random() * 41) + 40;
+                let baseDamage = Math.floor(Math.random() * 31) + 50;
                 if (this.comboCount > 0) {
                     baseDamage = Math.floor(baseDamage * (1 + this.comboCount * this.comboBonus));
                 }
@@ -1447,8 +1765,9 @@
                 this.vx = Math.cos(this.moveAngle) * this.currentSpeed;
                 this.vy = Math.sin(this.moveAngle) * this.currentSpeed;
                 
-                this.baseAttack = 20;
+                this.baseAttack = 16;
                 this.attackBonus = 0;
+                this.partnerDead = false;
                 
                 this.lastAttackTime = Date.now();
                 this.attackInterval = 2200;
@@ -1478,6 +1797,7 @@
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
+                updateTwinBond(this, 'isTwinTenUnit', allChars);
                 
                 const now = Date.now();
                 
@@ -1526,7 +1846,7 @@
                 this.lastAttackTime = now;
                 
                 const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
-                const damage = this.baseAttack + this.attackBonus;
+                const damage = Math.round((this.baseAttack + this.attackBonus) * (this.partnerDead ? TWIN_ENRAGE_MULTIPLIER : 1));
                 
                 projList.push({
                     type: 'timePulse',
@@ -1566,7 +1886,11 @@
             
             checkCollision(chars, floatTexts) {
                 for (const c of chars) {
-                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    if (c === this || c.hp <= 0) continue;
+                    if (c.slamState && c.slamState !== 'idle') continue;
+                    
+                    const sameTeam = c.team === this.team;
+                    if (sameTeam && !(this.isTwinTenUnit && c.isTwinTenUnit)) continue;
                     
                     if (c.id > this.id) continue;
                     
@@ -1697,10 +2021,16 @@
                         this.y = bestRecord.y;
                         this.vx = bestRecord.vx;
                         this.vy = bestRecord.vy;
-                        this.hp = bestRecord.hp;
+                        const restoredHp = bestRecord.hp;
+                        const healAmount = restoredHp - this.hp;
+                        this.hp = restoredHp;
                         this.attackBonus = bestRecord.attackBonus;
                         this.timeCorruption = bestRecord.timeCorruption;
                         this.hasBacktracked = true;
+                        
+                        if (healAmount > 0) {
+                            showDamageText(this, -healAmount, '#2ecc71', this);
+                        }
                         
                         floatTexts.push({
                             x: this.x,
@@ -1786,6 +2116,242 @@
             }
         }
         
+        // 双生·十年的第二形态：20，定期飞至敌人头顶并砸落
+        class ErShi {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '20';
+                this.radius = 20;
+                this.hp = 500;
+                this.maxHp = 500;
+                this.speed = BASE_SPEED;
+                
+                const angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(angle) * this.speed;
+                this.vy = Math.sin(angle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.target = null;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                
+                // 砸击状态机：idle → ascend → dive → recover → idle
+                this.slamState = 'idle';
+                this.slamInterval = 2500;
+                this.lastSlamTime = Date.now();
+                this.slamRadius = 60;
+                this.slamDamage = 50;
+                this.slamTarget = null;
+                this.slamAnchorX = 0;
+                this.slamAnchorY = 0;
+                this.slamImpactX = 0;
+                this.slamImpactY = 0;
+                this.slamStartX = 0;
+                this.slamStartY = 0;
+                this.slamPhaseTime = 0;
+                this.slamAscendDuration = 700;
+                this.slamDiveDuration = 180;
+                this.slamRecoverDuration = 350;
+                this.slamFx = 0;
+                this.isTwinTenUnit = false;
+                this.ignoreBodyCollision = false;
+                this.partnerDead = false;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                updateTwinBond(this, 'isTwinTenUnit', allChars);
+                this.slamFx = Math.max(0, this.slamFx - gameSpeed * deltaTime);
+                
+                const now = Date.now();
+                
+                if (this.slamState === 'idle') {
+                    this.target = findNearestEnemy(this, allChars);
+                    this.checkCollision(allChars);
+                    this.move();
+                    
+                    if (this.target && now - this.lastSlamTime >= this.slamInterval / gameSpeed) {
+                        this.beginSlam(now);
+                    }
+                    return;
+                }
+                
+                if (this.slamState === 'ascend') {
+                    if (!this.slamTarget || this.slamTarget.hp <= 0) {
+                        this.slamState = 'idle';
+                        this.slamTarget = null;
+                        this.lastSlamTime = now;
+                        this.ignoreBodyCollision = false;
+                        return;
+                    }
+                    
+                    const t = Math.min(1, (now - this.slamPhaseTime) / (this.slamAscendDuration / gameSpeed));
+                    const eased = t * t * (3 - 2 * t); // smoothstep 缓动
+                    this.x = this.slamStartX + (this.slamAnchorX - this.slamStartX) * eased;
+                    this.y = this.slamStartY + (this.slamAnchorY - this.slamStartY) * eased;
+                    this.vx = 0;
+                    this.vy = 0;
+                    clampToBounds(this);
+                    
+                    if (t >= 1) {
+                        this.slamState = 'dive';
+                        this.slamPhaseTime = now;
+                        this.slamStartX = this.x;
+                        this.slamStartY = this.y;
+                    }
+                    return;
+                }
+                
+                if (this.slamState === 'dive') {
+                    const t = Math.min(1, (now - this.slamPhaseTime) / (this.slamDiveDuration / gameSpeed));
+                    const eased = t * t; // ease-in 加速下砸
+                    // 从正上方沿 z 轴垂直砸落，x 保持锁定值
+                    this.x = this.slamImpactX;
+                    this.y = this.slamStartY + (this.slamImpactY - this.slamStartY) * eased;
+                    this.vx = 0;
+                    this.vy = 0;
+                    clampToBounds(this);
+                    
+                    if (t >= 1) {
+                        this.resolveSlam(allChars, floatTexts);
+                        this.ignoreBodyCollision = false;
+                        this.slamState = 'recover';
+                        this.slamPhaseTime = now;
+                        this.slamFx = 0.45;
+                        this.lastSlamTime = now;
+                        this.slamTarget = null;
+                    }
+                    return;
+                }
+                
+                if (this.slamState === 'recover') {
+                    if (now - this.slamPhaseTime >= this.slamRecoverDuration / gameSpeed) {
+                        this.slamState = 'idle';
+                        const a = Math.random() * Math.PI * 2;
+                        this.vx = Math.cos(a) * this.speed;
+                        this.vy = Math.sin(a) * this.speed;
+                        normalizeVelocity(this);
+                    }
+                }
+            }
+            
+            beginSlam(now) {
+                this.slamState = 'ascend';
+                this.slamPhaseTime = now;
+                this.slamStartX = this.x;
+                this.slamStartY = this.y;
+                this.slamTarget = this.target;
+                this.ignoreBodyCollision = true;
+                // 目标位置只在发动时锁定一次
+                const target = this.slamTarget;
+                this.slamImpactX = target.x;
+                this.slamImpactY = target.y;
+                this.slamAnchorX = target.x;
+                this.slamAnchorY = Math.max(
+                    PADDING + this.radius,
+                    target.y - target.radius - this.radius - 6
+                );
+            }
+            
+            resolveSlam(allChars, floatTexts) {
+                const ix = this.slamImpactX;
+                const iy = this.slamImpactY;
+                const slamDamage = Math.round(this.slamDamage * (this.partnerDead ? TWIN_ENRAGE_MULTIPLIER : 1));
+                
+                for (const c of allChars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    
+                    if (distance(c.x, c.y, ix, iy) <= this.slamRadius + c.radius) {
+                        const result = c.takeDamage(slamDamage, this, floatTexts);
+                        showDamageText(c, result.damage, '#e74c3c', this);
+                    }
+                    
+                    // 与项目约定一致：范围伤害同样要打到分身
+                    if (c.splits) {
+                        for (let j = c.splits.length - 1; j >= 0; j--) {
+                            const split = c.splits[j];
+                            if (distance(split.x, split.y, ix, iy) <= this.slamRadius + c.radius * 0.7) {
+                                split.hp -= slamDamage;
+                                showDamageText({ x: split.x, y: split.y, name: '分身' }, slamDamage, '#e74c3c', this);
+                                if (split.hp <= 0) c.splits.splice(j, 1);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            checkCollision(chars) {
+                if (this.slamState !== 'idle') return;
+                
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0) continue;
+                    if (c.slamState && c.slamState !== 'idle') continue;
+                    
+                    const sameTeam = c.team === this.team;
+                    if (sameTeam && !(this.isTwinTenUnit && c.isTwinTenUnit)) continue;
+                    
+                    if (c.id > this.id) continue;
+                    
+                    const result = checkSquareCollision(this, c);
+                    if (result.collision) {
+                        const nx = result.nx;
+                        const ny = result.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = result.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                this.x += this.vx * gameSpeed * deltaTime * 60;
+                this.y += this.vy * gameSpeed * deltaTime * 60;
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+        }
+        
         class MaoNai {
             constructor(x, y, color, team, id) {
                 this.x = x;
@@ -1806,12 +2372,15 @@
                 this.lastAttackTime = Date.now();
                 this.attackInterval = 1200;
                 this.attackRange = 110;
+                this.baseClawDamage = 24;
+                this.partnerDead = false;
                 this.lastCollisionTime = Date.now();
                 this.collisionCooldown = 1000;
             }
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
+                updateTwinBond(this, 'isShuangshengUnit', allChars);
                 
                 this.checkCollision(allChars);
                 this.attack(allChars, projList, floatTexts);
@@ -1855,7 +2424,7 @@
                         y: startY,
                         endX: endX,
                         endY: endY,
-                        damage: 30,
+                        damage: Math.round(this.baseClawDamage * (this.partnerDead ? TWIN_ENRAGE_MULTIPLIER : 1)),
                         owner: this,
                         color: this.color,
                         life: 0.25,
@@ -1976,13 +2545,11 @@
                 this.attackRange = 220;
                 this.target = null;
                 this.profanities = ['废物', '菜鸡', '滚开', '闭嘴', '丢人', '胡说', '就这', '呵呵'];
+                this.baseAttack = 22;
+                this.partnerDead = false;
                 
-                // 红温模式：受伤累积怒气，满 100 进入红温 5 秒，伤害与射速提升
-                this.rage = 0;
-                this.rageMax = 100;
+                // 红温模式：猫奶被击杀后永久进入，伤害与射速提升
                 this.isRedHot = false;
-                this.redHotTimer = 0;
-                this.redHotDuration = 5;
                 this.redHotInterval = 900;
                 this.redHotDamage = 48;
                 this.redHotWords = ['红温!', '破防!', '急了!', '炸了!'];
@@ -1990,13 +2557,21 @@
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
+                updateTwinBond(this, 'isShuangshengUnit', allChars);
                 
-                if (this.isRedHot) {
-                    this.redHotTimer -= gameSpeed * deltaTime;
-                    if (this.redHotTimer <= 0) {
-                        this.isRedHot = false;
-                        this.redHotTimer = 0;
-                        this.rage = 0;
+                if (this.partnerDead && !this.isRedHot) {
+                    this.isRedHot = true;
+                    if (floatTexts) {
+                        floatTexts.push({
+                            x: this.x,
+                            y: this.y - this.radius - 20,
+                            text: '红温！！',
+                            color: '#e74c3c',
+                            alpha: 1,
+                            vy: -0.5,
+                            life: 1.1,
+                            initialLife: 1.1
+                        });
                     }
                 }
                 
@@ -2031,7 +2606,7 @@
                     y: this.y,
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
-                    damage: this.isRedHot ? this.redHotDamage : 28,
+                    damage: this.isRedHot ? this.redHotDamage : this.baseAttack,
                     color: this.isRedHot ? '#e74c3c' : '#8e44ad',
                     life: this.isRedHot ? 1.4 : 1.2,
                     radius: this.isRedHot ? 16 : 13,
@@ -2101,26 +2676,6 @@
                 if (this.hp <= 0) {
                     this.hp = 0;
                     return { killed: true, damage: damage };
-                }
-                // 受伤累积怒气，满值进入红温模式
-                if (!this.isRedHot) {
-                    this.rage = Math.min(this.rageMax, this.rage + damage * 0.6);
-                    if (this.rage >= this.rageMax) {
-                        this.isRedHot = true;
-                        this.redHotTimer = this.redHotDuration;
-                        if (floatTexts) {
-                            floatTexts.push({
-                                x: this.x,
-                                y: this.y - this.radius - 20,
-                                text: '红温！！',
-                                color: '#e74c3c',
-                                alpha: 1,
-                                vy: -0.5,
-                                life: 1.1,
-                                initialLife: 1.1
-                            });
-                        }
-                    }
                 }
                 return { killed: false, damage: damage };
             }
@@ -2964,7 +3519,7 @@
                 this.attackInterval = 1200;
                 
                 this.lastWhistleTime = Date.now();
-                this.whistleInterval = 4000;
+                this.whistleInterval = 3600;
                 
                 this.lastPunishTime = Date.now();
                 this.punishCooldown = 12000;
@@ -2975,7 +3530,7 @@
                 this.lastRunPosX = x;
                 this.lastRunPosY = y;
                 this.fitnessStack = 0;
-                this.maxFitnessStack = 5;
+                this.maxFitnessStack = 6;
                 this.fitnessBonus = 0.05;
                 
                 this.collisionCooldown = 1000;
@@ -3070,7 +3625,7 @@
                 if (enemies.length === 0) return;
                 
                 const target = enemies[Math.floor(Math.random() * enemies.length)];
-                target.punishTimer = 5;
+                target.punishTimer = 6;
                 target.punishTarget = this;
                 target.punishStartAngle = Math.random() * Math.PI * 2;
                 target.stunTimer = 0.5;
@@ -3093,7 +3648,7 @@
                 
                 if (target.splits) {
                     for (const split of target.splits) {
-                        split.punishTimer = 5;
+                        split.punishTimer = 6;
                         split.punishTarget = this;
                         split.punishStartAngle = Math.random() * Math.PI * 2;
                         split.punishRunDistance = 0;
@@ -3132,7 +3687,7 @@
                     const oldSpeed = Math.sqrt(enemy.vx * enemy.vx + enemy.vy * enemy.vy);
                     enemy.vx = Math.cos(newAngle) * oldSpeed * 0.8;
                     enemy.vy = Math.sin(newAngle) * oldSpeed * 0.8;
-                    enemy.stunTimer = 1;
+                    enemy.stunTimer = 1.2;
                     
                     floatingTexts.push({
                         x: enemy.x,
@@ -3162,7 +3717,7 @@
                 const target = enemies[Math.floor(Math.random() * enemies.length)];
                 this.target = target;
                 
-                const damage = 40 * (1 + this.fitnessStack * this.fitnessBonus);
+                const damage = 46 * (1 + this.fitnessStack * this.fitnessBonus);
                 
                 const angle = Math.atan2(target.y - this.y, target.x - this.x);
                 const speed = 4;
@@ -4014,7 +4569,9 @@
                 
                 this.lastTransformTime = Date.now();
                 this.transformInterval = 3000;
-                this.transformDuration = 10000;
+                this.transformDuration = 15000;
+                // 变身期间个人时间流速倍率：只加速自己，不影响全局
+                this.transformTimeBoost = 1.5;
                 this.isTransforming = false;
                 this.currentForm = null;
                 this.originalName = '魔怔鸡';
@@ -4043,7 +4600,13 @@
                             this.currentForm.id = this.id;
                             
                             const beforeCount = projList.length;
-                            this.currentForm.update(allChars, projList, floatTexts);
+                            // 变身期间个人时间加速：临时提升 gameSpeed 仅作用于当前形态的 update，调用后立即还原，不影响全局
+                            const savedGameSpeed = gameSpeed;
+                            gameSpeed = savedGameSpeed * this.transformTimeBoost;
+                            // 排除宿主自身：模仿形态与宿主坐标/id 相同，若不排除会被当作另一个角色反复推挤（陈治宏形态会卡在底部）
+                            const otherChars = allChars.filter(c => c !== this);
+                            this.currentForm.update(otherChars, projList, floatTexts);
+                            gameSpeed = savedGameSpeed;
                             
                             for (let i = beforeCount; i < projList.length; i++) {
                                 projList[i].owner = this;
@@ -4095,7 +4658,8 @@
                     SHIBING: ShiBing,
                     PO9: PO9,
                     LIBERTY: Liberty,
-                    TANGSHUI: TangShui
+                    TANGSHUI: TangShui,
+                    DENGJIE: DengJie
                 };
                 
                 const classKeys = Object.keys(charClasses);
@@ -4142,9 +4706,14 @@
                 this.splits = this.savedSplits;
                 this.savedSplits = [];
                 // 变回原形：按百分比还原到 1000 上限，并保留 +100 治疗
+                const oldHp = this.hp;
                 const hpRatio = this.maxHp > 0 ? Math.max(0, this.hp / this.maxHp) : 1;
                 this.maxHp = 1000;
                 this.hp = Math.min(this.maxHp, Math.round(this.maxHp * hpRatio) + 100);
+                const healed = this.hp - oldHp;
+                if (healed > 0) {
+                    showDamageText(this, -healed, '#2ecc71', this);
+                }
                 this.bulletHitCount = 0;
                 this.maxCombo = undefined;
                 this.triggerAutoPunish = undefined;
@@ -4562,6 +5131,10 @@
             }
         }
         
+        // Liberty 借用池：攻击覆盖 13 名常规角色，技能只取有独立技能实现的角色
+        const LIBERTY_ATTACK_POOL = ['GUITOU', 'BAIDAN', 'HEIDAN', 'SHINIAN', 'MAONAI', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'SHIBING', 'PO9', 'TANGSHUI', 'DENGJIE'];
+        const LIBERTY_SKILL_POOL = ['SHINIAN', 'WENSHI', 'SHIBING', 'PO9', 'TANGSHUI', 'GUITOU'];
+        
         class Liberty {
             constructor(x, y, color, team, id) {
                 this.x = x;
@@ -4580,162 +5153,239 @@
                 this.vy = Math.sin(this.moveAngle) * this.speed;
                 normalizeVelocity(this);
                 
-                this.lastAttackTime = Date.now();
-                this.attackInterval = 1000;
-                
-                // 自由 / 守护双姿态：每 6 秒自动切换一次
-                this.stance = 'freedom';
-                this.lastStanceSwitchTime = Date.now();
-                this.stanceDuration = 6000;
-                
-                // 解放值：命中与受伤累积，满 100 强化下一次切换
-                this.libertyMeter = 0;
-                this.maxLiberty = 100;
-                this.empowerTimer = 0;
-                
-                this.declarationFx = 0;
-                this.empoweredFx = 0;
-                this.stanceSpin = 0;
-                
-                this.lastRegenTime = Date.now();
                 this.target = null;
+                this.memoryFragments = [];
+                
+                // 隐身：每 6 秒自动半透明 2.5 秒
+                this.cloakInterval = 6000;
+                this.cloakDuration = 2500;
+                this.lastCloakTime = Date.now();
+                this.cloakEndTime = 0;
+                this.isCloaked = false;
+                this.cloakFx = 0;
+                
+                // 随机借用：每 2 秒借一次攻击，每 5 秒借一次技能
+                this.attackCastInterval = 2000;
+                this.lastAttackCastTime = Date.now();
+                this.skillCastInterval = 5000;
+                this.lastSkillCastTime = Date.now();
+                this.borrowedAttackKey = '';
+                this.borrowedSkillKey = '';
             }
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
                 
-                this.updateStance(floatTexts);
-                this.attack(projList);
+                this.updateCloak();
+                this.updateBorrowedAttack(projList, floatTexts);
+                this.updateBorrowedSkill(projList, floatTexts);
+                this.resolveFragments(allChars, floatTexts);
                 this.checkCollision(allChars);
                 this.move();
-                this.updateRegen(floatTexts);
                 
-                this.stanceSpin += deltaTime * 1.6;
-                if (this.empowerTimer > 0) this.empowerTimer = Math.max(0, this.empowerTimer - gameSpeed * deltaTime);
-                if (this.declarationFx > 0) this.declarationFx = Math.max(0, this.declarationFx - gameSpeed * deltaTime);
-                if (this.empoweredFx > 0) this.empoweredFx = Math.max(0, this.empoweredFx - gameSpeed * deltaTime);
+                if (this.cloakFx > 0) this.cloakFx = Math.max(0, this.cloakFx - gameSpeed * deltaTime);
             }
             
-            attack(projList) {
+            updateCloak() {
                 const now = Date.now();
-                const baseInterval = this.stance === 'freedom' ? 1000 : 1500;
-                const interval = baseInterval * (this.empowerTimer > 0 ? 0.7 : 1);
-                if (now - this.lastAttackTime < interval / gameSpeed) return;
-                
-                this.lastAttackTime = now;
-                
-                const target = findNearestEnemy(this, characters);
-                if (!target) return;
-                
-                const baseAngle = Math.atan2(target.y - this.y, target.x - this.x);
-                
-                if (this.stance === 'freedom') {
-                    for (const offset of [-0.28, 0, 0.28]) {
-                        const angle = baseAngle + offset;
-                        projList.push({
-                            type: 'chalk',
-                            x: this.x,
-                            y: this.y,
-                            vx: Math.cos(angle) * 5,
-                            vy: Math.sin(angle) * 5,
-                            damage: 16,
-                            owner: this,
-                            radius: 4,
-                            color: '#f1c40f',
-                            active: true
-                        });
+                if (this.isCloaked) {
+                    if (now >= this.cloakEndTime) {
+                        this.isCloaked = false;
+                        this.untargetable = false;
+                        this.ignoreBodyCollision = false;
+                        this.cloakFx = 0;
                     }
-                } else {
-                    projList.push({
-                        type: 'chalk',
-                        x: this.x,
-                        y: this.y,
-                        vx: Math.cos(baseAngle) * 4.5,
-                        vy: Math.sin(baseAngle) * 4.5,
-                        damage: 55,
-                        owner: this,
-                        radius: 6,
-                        color: '#3498db',
-                        active: true
-                    });
+                    return;
                 }
+                
+                if (now - this.lastCloakTime < this.cloakInterval / gameSpeed) return;
+                
+                this.lastCloakTime = now;
+                this.isCloaked = true;
+                this.untargetable = true;
+                this.ignoreBodyCollision = true;
+                this.cloakEndTime = now + this.cloakDuration / gameSpeed;
+                this.cloakFx = 0.5;
             }
             
-            updateStance(floatTexts) {
+            updateBorrowedAttack(projList, floatTexts) {
                 const now = Date.now();
-                if (now - this.lastStanceSwitchTime < this.stanceDuration / gameSpeed) return;
+                if (now - this.lastAttackCastTime < this.attackCastInterval / gameSpeed) return;
                 
-                this.lastStanceSwitchTime = now;
-                this.stance = this.stance === 'freedom' ? 'guardian' : 'freedom';
-                
-                const empowered = this.libertyMeter >= this.maxLiberty;
-                const radius = empowered ? 160 : 110;
-                const damage = empowered ? 80 : 35;
-                
-                for (const c of characters) {
-                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
-                    
-                    const dist = Math.hypot(c.x - this.x, c.y - this.y);
-                    if (dist > radius) continue;
-                    
-                    const result = c.takeDamage(damage, this, floatTexts);
-                    showDamageText(c, result.damage, '#e74c3c', this);
-                    
-                    const nx = (c.x - this.x) / (dist || 1);
-                    const ny = (c.y - this.y) / (dist || 1);
-                    c.x += nx * 20;
-                    c.y += ny * 20;
-                    clampToBounds(c);
-                }
-                
-                // 独立宣言：解除自身所有负面状态
-                this.slowTimer = 0;
-                this.stunTimer = 0;
-                this.isNagged = false;
-                this.questions = 0;
-                this.oxidationStacks = 0;
-                this.lastOxidationTick = 0;
-                this.lastOxidationDecay = 0;
-                
-                this.declarationFx = 0.6;
-                this.empoweredFx = empowered ? 0.8 : 0;
-                
-                if (empowered) {
-                    this.hp = Math.min(this.maxHp, this.hp + 60);
-                    showDamageText(this, -60, '#2ecc71', this);
-                    this.libertyMeter = 0;
-                    this.empowerTimer = 4;
-                }
-                
-                floatTexts.push({
-                    x: this.x,
-                    y: this.y - 45,
-                    text: empowered ? '解放！' : '独立宣言',
-                    color: empowered ? '#f1c40f' : '#ffffff',
-                    alpha: 1,
-                    vy: -0.5,
-                    life: 1.2,
-                    initialLife: 1.2
-                });
+                this.lastAttackCastTime = now;
+                const key = LIBERTY_ATTACK_POOL[Math.floor(Math.random() * LIBERTY_ATTACK_POOL.length)];
+                this.borrowedAttackKey = key;
+                this.castBorrowedAttack(key, projList, floatTexts);
             }
             
-            gainLiberty(amount) {
-                if (this.empowerTimer > 0) return;
-                this.libertyMeter = Math.min(this.maxLiberty, this.libertyMeter + amount);
-            }
-            
-            updateRegen(floatTexts) {
-                if (this.stance !== 'guardian') return;
-                
+            updateBorrowedSkill(projList, floatTexts) {
                 const now = Date.now();
-                if (now - this.lastRegenTime < 3000 / gameSpeed) return;
+                if (now - this.lastSkillCastTime < this.skillCastInterval / gameSpeed) return;
                 
-                this.lastRegenTime = now;
-                if (this.hp >= this.maxHp) return;
+                this.lastSkillCastTime = now;
+                const key = LIBERTY_SKILL_POOL[Math.floor(Math.random() * LIBERTY_SKILL_POOL.length)];
+                this.borrowedSkillKey = key;
+                this.castBorrowedSkill(key, projList, floatTexts);
+            }
+            
+            // 按被借角色的构造参数铸造一个临时代理，坐标/队伍/伤害归属都与 Liberty 保持一致
+            makeBorrowProxy(key) {
+                const proxy = new CHAR_CLASSES[key](this.x, this.y, this.color, this.team, this.id);
+                proxy.name = this.name;
+                proxy.color = this.color;
+                proxy.team = this.team;
+                proxy.id = this.id;
+                proxy.x = this.x;
+                proxy.y = this.y;
+                proxy.vx = this.vx;
+                proxy.vy = this.vy;
+                proxy.attackMultiplier = this.attackMultiplier;
+                proxy.punishTimer = this.punishTimer;
+                proxy.ignoreBodyCollision = true;
+                proxy.target = findNearestEnemy(this, characters);
+                return proxy;
+            }
+            
+            // 代理新生成的弹幕改记为 Liberty 发射，伤害统计仍归 Liberty
+            collectBorrowedProjectiles(proxy, projList, beforeCount) {
+                for (let i = beforeCount; i < projList.length; i++) {
+                    if (projList[i] && projList[i].owner === proxy) {
+                        projList[i].owner = this;
+                    }
+                }
+            }
+            
+            castBorrowedAttack(key, projList, floatTexts) {
+                const chars = characters.filter(c => c !== this);
+                const proxy = this.makeBorrowProxy(key);
+                const beforeCount = projList.length;
                 
-                const heal = Math.min(15, this.maxHp - this.hp);
-                this.hp += heal;
-                showDamageText(this, -heal, '#2ecc71', this);
+                // 代理刚构造时冷却都还在计时，借用前统一清掉，保证这一次必定出手
+                proxy.lastAttackTime = 0;
+                proxy.lastChargeTime = 0;
+                
+                switch (key) {
+                    case 'GUITOU':
+                        // 随机充能层激光：伤害 = 50 × 层数，层数取 1..maxCharge
+                        proxy.chargeLevel = 1 + Math.floor(Math.random() * proxy.maxCharge);
+                        proxy.fireLaser(floatTexts);
+                        break;
+                    case 'BAIDAN':
+                        proxy.attack(projList);
+                        break;
+                    case 'HEIDAN':
+                        // 黑蛋的攻击是冲锋撞击：按其冲锋伤害直接结算到最近的敌人
+                        if (proxy.target) {
+                            const result = proxy.target.takeDamage(90, this, floatTexts);
+                            showDamageText(proxy.target, result.damage, '#e74c3c', this);
+                        }
+                        break;
+                    case 'SHINIAN':
+                        proxy.attack(projList, floatTexts);
+                        break;
+                    case 'MAONAI':
+                        proxy.attack(chars, projList, floatTexts);
+                        break;
+                    case 'MABA':
+                        proxy.attack(projList);
+                        break;
+                    case 'HEZIHAN':
+                        proxy.attack(projList);
+                        break;
+                    case 'DIKE':
+                        // 黑调先敲代码：直接把敲字进度推到末尾，让它立刻发射
+                        proxy.attack(chars, projList, floatTexts);
+                        if (proxy.isTyping) {
+                            proxy.typingIndex = proxy.currentTypingCode.length - 1;
+                            proxy.lastTypeTime = 0;
+                            proxy.attack(chars, projList, floatTexts);
+                        }
+                        break;
+                    case 'WENSHI':
+                        proxy.attack(chars, projList, floatTexts);
+                        break;
+                    case 'SHIBING':
+                        proxy.attack(projList);
+                        break;
+                    case 'PO9':
+                        proxy.attack(projList);
+                        break;
+                    case 'TANGSHUI':
+                        // 随机糖度（30–100）决定挥砍伤害与范围
+                        proxy.sugar = 30 + Math.floor(Math.random() * (proxy.maxSugar - 30 + 1));
+                        proxy.attack(chars, projList, floatTexts);
+                        break;
+                    case 'DENGJIE':
+                        proxy.startTyping(Date.now());
+                        proxy.fire(projList, Date.now());
+                        break;
+                }
+                
+                this.collectBorrowedProjectiles(proxy, projList, beforeCount);
+            }
+            
+            castBorrowedSkill(key, projList, floatTexts) {
+                const chars = characters.filter(c => c !== this);
+                const proxy = this.makeBorrowProxy(key);
+                const beforeCount = projList.length;
+                
+                switch (key) {
+                    case 'GUITOU':
+                        // 随机充能层激光：与攻击借用同样的合法范围
+                        proxy.chargeLevel = 1 + Math.floor(Math.random() * proxy.maxCharge);
+                        proxy.fireLaser(floatTexts);
+                        break;
+                    case 'SHINIAN':
+                        // 记忆碎片生成在 Liberty 身边，继续由 Liberty 自行结算
+                        proxy.lastFragmentTime = 0;
+                        proxy.updateFragments(chars, floatTexts);
+                        for (const frag of proxy.memoryFragments) {
+                            this.memoryFragments.push(frag);
+                        }
+                        break;
+                    case 'WENSHI':
+                        proxy.lastWhistleTime = 0;
+                        proxy.passiveAbility(chars, floatTexts);
+                        break;
+                    case 'SHIBING':
+                        // 借用陈治宏的突袭连射：补齐突击状态与剩余弹数
+                        proxy.isAssaulting = true;
+                        proxy.assaultExtraCount = 2;
+                        proxy.lastAssaultBulletType = Math.floor(Math.random() * 2);
+                        proxy.lastAssaultExtraTime = 0;
+                        proxy.fireAssaultExtra(projList);
+                        break;
+                    case 'PO9':
+                        // 氧气层数取 3–9 的合法值后引爆
+                        proxy.oxygenStacks = 3 + Math.floor(Math.random() * 7);
+                        proxy.detonate(floatTexts);
+                        break;
+                    case 'TANGSHUI':
+                        // 随机糖度（30–100）决定冲刺劈砍伤害
+                        proxy.sugar = 30 + Math.floor(Math.random() * (proxy.maxSugar - 30 + 1));
+                        proxy.lastDashTime = 0;
+                        proxy.tryDash(chars);
+                        proxy.finishDash(chars, floatTexts);
+                        break;
+                }
+                
+                this.collectBorrowedProjectiles(proxy, projList, beforeCount);
+            }
+            
+            // 借来的记忆碎片：敌人碰到即受 40 伤害，碎片随即消失
+            resolveFragments(allChars, floatTexts) {
+                for (let i = this.memoryFragments.length - 1; i >= 0; i--) {
+                    const frag = this.memoryFragments[i];
+                    for (const c of allChars) {
+                        if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                        if (distance(c.x, c.y, frag.x, frag.y) < c.radius + frag.radius) {
+                            const result = c.takeDamage(40, this, floatTexts);
+                            showDamageText(c, result.damage, '#e74c3c', this);
+                            this.memoryFragments.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
             }
             
             checkCollision(chars) {
@@ -4766,11 +5416,10 @@
             }
             
             move() {
-                const stanceSpeed = this.stance === 'freedom' ? 1.35 : 0.8;
                 const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
                 if (mag > 0.001) {
-                    this.x += (this.vx / mag) * this.speed * stanceSpeed * gameSpeed * deltaTime * 60;
-                    this.y += (this.vy / mag) * this.speed * stanceSpeed * gameSpeed * deltaTime * 60;
+                    this.x += (this.vx / mag) * this.speed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * gameSpeed * deltaTime * 60;
                 }
                 
                 if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
@@ -4786,6 +5435,11 @@
             }
             
             takeDamage(damage, attacker, floatTexts) {
+                // 隐身期间不结算任何伤害（治疗等负伤害仍可生效）
+                if (this.isCloaked && damage > 0) {
+                    return { killed: false, damage: 0 };
+                }
+                
                 if (this.timeFieldEffect > 0) {
                     damage = damage * 1.5;
                 }
@@ -4793,13 +5447,6 @@
                 if (this.damageReduction > 0) {
                     damage = damage * 0.9;
                 }
-                
-                damage = damage * (this.stance === 'freedom' ? 1.1 : 0.9);
-                if (this.empowerTimer > 0) {
-                    damage = damage * 0.85;
-                }
-                
-                this.gainLiberty(6);
                 
                 this.hp -= damage;
                 if (this.hp <= 0) {
@@ -4815,47 +5462,28 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 
-                const isFree = this.stance === 'freedom';
-                ctx.strokeStyle = isFree ? 'rgba(241,196,15,0.9)' : 'rgba(52,152,219,0.9)';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.arc(0, 0, this.radius + 9, 0, Math.PI * 2);
-                ctx.stroke();
-                
-                if (isFree) {
-                    for (let i = 0; i < 3; i++) {
-                        const a = this.stanceSpin + i * Math.PI * 2 / 3;
-                        ctx.beginPath();
-                        ctx.arc(Math.cos(a) * (this.radius + 14), Math.sin(a) * (this.radius + 14), 3, 0, Math.PI * 2);
-                        ctx.fillStyle = '#f1c40f';
-                        ctx.fill();
-                    }
-                } else {
-                    ctx.strokeStyle = 'rgba(52,152,219,0.7)';
-                    ctx.lineWidth = 4;
-                    ctx.beginPath();
-                    ctx.arc(0, 0, this.radius + 5, Math.PI * 0.15, Math.PI * 0.85);
-                    ctx.stroke();
-                }
-                
+                if (this.isCloaked) ctx.globalAlpha = 0.35;
                 ctx.fillStyle = this.color;
                 ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                ctx.globalAlpha = 1;
                 
-                if (this.declarationFx > 0) {
-                    const progress = 1 - this.declarationFx / 0.6;
-                    ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
-                    ctx.lineWidth = 3;
+                if (this.isCloaked) {
+                    ctx.strokeStyle = 'rgba(155, 89, 182, 0.85)';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([4, 4]);
                     ctx.beginPath();
-                    ctx.arc(0, 0, 20 + 110 * progress, 0, Math.PI * 2);
+                    ctx.arc(0, 0, this.radius + 9, 0, Math.PI * 2);
                     ctx.stroke();
-                }
-                if (this.empoweredFx > 0) {
-                    const progress = 1 - this.empoweredFx / 0.8;
-                    ctx.strokeStyle = `rgba(241,196,15,${1 - progress})`;
-                    ctx.lineWidth = 5;
-                    ctx.beginPath();
-                    ctx.arc(0, 0, 20 + 160 * progress, 0, Math.PI * 2);
-                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    if (this.cloakFx > 0) {
+                        const progress = 1 - this.cloakFx / 0.5;
+                        ctx.strokeStyle = `rgba(155, 89, 182, ${1 - progress})`;
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, this.radius + 10 + 90 * progress, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
                 }
                 
                 ctx.fillStyle = '#000';
@@ -4868,14 +5496,12 @@
                 ctx.font = 'bold 10px Arial';
                 ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
                 
-                ctx.fillStyle = isFree ? '#f1c40f' : '#3498db';
-                ctx.font = 'bold 10px Arial';
-                ctx.textBaseline = 'top';
-                ctx.fillText(isFree ? '自由姿态' : '守护姿态', 0, this.radius + 5);
-                
-                for (let i = 0; i < 10; i++) {
-                    ctx.fillStyle = this.libertyMeter >= (i + 1) * 10 ? '#f1c40f' : 'rgba(255,255,255,0.35)';
-                    ctx.fillRect(-21 + i * 4.5, this.radius + 18, 3, 6);
+                if (this.isCloaked) {
+                    const remain = Math.max(0, (this.cloakEndTime - Date.now()) / 1000);
+                    ctx.fillStyle = 'rgba(155, 89, 182, 1)';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(`隐身 ${remain.toFixed(1)}s`, 0, this.radius + 5);
                 }
                 
                 ctx.restore();
@@ -5305,6 +5931,256 @@
             }
         }
         
+        class DengJie {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '邓杰';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.lastAttackTime = Date.now();
+                this.attackInterval = 800;
+                this.lastCollisionTime = Date.now();
+                this.collisionCooldown = 1000;
+                
+                this.isTyping = false;
+                this.currentExpression = '';
+                this.typingIndex = 0;
+                this.lastTypeTime = 0;
+                this.typeSpeed = 90;
+                this.pendingValue = 0;
+                
+                this.expression = '';
+                this.expressionUntil = 0;
+                
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                this.findTarget(allChars);
+                this.checkCollision(allChars);
+                this.attack(projList);
+                this.move();
+            }
+            
+            findTarget(chars) {
+                this.target = findNearestEnemy(this, chars);
+            }
+            
+            // 血量越低，数字区间越大、乘号权重越高，更容易算出大数
+            getExpressionRange() {
+                const hpRatio = this.maxHp > 0 ? this.hp / this.maxHp : 0;
+                if (hpRatio < 0.3) {
+                    return { min: 12, max: 36, plus: 0.22, times: 0.60 };
+                }
+                if (hpRatio < 0.6) {
+                    return { min: 8, max: 24, plus: 0.30, times: 0.45 };
+                }
+                return { min: 5, max: 15, plus: 0.40, times: 0.30 };
+            }
+            
+            // 像低客的黑调一样，把算式一个字一个字敲出来，敲完才发射
+            attack(projList) {
+                const now = Date.now();
+                
+                if (this.isTyping) {
+                    if (now - this.lastTypeTime < this.typeSpeed / gameSpeed) return;
+                    this.typingIndex++;
+                    this.lastTypeTime = now;
+                    
+                    if (this.typingIndex >= this.currentExpression.length) {
+                        this.fire(projList, now);
+                        this.isTyping = false;
+                        this.currentExpression = '';
+                        this.typingIndex = 0;
+                        this.lastAttackTime = now;
+                    }
+                    return;
+                }
+                
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                if (!this.target) return;
+                
+                this.startTyping(now);
+            }
+            
+            startTyping(now) {
+                const range = this.getExpressionRange();
+                const rollInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+                const a = rollInt(range.min, range.max);
+                const b = rollInt(range.min, range.max);
+                
+                const roll = Math.random();
+                let op;
+                let value;
+                let left = a;
+                let right = b;
+                if (roll < range.plus) {
+                    op = '+';
+                    value = left + right;
+                } else if (roll < range.plus + range.times) {
+                    op = '×';
+                    value = left * right;
+                } else {
+                    // 两个数字仍取正数，但按随机顺序相减，因此计算结果可能为负（负伤害会治疗敌人）
+                    op = '-';
+                    left = a;
+                    right = b;
+                    if (left === right) {
+                        right = right < range.max ? right + 1 : right - 1;
+                    }
+                    value = left - right;
+                }
+                
+                this.currentExpression = `${left} ${op} ${right} = ${value}`;
+                this.pendingValue = value;
+                this.typingIndex = 0;
+                this.lastTypeTime = now;
+                this.isTyping = true;
+            }
+            
+            fire(projList, now) {
+                this.expression = this.currentExpression;
+                this.expressionUntil = now + 700;
+                
+                if (!this.target) return;
+                
+                const value = this.pendingValue;
+                const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x) + (Math.random() - 0.5) * 0.12;
+                const bulletRadius = value >= 100 ? 7 : (value >= 50 ? 5 : 4);
+                const bulletColor = value < 0 ? '#2ecc71' : (value >= 100 ? '#e74c3c' : '#f39c12');
+                
+                projList.push({
+                    type: 'bullet',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(angle) * 7,
+                    vy: Math.sin(angle) * 7,
+                    damage: value,
+                    owner: this,
+                    radius: bulletRadius,
+                    color: bulletColor,
+                    bounces: 0,
+                    maxBounces: 0,
+                    canBounce: false,
+                    maxPenetrate: 1,
+                    trail: [],
+                    maxTrail: 20,
+                    active: true
+                });
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * this.speed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) {
+                    damage = damage * 1.5;
+                }
+                
+                if (this.damageReduction > 0) {
+                    damage = damage * 0.9;
+                }
+                
+                this.hp -= damage;
+                if (this.hp > this.maxHp) {
+                    this.hp = this.maxHp;
+                }
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(this.name, 0, -this.radius - 5);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
+                
+                if (this.isTyping && this.currentExpression) {
+                    const typedText = this.currentExpression.substring(0, this.typingIndex + 1);
+                    ctx.fillStyle = '#8e44ad';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.fillText(typedText + '|', 0, -this.radius - 26);
+                } else if (this.expression && Date.now() < this.expressionUntil) {
+                    ctx.fillStyle = '#8e44ad';
+                    ctx.font = 'bold 9px Arial';
+                    ctx.fillText(this.expression, 0, -this.radius - 26);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
         function draw() {
             ctx.fillStyle = '#fff';
             ctx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -5590,8 +6466,33 @@
                 } else {
                 ctx.save();
                 ctx.translate(char.x, char.y);
+                if (char.isCloaked) ctx.globalAlpha = 0.35;
                 ctx.fillStyle = char.color;
                 ctx.fillRect(-char.radius, -char.radius, char.radius * 2, char.radius * 2);
+                ctx.globalAlpha = 1;
+                
+                if (char.name === '20') {
+                    // 上升/下砸阶段的落点指示圈
+                    if (char.slamState === 'ascend' || char.slamState === 'dive') {
+                        ctx.strokeStyle = 'rgba(231, 76, 60, 0.85)';
+                        ctx.lineWidth = 2;
+                        ctx.setLineDash([4, 4]);
+                        ctx.beginPath();
+                        ctx.arc(char.slamImpactX - char.x, char.slamImpactY - char.y, char.slamRadius, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                    
+                    // 落地冲击波
+                    if (char.slamFx > 0) {
+                        const progress = 1 - char.slamFx / 0.45;
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - progress})`;
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, char.radius + 70 * progress, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
                 
                 if (char.damageReduction > 0) {
                     ctx.strokeStyle = '#2ecc71';
@@ -5649,44 +6550,21 @@
                     }
                 }
                 
-                if (char.name === 'Liberty') {
-                    const isFree = char.stance === 'freedom';
-                    ctx.strokeStyle = isFree ? 'rgba(241,196,15,0.9)' : 'rgba(52,152,219,0.9)';
+                if (char.name === 'Liberty' && char.isCloaked) {
+                    ctx.strokeStyle = 'rgba(155,89,182,0.85)';
                     ctx.lineWidth = 2;
+                    ctx.setLineDash([4, 4]);
                     ctx.beginPath();
                     ctx.arc(0, 0, char.radius + 9, 0, Math.PI * 2);
                     ctx.stroke();
+                    ctx.setLineDash([]);
                     
-                    if (isFree) {
-                        for (let i = 0; i < 3; i++) {
-                            const a = (char.stanceSpin || 0) + i * Math.PI * 2 / 3;
-                            ctx.beginPath();
-                            ctx.arc(Math.cos(a) * (char.radius + 14), Math.sin(a) * (char.radius + 14), 3, 0, Math.PI * 2);
-                            ctx.fillStyle = '#f1c40f';
-                            ctx.fill();
-                        }
-                    } else {
-                        ctx.strokeStyle = 'rgba(52,152,219,0.7)';
-                        ctx.lineWidth = 4;
-                        ctx.beginPath();
-                        ctx.arc(0, 0, char.radius + 5, Math.PI * 0.15, Math.PI * 0.85);
-                        ctx.stroke();
-                    }
-                    
-                    if (char.declarationFx > 0) {
-                        const progress = 1 - char.declarationFx / 0.6;
-                        ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
+                    if (char.cloakFx > 0) {
+                        const progress = 1 - char.cloakFx / 0.5;
+                        ctx.strokeStyle = `rgba(155,89,182,${1 - progress})`;
                         ctx.lineWidth = 3;
                         ctx.beginPath();
-                        ctx.arc(0, 0, 20 + 110 * progress, 0, Math.PI * 2);
-                        ctx.stroke();
-                    }
-                    if (char.empoweredFx > 0) {
-                        const progress = 1 - char.empoweredFx / 0.8;
-                        ctx.strokeStyle = `rgba(241,196,15,${1 - progress})`;
-                        ctx.lineWidth = 5;
-                        ctx.beginPath();
-                        ctx.arc(0, 0, 20 + 160 * progress, 0, Math.PI * 2);
+                        ctx.arc(0, 0, char.radius + 10 + 90 * progress, 0, Math.PI * 2);
                         ctx.stroke();
                     }
                 }
@@ -5775,6 +6653,18 @@
                 ctx.font = 'bold 10px Arial';
                 ctx.fillText(`${Math.round(char.hp)}/${char.maxHp}`, char.x, hpY);
                 
+                // 邓杰的算式字幕（伤害数值即算式的计算结果，逐字敲出）
+                if (char.isTyping && char.currentExpression) {
+                    const typedText = char.currentExpression.substring(0, char.typingIndex + 1);
+                    ctx.fillStyle = '#8e44ad';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.fillText(typedText + '|', char.x, char.y - char.radius - 26);
+                } else if (char.expression && char.expressionUntil && Date.now() < char.expressionUntil) {
+                    ctx.fillStyle = '#8e44ad';
+                    ctx.font = 'bold 9px Arial';
+                    ctx.fillText(char.expression, char.x, char.y - char.radius - 26);
+                }
+                
                 if (char.chargeLevel !== undefined && char.maxCharge !== undefined) {
                     const chargeWidth = 40;
                     const chargeHeight = 6;
@@ -5812,17 +6702,12 @@
                     ctx.fillText(`氧化 ${char.oxidationStacks}/5`, char.x, char.y - char.radius - 30);
                 }
                 
-                if (char.name === 'Liberty') {
-                    ctx.fillStyle = char.stance === 'freedom' ? '#f1c40f' : '#3498db';
+                if (char.name === 'Liberty' && char.isCloaked) {
+                    const remain = Math.max(0, (char.cloakEndTime - Date.now()) / 1000);
+                    ctx.fillStyle = 'rgba(155,89,182,1)';
                     ctx.font = 'bold 10px Arial';
                     ctx.textAlign = 'center';
-                    ctx.fillText(char.stance === 'freedom' ? '自由姿态' : '守护姿态', char.x, char.y - char.radius - 30);
-                    
-                    const pipY = char.y + char.radius + 12;
-                    for (let i = 0; i < 10; i++) {
-                        ctx.fillStyle = (char.libertyMeter || 0) >= (i + 1) * 10 ? '#f1c40f' : 'rgba(255,255,255,0.35)';
-                        ctx.fillRect(char.x - 21 + i * 4.5, pipY, 3, 6);
-                    }
+                    ctx.fillText(`隐身 ${remain.toFixed(1)}s`, char.x, char.y - char.radius - 30);
                 }
                 
                 if (char.sugarStacks > 0) {
@@ -5935,13 +6820,17 @@
                         const newX = char.punishTarget.x + Math.cos(char.punishStartAngle) * orbitRadius;
                         const newY = char.punishTarget.y + Math.sin(char.punishStartAngle) * orbitRadius;
                         
-                        const actualDx = newX - char.punishLastX;
-                        const actualDy = newY - char.punishLastY;
-                        const actualMoveDist = Math.sqrt(actualDx * actualDx + actualDy * actualDy);
-                        
                         char.x = newX;
                         char.y = newY;
                         clampToBounds(char);
+                        
+                        const actualDx = char.x - char.punishLastX;
+                        const actualDy = char.y - char.punishLastY;
+                        const actualMoveDist = Math.min(
+                            Math.sqrt(actualDx * actualDx + actualDy * actualDy),
+                            moveDist
+                        );
+                        
                         char.punishLastX = char.x;
                         char.punishLastY = char.y;
                         char.vx = 0;
@@ -5949,8 +6838,8 @@
                         
                         char.punishRunDistance += actualMoveDist;
                         
-                        while (char.punishRunDistance >= 100) {
-                            char.punishRunDistance -= 100;
+                        while (char.punishRunDistance >= 60) {
+                            char.punishRunDistance -= 60;
                             const damage = 30;
                             char.hp -= damage;
                             showDamageText(char, damage, '#e74c3c', char.punishTarget);
@@ -5974,7 +6863,19 @@
                 }
             }
             
-            for (const char of characters) char.update(characters, projectiles, floatingTexts);
+            for (const char of characters) {
+                // 罚跑压制：被罚跑的角色攻击与技能的使用速度下降
+                if (char.punishTimer > 0) {
+                    const savedGameSpeed = gameSpeed;
+                    gameSpeed = savedGameSpeed * PUNISH_ACTION_SPEED_FACTOR;
+                    char.update(characters, projectiles, floatingTexts);
+                    gameSpeed = savedGameSpeed;
+                } else {
+                    char.update(characters, projectiles, floatingTexts);
+                }
+            }
+            
+            resolveSameTeamCollisions();
             
             const questionNow = Date.now();
             for (const char of characters) {
@@ -5989,7 +6890,11 @@
                         showDamageText(char, damage, '#9b59b6', owner || null);
                         
                         if (owner) {
-                            owner.hp = Math.min(owner.maxHp, owner.hp + damage * 0.5);
+                            const healAmount = Math.min(damage * 0.5, owner.maxHp - owner.hp);
+                            if (healAmount > 0) {
+                                owner.hp += healAmount;
+                                showDamageText(owner, -healAmount, '#2ecc71', owner);
+                            }
                         }
                         
                         char.lastQuestionTime = questionNow;
@@ -6125,7 +7030,7 @@
                     
                     let hit = false;
                     for (const char of characters) {
-                        if (char === proj.owner || char.hp <= 0) continue;
+                        if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                         
                         if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
                             const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
@@ -6144,10 +7049,6 @@
                             
                             if (proj.owner.name === '九氧化一磷' && char.team !== proj.owner.team) {
                                 chalkSource.applyOxidation(char, 1, floatingTexts);
-                            }
-                            
-                            if (proj.owner.name === 'Liberty' && char.team !== proj.owner.team && chalkSource.gainLiberty) {
-                                chalkSource.gainLiberty(4);
                             }
                             
                             proj.active = false;
@@ -6190,7 +7091,7 @@
                     const sin = Math.sin(angle);
                     
                     for (const char of characters) {
-                        if (char === proj.owner || char.hp <= 0) continue;
+                        if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                         
                         const dx = char.x - proj.x;
                         const dy = char.y - proj.y;
@@ -6268,7 +7169,7 @@
                     
                     if (!proj.hit) {
                         for (const char of characters) {
-                            if (char === proj.owner || char.hp <= 0) continue;
+                            if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                             
                             if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
                                 const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
@@ -6324,7 +7225,7 @@
                     
                     let hit = false;
                     for (const char of characters) {
-                        if (char === proj.owner || char.hp <= 0) continue;
+                        if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                         
                         if (checkCircleSquareCollision(proj.x, proj.y, 10, char.x, char.y, char.radius)) {
                             let damage = proj.damage;
@@ -6388,7 +7289,7 @@
                     
                     for (const char of characters) {
                         if (char === proj.owner || char.hp <= 0) continue;
-                        if (proj.skipTeamHit && proj.owner && char.team === proj.owner.team) continue;
+                        if (proj.owner && char.team === proj.owner.team) continue;
                         
                         if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
                             const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
@@ -6397,7 +7298,7 @@
                             
                             if (proj.owner && proj.owner.bulletHitCount !== undefined) {
                                 proj.owner.bulletHitCount++;
-                                if (proj.owner.bulletHitCount >= 5) {
+                                if (proj.owner.bulletHitCount >= 4) {
                                     const enemies = characters.filter(c => c !== proj.owner && c.team !== proj.owner.team && c.hp > 0);
                                     proj.owner.triggerAutoPunish(enemies, projectiles, floatingTexts);
                                     proj.owner.bulletHitCount = 0;
@@ -6484,7 +7385,7 @@
                     
                     let hit = false;
                     for (const char of characters) {
-                        if (char === proj.owner || char.hp <= 0) continue;
+                        if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                         
                         if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
                             const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
@@ -6525,7 +7426,7 @@
                     }
                     
                     for (const char of characters) {
-                        if (char === proj.owner || char.hp <= 0) continue;
+                        if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                         
                         if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
                             if (!char.questions) char.questions = 0;
@@ -6585,7 +7486,7 @@
                     const stillHitting = [];
                     
                     for (const char of characters) {
-                        if (char === proj.owner || char.hp <= 0) continue;
+                        if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                         
                         const isColliding = checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius);
                         
@@ -6654,10 +7555,10 @@
                     
                     if (!proj.hit) {
                         for (const char of characters) {
-                            if (char === proj.owner || char.hp <= 0) continue;
+                            if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
                             
                             if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
-                                char.punishTimer = 5;
+                                char.punishTimer = 6;
                                 char.punishTarget = proj.owner;
                                 char.punishStartAngle = Math.random() * Math.PI * 2;
                                 char.stunTimer = 0.5;
@@ -6685,7 +7586,7 @@
                                 for (let j = 0; j < char.splits.length; j++) {
                                     const split = char.splits[j];
                                     if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
-                                        split.punishTimer = 5;
+                                        split.punishTimer = 6;
                                         split.punishTarget = proj.owner;
                                         split.punishStartAngle = Math.random() * Math.PI * 2;
                                         split.punishRunDistance = 0;
@@ -6774,8 +7675,10 @@
                 
                 const legionMembers = characters.filter(c => c.name === '尼格军团' && c.legionId === queueEntry.legionId);
                 const aliveCount = legionMembers.filter(c => c.hp > 0).length;
+                const maxAlive = queueEntry.endless ? Math.min(6, 3 + Math.floor(endlessStats.killed / 10)) : 3;
+                const maxTotal = queueEntry.endless ? Infinity : 10;
                 
-                if (aliveCount < 3 && queueEntry.totalSent < 10) {
+                if (aliveCount < maxAlive && queueEntry.totalSent < maxTotal) {
                     let spawnX, spawnY;
                     let attempts = 0;
                     const maxAttempts = 50;
@@ -6810,12 +7713,17 @@
                     const newSoldier = new NiGeJunTuan(
                         spawnX,
                         spawnY,
-                        queueEntry.team === 'red' ? '#e74c3c' : '#3498db',
+                        TEAM_CONFIG[queueEntry.team].color,
                         queueEntry.team,
                         characters.length
                     );
                     newSoldier.legionId = queueEntry.legionId;
                     newSoldier.soldierIndex = queueEntry.totalSent;
+                    
+                    if (queueEntry.hpMultiplier && queueEntry.hpMultiplier !== 1) {
+                        newSoldier.maxHp = Math.round(newSoldier.maxHp * queueEntry.hpMultiplier);
+                        newSoldier.hp = newSoldier.maxHp;
+                    }
                     
                     const centerX = WIDTH / 2;
                     const centerY = HEIGHT / 2;
@@ -6831,65 +7739,100 @@
                     
                     characters.push(newSoldier);
                     queueEntry.totalSent++;
+                    if (queueEntry.endless) endlessStats.spawned++;
                     queueEntry.lastSpawnTime = now;
                 }
             }
             
-            const redAlive = characters.filter(c => c.team === 'red' && c.hp > 0).length;
-            const blueAlive = characters.filter(c => c.team === 'blue' && c.hp > 0).length;
-            
-            const redChar = characters.find(c => c.team === 'red');
-            const blueChar = characters.find(c => c.team === 'blue');
-            
-            let redHp = Math.max(0, Math.round(redChar?.hp || 0));
-            let blueHp = Math.max(0, Math.round(blueChar?.hp || 0));
-            
-            const redNigeQueue = nigeSpawnQueue.find(q => q.team === 'red');
-            if (redNigeQueue) {
-                const redNigeMembers = characters.filter(c => c.name === '尼格军团' && c.team === 'red' && c.hp > 0);
-                const aliveHp = redNigeMembers.reduce((sum, c) => sum + c.hp, 0);
-                const remainingCount = 10 - redNigeQueue.totalSent;
-                redHp = Math.max(0, Math.round(aliveHp + remainingCount * 100));
-            }
-            
-            const blueNigeQueue = nigeSpawnQueue.find(q => q.team === 'blue');
-            if (blueNigeQueue) {
-                const blueNigeMembers = characters.filter(c => c.name === '尼格军团' && c.team === 'blue' && c.hp > 0);
-                const aliveHp = blueNigeMembers.reduce((sum, c) => sum + c.hp, 0);
-                const remainingCount = 10 - blueNigeQueue.totalSent;
-                blueHp = Math.max(0, Math.round(aliveHp + remainingCount * 100));
-            }
-            
-            if (currentRedChar === 'SHUANGSHENG') {
-                redHp = Math.max(0, Math.round(
-                    characters.filter(c => c.team === 'red' && c.hp > 0).reduce((sum, c) => sum + c.hp, 0)
-                ));
-            }
-            if (currentBlueChar === 'SHUANGSHENG') {
-                blueHp = Math.max(0, Math.round(
-                    characters.filter(c => c.team === 'blue' && c.hp > 0).reduce((sum, c) => sum + c.hp, 0)
-                ));
-            }
-            
-            document.getElementById('redHpDisplay').textContent = redHp;
-            document.getElementById('blueHpDisplay').textContent = blueHp;
-            
-            const redNigeHasRemaining = nigeSpawnQueue.some(q => q.team === 'red' && q.totalSent < 10);
-            const blueNigeHasRemaining = nigeSpawnQueue.some(q => q.team === 'blue' && q.totalSent < 10);
-            
-            const redStillActive = redAlive > 0 || redNigeHasRemaining;
-            const blueStillActive = blueAlive > 0 || blueNigeHasRemaining;
-            
-            if (characters.length > 0 && (redStillActive === false || blueStillActive === false)) {
-                gameOver = true;
-                setImmersiveMode(false);
-                const winner = redAlive > 0 ? '红方' : '蓝方';
-                const winnerChar = characters.find(c => c.hp > 0);
-                document.getElementById('gameOverTitle').textContent = `${winner}胜利！`;
-                document.getElementById('gameOverInfo').textContent = winnerChar ? `${winnerChar.name} 赢得了胜利！` : '';
-                document.getElementById('gameOverOverlay').style.display = 'flex';
+            if (currentMode === 'endless') {
+                for (const c of characters) {
+                    if (c.name === '尼格军团' && c.team === 'blue' && c.hp <= 0 && !c.countedAsKilled) {
+                        c.countedAsKilled = true;
+                        endlessStats.killed++;
+                    }
+                }
                 
-                if (winner === '红方') {
+                updateTeamStats();
+                
+                if (characters.length > 0 && !characters.some(c => c.team === 'red' && c.hp > 0)) {
+                    endEndless();
+                }
+                return;
+            }
+            
+            updateTeamStats();
+            
+            const teamsInPlay = TEAM_ORDER.filter(team => matchTeams[team] && matchTeams[team].length > 0);
+            const activeTeams = teamsInPlay.filter(team => isTeamActive(team));
+            
+            if (characters.length > 0 && teamsInPlay.length > 0 && activeTeams.length <= 1) {
+                if (activeTeams.length === 0) {
+                    endDraw();
+                } else {
+                    endMatch(activeTeams[0]);
+                }
+            }
+        }
+        
+        function getTeamQueue(team) {
+            return nigeSpawnQueue.find(q => q.team === team);
+        }
+        
+        function isTeamActive(team) {
+            if (characters.some(c => c.team === team && c.hp > 0)) return true;
+            
+            const queue = getTeamQueue(team);
+            if (!queue) return false;
+            if (queue.endless) return true;
+            return queue.totalSent < 10;
+        }
+        
+        function getTeamHp(team) {
+            if (currentMode === 'endless' && team === 'blue') return '∞';
+            
+            let hp = characters.filter(c => c.team === team && c.hp > 0).reduce((sum, c) => sum + c.hp, 0);
+            
+            const queue = getTeamQueue(team);
+            if (queue && !queue.endless) {
+                hp += Math.max(0, (10 - queue.totalSent) * 100 * (queue.hpMultiplier || 1));
+            }
+            
+            return Math.max(0, Math.round(hp));
+        }
+        
+        function updateTeamStats() {
+            if (characters.length === 0) return;
+            
+            document.getElementById('redHpDisplay').textContent = getTeamHp('red');
+            document.getElementById('blueHpDisplay').textContent = getTeamHp('blue');
+            
+            if (currentMode === 'ffa') {
+                document.getElementById('greenHpDisplay').textContent = getTeamHp('green');
+                document.getElementById('yellowHpDisplay').textContent = getTeamHp('yellow');
+            }
+            
+            if (currentMode === 'endless') {
+                document.getElementById('endlessSpawned').textContent = endlessStats.spawned;
+                document.getElementById('endlessKilled').textContent = endlessStats.killed;
+                const elapsed = endlessStats.startedAt > 0 ? (Date.now() - endlessStats.startedAt) / 1000 : 0;
+                document.getElementById('endlessTime').textContent = elapsed.toFixed(1) + 's';
+            }
+        }
+        
+        function endMatch(winnerTeam) {
+            gameOver = true;
+            setImmersiveMode(false);
+            
+            const config = TEAM_CONFIG[winnerTeam];
+            const aliveNames = characters.filter(c => c.team === winnerTeam && c.hp > 0).map(c => c.name);
+            
+            document.getElementById('gameOverTitle').textContent = `${config.name}胜利！`;
+            let info = aliveNames.length > 0 ? `${aliveNames.join('、')} 赢得了胜利！` : `${config.name} 赢得了胜利！`;
+            
+            if (currentMode !== 'classic') {
+                info += '（本局不计入 1v1 战绩）';
+            } else {
+                if (winnerTeam === 'red') {
                     redWinCount++;
                     updateCharRecords(currentRedChar, true);
                     updateCharRecords(currentBlueChar, false);
@@ -6902,11 +7845,38 @@
                 document.getElementById('blueWinCount').textContent = blueWinCount;
                 document.getElementById('totalMatchCount').textContent = redWinCount + blueWinCount;
                 updateLeaderboard();
-                
-                if (isAutoTest) {
-                    scheduleNextAutoTest();
-                }
             }
+            
+            document.getElementById('gameOverInfo').textContent = info;
+            document.getElementById('gameOverOverlay').style.display = 'flex';
+            
+            if (isAutoTest) {
+                scheduleNextAutoTest();
+            }
+        }
+        
+        function endDraw() {
+            gameOver = true;
+            setImmersiveMode(false);
+            
+            document.getElementById('gameOverTitle').textContent = '平局';
+            document.getElementById('gameOverInfo').textContent = '所有队伍同时全灭。';
+            document.getElementById('gameOverOverlay').style.display = 'flex';
+            
+            if (isAutoTest) {
+                scheduleNextAutoTest();
+            }
+        }
+        
+        function endEndless() {
+            gameOver = true;
+            setImmersiveMode(false);
+            
+            const seconds = ((Date.now() - endlessStats.startedAt) / 1000).toFixed(1);
+            document.getElementById('gameOverTitle').textContent = '无尽军团结束';
+            document.getElementById('gameOverInfo').textContent =
+                `存活 ${seconds} 秒 · 累计出兵 ${endlessStats.spawned} · 累计击杀 ${endlessStats.killed}`;
+            document.getElementById('gameOverOverlay').style.display = 'flex';
         }
         
         function togglePause() {
@@ -6916,6 +7886,7 @@
         
         function startAutoTest() {
             isAutoTest = true;
+            setMode('classic');
             autoTestOriginalSpeed = gameSpeed;
             gameSpeed = 10;
             document.getElementById('speedSlider').value = 10;
@@ -6923,7 +7894,7 @@
             
             resetRecords();
             
-            const charKeys = ['GUITOU', 'BAIDAN', 'MAONAI', 'HEIDAN', 'SHINIAN', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'SHIBING', 'NIGE', 'PO9', 'LIBERTY', 'TANGSHUI', 'MOFANGZHE', 'SHUANGSHENG'];
+            const charKeys = ['GUITOU', 'BAIDAN', 'MAONAI', 'HEIDAN', 'SHINIAN', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'SHIBING', 'NIGE', 'PO9', 'LIBERTY', 'TANGSHUI', 'MOFANGZHE', 'SHUANGSHENG', 'SHUANGSHINIAN', 'DENGJIE'];
             autoTestQueue = [];
             
             for (let i = 0; i < charKeys.length; i++) {
@@ -6946,8 +7917,8 @@
             
             const match = autoTestQueue[autoTestCurrentMatch];
             
-            document.querySelector(`input[name="redChar"][value="${match.red}"]`).checked = true;
-            document.querySelector(`input[name="blueChar"][value="${match.blue}"]`).checked = true;
+            selectionState.red[0] = match.red;
+            selectionState.blue[0] = match.blue;
             
             document.getElementById('gameOverOverlay').style.display = 'none';
             
@@ -6969,7 +7940,9 @@
                 PO9: PO9,
                 LIBERTY: Liberty,
                 TANGSHUI: TangShui,
-                SHUANGSHENG: MaoNai
+                SHUANGSHENG: MaoNai,
+                SHUANGSHINIAN: ShiNianZhiHou,
+                DENGJIE: DengJie
             };
             
             characters = [];
@@ -6980,6 +7953,7 @@
             
             currentRedChar = match.red;
             currentBlueChar = match.blue;
+            matchTeams = { red: [match.red], blue: [match.blue] };
             
             characters = [];
             nigeSpawnQueue = [];
@@ -6996,6 +7970,18 @@
                 liu.isShuangshengUnit = true;
                 normalizeVelocity(liu);
                 characters.push(liu);
+            } else if (match.red === 'SHUANGSHINIAN') {
+                const shinian = new ShiNianZhiHou(160, 165, '#e74c3c', 'red', characters.length);
+                shinian.hp = 500;
+                shinian.maxHp = 500;
+                shinian.isTwinTenUnit = true;
+                normalizeVelocity(shinian);
+                characters.push(shinian);
+                
+                const ershi = new ErShi(160, 235, '#e74c3c', 'red', characters.length);
+                ershi.isTwinTenUnit = true;
+                normalizeVelocity(ershi);
+                characters.push(ershi);
             } else if (match.red === 'NIGE') {
                 const legionId = ++nigeLegionCounter;
                 for (let i = 0; i < 3; i++) {
@@ -7032,6 +8018,18 @@
                 liu.isShuangshengUnit = true;
                 normalizeVelocity(liu);
                 characters.push(liu);
+            } else if (match.blue === 'SHUANGSHINIAN') {
+                const shinian = new ShiNianZhiHou(240, 165, '#3498db', 'blue', characters.length);
+                shinian.hp = 500;
+                shinian.maxHp = 500;
+                shinian.isTwinTenUnit = true;
+                normalizeVelocity(shinian);
+                characters.push(shinian);
+                
+                const ershi = new ErShi(240, 235, '#3498db', 'blue', characters.length);
+                ershi.isTwinTenUnit = true;
+                normalizeVelocity(ershi);
+                characters.push(ershi);
             } else if (match.blue === 'NIGE') {
                 const legionId = ++nigeLegionCounter;
                 for (let i = 0; i < 3; i++) {
@@ -7164,123 +8162,196 @@
             requestAnimationFrame(gameLoop);
         }
         
-        function startGame() {
-            document.getElementById('gameOverOverlay').style.display = 'none';
+        const CHAR_CLASSES = {
+            GUITOU: GuiTou,
+            BAIDAN: BaiDan,
+            MAONAI: MaoNai,
+            HEIDAN: HeiDan,
+            SHINIAN: ShiNianZhiHou,
+            MABA: MaBa,
+            HEZIHAN: HeZiHan,
+            DIKE: DiKeDeHeiDiao,
+            WENSHI: WenShiDaPeng,
+            SHIBING: ShiBing,
+            TEST: Test,
+            NIGE: NiGeJunTuan,
+            CHENZHICHONG: ChenZhiChong,
+            MOFANGZHE: MoFangZhe,
+            PO9: PO9,
+            LIBERTY: Liberty,
+            TANGSHUI: TangShui,
+            SHUANGSHENG: MaoNai,
+            SHUANGSHINIAN: ShiNianZhiHou,
+            DENGJIE: DengJie
+        };
+        
+        function createFighter(type, team, x, y, hpMultiplier = 1, atkMultiplier = 1) {
+            const color = TEAM_CONFIG[team].color;
+            const created = [];
             
-            const redType = document.querySelector('input[name="redChar"]:checked').value;
-            const blueType = document.querySelector('input[name="blueChar"]:checked').value;
-            
-            currentRedChar = redType;
-            currentBlueChar = blueType;
-            
-            const charClasses = {
-                GUITOU: GuiTou,
-                BAIDAN: BaiDan,
-                MAONAI: MaoNai,
-                HEIDAN: HeiDan,
-                SHINIAN: ShiNianZhiHou,
-                MABA: MaBa,
-                HEZIHAN: HeZiHan,
-                DIKE: DiKeDeHeiDiao,
-                WENSHI: WenShiDaPeng,
-                SHIBING: ShiBing,
-                TEST: Test,
-                NIGE: NiGeJunTuan,
-                CHENZHICHONG: ChenZhiChong,
-                MOFANGZHE: MoFangZhe,
-                PO9: PO9,
-                LIBERTY: Liberty,
-                TANGSHUI: TangShui,
-                SHUANGSHENG: MaoNai
-            };
-            
-            const RedCharClass = charClasses[redType];
-            const BlueCharClass = charClasses[blueType];
-            
-            const mapWidth = WIDTH - PADDING * 2;
-            const mapHeight = HEIGHT - PADDING * 2;
-            
-            characters = [];
-            nigeSpawnQueue = [];
-            
-            if (redType === 'SHUANGSHENG') {
-                const baseX = PADDING + mapWidth * 0.25;
-                const baseY = PADDING + mapHeight / 2;
-                const mao = new MaoNai(baseX, baseY - 35, '#e74c3c', 'red', characters.length);
+            if (type === 'SHUANGSHENG') {
+                const mao = new MaoNai(x, y - 30, color, team, characters.length);
                 mao.hp = 500;
                 mao.maxHp = 500;
                 mao.isShuangshengUnit = true;
-                normalizeVelocity(mao);
                 characters.push(mao);
+                created.push(mao);
                 
-                const liu = new LiuChuanChuan(baseX, baseY + 35, '#e74c3c', 'red', characters.length);
+                const liu = new LiuChuanChuan(x, y + 30, color, team, characters.length);
                 liu.isShuangshengUnit = true;
-                normalizeVelocity(liu);
                 characters.push(liu);
-            } else if (redType === 'NIGE') {
+                created.push(liu);
+            } else if (type === 'SHUANGSHINIAN') {
+                const shinian = new ShiNianZhiHou(x, y - 30, color, team, characters.length);
+                shinian.hp = 500;
+                shinian.maxHp = 500;
+                shinian.isTwinTenUnit = true;
+                characters.push(shinian);
+                created.push(shinian);
+                
+                const ershi = new ErShi(x, y + 30, color, team, characters.length);
+                ershi.isTwinTenUnit = true;
+                characters.push(ershi);
+                created.push(ershi);
+            } else if (type === 'NIGE') {
                 const legionId = ++nigeLegionCounter;
                 for (let i = 0; i < 3; i++) {
-                    const offsetAngle = (Math.PI * 2 / 3) * i;
-                    const offsetX = Math.cos(offsetAngle) * 40;
-                    const offsetY = Math.sin(offsetAngle) * 40;
+                    const angle = (Math.PI * 2 / 3) * i;
                     const soldier = new NiGeJunTuan(
-                        PADDING + mapWidth * 0.25 + offsetX,
-                        PADDING + mapHeight / 2 + offsetY,
-                        '#e74c3c', 'red', characters.length
+                        x + Math.cos(angle) * 40,
+                        y + Math.sin(angle) * 40,
+                        color, team, characters.length
                     );
                     soldier.legionId = legionId;
                     soldier.soldierIndex = i;
                     characters.push(soldier);
+                    created.push(soldier);
                 }
                 
                 nigeSpawnQueue.push({
                     legionId: legionId,
-                    team: 'red',
+                    team: team,
                     totalSent: 3,
-                    lastSpawnTime: Date.now() - 1000
+                    lastSpawnTime: Date.now() - 1000,
+                    endless: false,
+                    hpMultiplier: hpMultiplier
                 });
             } else {
-                characters.push(new RedCharClass(PADDING + mapWidth * 0.25, PADDING + mapHeight / 2, '#e74c3c', 'red', 0));
+                const unit = new CHAR_CLASSES[type](x, y, color, team, characters.length);
+                characters.push(unit);
+                created.push(unit);
             }
             
-            if (blueType === 'SHUANGSHENG') {
-                const baseX = PADDING + mapWidth * 0.75;
-                const baseY = PADDING + mapHeight / 2;
-                const mao = new MaoNai(baseX, baseY - 35, '#3498db', 'blue', characters.length);
-                mao.hp = 500;
-                mao.maxHp = 500;
-                mao.isShuangshengUnit = true;
-                normalizeVelocity(mao);
-                characters.push(mao);
-                
-                const liu = new LiuChuanChuan(baseX, baseY + 35, '#3498db', 'blue', characters.length);
-                liu.isShuangshengUnit = true;
-                normalizeVelocity(liu);
-                characters.push(liu);
-            } else if (blueType === 'NIGE') {
-                const legionId = ++nigeLegionCounter;
-                for (let i = 0; i < 3; i++) {
-                    const offsetAngle = (Math.PI * 2 / 3) * i;
-                    const offsetX = Math.cos(offsetAngle) * 40;
-                    const offsetY = Math.sin(offsetAngle) * 40;
-                    const soldier = new NiGeJunTuan(
-                        PADDING + mapWidth * 0.75 + offsetX,
-                        PADDING + mapHeight / 2 + offsetY,
-                        '#3498db', 'blue', characters.length
-                    );
-                    soldier.legionId = legionId;
-                    soldier.soldierIndex = i;
-                    characters.push(soldier);
+            for (const unit of created) {
+                if (hpMultiplier !== 1) {
+                    unit.maxHp = Math.round(unit.maxHp * hpMultiplier);
+                    unit.hp = unit.maxHp;
                 }
-                
+                if (atkMultiplier !== 1) {
+                    unit.attackMultiplier = atkMultiplier;
+                }
+                normalizeVelocity(unit);
+            }
+            
+            return created;
+        }
+        
+        function spawnTeam(types, team, baseX, baseY, gap, hpMultiplier = 1, atkMultiplier = 1) {
+            const total = types.length;
+            types.forEach((type, index) => {
+                const offset = gap * (index - (total - 1) / 2);
+                createFighter(type, team, baseX, baseY + offset, hpMultiplier, atkMultiplier);
+            });
+        }
+        
+        function spawnNigeLegion(team, baseX, baseY, count) {
+            const legionId = ++nigeLegionCounter;
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 / count) * i;
+                const soldier = new NiGeJunTuan(
+                    baseX + Math.cos(angle) * 40,
+                    baseY + Math.sin(angle) * 40,
+                    TEAM_CONFIG[team].color, team, characters.length
+                );
+                soldier.legionId = legionId;
+                soldier.soldierIndex = i;
+                characters.push(soldier);
+            }
+            return legionId;
+        }
+        
+        // 非对称竞技的人数补偿：每少 1 人生命 ×2 / 攻击 ×1.5；每少 2 人生命 ×2.5 / 攻击 ×1.75
+        function computeAsymBonus(redCount, blueCount) {
+            if (redCount === blueCount || redCount === 0 || blueCount === 0) {
+                return { side: null, hp: 1, atk: 1 };
+            }
+            const side = redCount < blueCount ? 'red' : 'blue';
+            const diff = Math.abs(redCount - blueCount);
+            return {
+                side,
+                hp: Math.min(2.5, 1.5 + 0.5 * diff),
+                atk: Math.min(1.75, 1.25 + 0.25 * diff)
+            };
+        }
+        
+        function computeMatchHandicaps(teams) {
+            const hp = { red: 1, blue: 1, green: 1, yellow: 1 };
+            const atk = { red: 1, blue: 1, green: 1, yellow: 1 };
+            if (currentMode !== 'asym' || !asymBalanceEnabled) return { hp, atk };
+            
+            const bonus = computeAsymBonus(teams.red ? teams.red.length : 0, teams.blue ? teams.blue.length : 0);
+            if (!bonus.side) return { hp, atk };
+            
+            hp[bonus.side] = bonus.hp;
+            atk[bonus.side] = bonus.atk;
+            return { hp, atk };
+        }
+        
+        function setupMatch(teams) {
+            matchTeams = teams;
+            characters = [];
+            projectiles = [];
+            floatingTexts = [];
+            nigeSpawnQueue = [];
+            gameOver = false;
+            endlessStats = { spawned: 0, killed: 0, startedAt: Date.now() };
+            const handicaps = computeMatchHandicaps(teams);
+            matchHandicap = handicaps.hp;
+            matchAttackHandicap = handicaps.atk;
+            
+            const mapWidth = WIDTH - PADDING * 2;
+            const mapHeight = HEIGHT - PADDING * 2;
+            const leftX = PADDING + mapWidth * 0.25;
+            const rightX = PADDING + mapWidth * 0.75;
+            const midY = PADDING + mapHeight / 2;
+            const topY = PADDING + mapHeight * 0.25;
+            const bottomY = PADDING + mapHeight * 0.75;
+            
+            if (currentMode === 'classic') {
+                spawnTeam(teams.red, 'red', leftX, midY, 0, matchHandicap.red);
+                spawnTeam(teams.blue, 'blue', rightX, midY, 0, matchHandicap.blue);
+            } else if (currentMode === '2v2') {
+                spawnTeam(teams.red, 'red', leftX, midY, 70, matchHandicap.red);
+                spawnTeam(teams.blue, 'blue', rightX, midY, 70, matchHandicap.blue);
+            } else if (currentMode === 'ffa') {
+                spawnTeam(teams.red, 'red', leftX, topY, 0, matchHandicap.red);
+                spawnTeam(teams.blue, 'blue', rightX, topY, 0, matchHandicap.blue);
+                spawnTeam(teams.green, 'green', leftX, bottomY, 0, matchHandicap.green);
+                spawnTeam(teams.yellow, 'yellow', rightX, bottomY, 0, matchHandicap.yellow);
+            } else if (currentMode === 'asym') {
+                spawnTeam(teams.red, 'red', leftX, midY, teams.red.length > 1 ? 70 : 0, matchHandicap.red, matchAttackHandicap.red);
+                spawnTeam(teams.blue, 'blue', rightX, midY, teams.blue.length > 1 ? 70 : 0, matchHandicap.blue, matchAttackHandicap.blue);
+            } else if (currentMode === 'endless') {
+                spawnTeam(teams.red, 'red', leftX, midY, 0, matchHandicap.red);
+                const legionId = spawnNigeLegion('blue', rightX, midY, 3);
                 nigeSpawnQueue.push({
                     legionId: legionId,
                     team: 'blue',
                     totalSent: 3,
-                    lastSpawnTime: Date.now() - 1000
+                    lastSpawnTime: Date.now() - 1000,
+                    endless: true
                 });
-            } else {
-                characters.push(new BlueCharClass(PADDING + mapWidth * 0.75, PADDING + mapHeight / 2, '#3498db', 'blue', characters.length));
+                endlessStats.spawned = 3;
             }
             
             const now = Date.now();
@@ -7311,13 +8382,49 @@
                 } while (true);
             }
             
-            projectiles = [];
-            floatingTexts = [];
-            gameOver = false;
-            
-            document.getElementById('redHpDisplay').textContent = 1000;
-            document.getElementById('blueHpDisplay').textContent = 1000;
+            updateTeamStats();
         }
+        
+        function readTeamSelection(team) {
+            const count = getTeamSlotCount(team);
+            const roles = [];
+            for (let i = 0; i < count; i++) {
+                const roleKey = selectionState[team][i];
+                if (!roleKey) return null;
+                roles.push(roleKey);
+            }
+            return roles;
+        }
+        
+        function startGame() {
+            document.getElementById('gameOverOverlay').style.display = 'none';
+            
+            const teams = { red: [], blue: [], green: [], yellow: [] };
+            
+            for (const team of getVisibleTeams()) {
+                const count = getTeamSlotCount(team);
+                if (count === 0) continue;
+                
+                const roles = readTeamSelection(team);
+                if (!roles) {
+                    alert('请为所有槽位选择角色');
+                    return;
+                }
+                if (roles.some((key, index) => roles.indexOf(key) !== index)) {
+                    alert('同一方不能选择相同角色');
+                    return;
+                }
+                teams[team] = roles;
+            }
+            
+            currentRedChar = teams.red[0] || '';
+            currentBlueChar = teams.blue[0] || '';
+            
+            setupMatch(teams);
+        }
+        
+        renderRoster();
+        setMode('classic');
         
         gameLoop();
     </script>

@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猎7班大乱斗 · 图鉴与更新日志</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 15%, #5b7fe8 0%, #4169E1 48%, #3152b8 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+            padding: 24px 20px 40px;
+        }
+        .page-shell {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 22px 26px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 18px;
+            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.18);
+        }
+        .page-header h1 {
+            color: #e74c3c;
+            font-size: 30px;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .back-link {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(231, 76, 60, 0.35);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(231, 76, 60, 0.42);
+        }
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            align-self: flex-start;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.82);
+            border-radius: 14px;
+        }
+        .tab-btn {
+            border: none;
+            background: transparent;
+            color: #555;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 9px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { background: #f0f2f7; }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            box-shadow: 0 6px 14px rgba(231, 76, 60, 0.3);
+        }
+        .tab-panel {
+            display: none;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: none; }
+        }
+        .panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 2px 6px 8px;
+        }
+        .panel-head h2 {
+            color: #fff;
+            font-size: 20px;
+        }
+        .panel-note {
+            padding: 0 6px 14px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .count-badge {
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #4169E1;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .codex-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 16px;
+            align-items: start;
+        }
+        .codex-card {
+            display: flex;
+            flex-direction: column;
+            padding: 18px;
+            background: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            box-shadow: 0 8px 22px rgba(19, 42, 96, 0.16);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .codex-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(19, 42, 96, 0.24);
+        }
+        .codex-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .avatar {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
+            box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+        }
+        .codex-name {
+            color: #23324d;
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .role-tag {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .summary {
+            margin: 2px 0 12px;
+            padding: 8px 10px;
+            border-left: 3px solid #dfe6f3;
+            background: #f7f9fc;
+            border-radius: 0 8px 8px 0;
+            color: #3f4b5f;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        .stat-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .stat-chip {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            background: #eef3fb;
+            border: 1px solid #dce6f5;
+            font-size: 11px;
+            color: #5b6b82;
+            white-space: nowrap;
+        }
+        .stat-chip b {
+            color: #23324d;
+            font-size: 12px;
+        }
+        .block {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px dashed #e3e9f2;
+        }
+        .block-title {
+            display: inline-block;
+            margin-bottom: 5px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: #f4f6fa;
+            color: #34495e;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .block-text {
+            color: #4b5563;
+            font-size: 13px;
+            line-height: 1.72;
+        }
+        .block-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .block-list li {
+            position: relative;
+            padding-left: 14px;
+            color: #4b5563;
+            font-size: 13px;
+            line-height: 1.68;
+        }
+        .block-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #9fb2d1;
+        }
+        .block-list strong {
+            color: #2c3e50;
+            font-weight: 800;
+        }
+        .key-nums {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+            padding-top: 11px;
+            border-top: 1px dashed #e3e9f2;
+        }
+        .key-num {
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: #fdf2e9;
+            border: 1px solid #f5d7b8;
+            color: #b9770e;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .tone-red .avatar { background: linear-gradient(135deg, #ff7b6b, #c0392b); }
+        .tone-red .role-tag { background: #fdecea; color: #c0392b; border: 1px solid #f5b7b1; }
+        .tone-blue .avatar { background: linear-gradient(135deg, #6bb6ff, #2471a3); }
+        .tone-blue .role-tag { background: #eaf3fb; color: #2471a3; border: 1px solid #aed6f1; }
+        .tone-purple .avatar { background: linear-gradient(135deg, #b07cd8, #7d3c98); }
+        .tone-purple .role-tag { background: #f4ecf7; color: #7d3c98; border: 1px solid #d7bde2; }
+        .tone-orange .avatar { background: linear-gradient(135deg, #f5b041, #b9770e); }
+        .tone-orange .role-tag { background: #fef5e7; color: #b9770e; border: 1px solid #fad7a0; }
+        .tone-green .avatar { background: linear-gradient(135deg, #52c98a, #1e8449); }
+        .tone-green .role-tag { background: #eafaf1; color: #1e8449; border: 1px solid #a9dfbf; }
+        .changelog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .changelog-group {
+            padding: 18px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 22px rgba(19, 42, 96, 0.16);
+        }
+        .log-date-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .log-date {
+            color: #23324d;
+            font-size: 15px;
+            font-weight: 800;
+        }
+        .latest-badge {
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #e74c3c;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        .log-entry {
+            padding: 0 0 14px 14px;
+            border-left: 3px solid #dfe6f3;
+        }
+        .log-entry:last-child { padding-bottom: 0; }
+        .log-title {
+            margin-bottom: 6px;
+            color: #2c3e50;
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .log-items {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            list-style: none;
+        }
+        .log-items li {
+            position: relative;
+            padding-left: 14px;
+            color: #4b5563;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .log-items li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #e74c3c;
+            opacity: 0.75;
+        }
+        .page-footer {
+            padding-top: 6px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12px;
+        }
+        @media (max-width: 900px) {
+            .codex-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 720px) {
+            body { padding: 16px 12px 28px; }
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 18px;
+            }
+            .page-header h1 { font-size: 24px; }
+            .back-link { align-self: flex-start; }
+            .tab-bar { align-self: stretch; }
+            .tab-btn {
+                flex: 1;
+                padding: 9px 10px;
+            }
+            .tab-panel { padding: 12px; }
+            .codex-card { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <header class="page-header">
+            <div>
+                <h1>猎7班大乱斗 · 图鉴</h1>
+                <p class="subtitle">18 名可选角色 · 完整机制与数值</p>
+            </div>
+            <a class="back-link" href="猎7班大乱斗.html">← 返回对战</a>
+        </header>
+
+        <nav class="tab-bar" aria-label="图鉴导航">
+            <button class="tab-btn active" data-tab="codex" onclick="switchTab('codex')">角色图鉴</button>
+            <button class="tab-btn" data-tab="changelog" onclick="switchTab('changelog')">更新日志</button>
+        </nav>
+
+        <main>
+            <section class="tab-panel active" id="codexPanel">
+                <div class="panel-head">
+                    <h2>角色图鉴</h2>
+                    <span class="count-badge">共 18 名可选角色</span>
+                </div>
+                <p class="panel-note">以下数值取自当前版本代码：生命、攻击间隔为实时数值；伤害、范围、持续时间均按实际结算逻辑标注。</p>
+                <div class="codex-grid" id="codexGrid"></div>
+            </section>
+
+            <section class="tab-panel" id="changelogPanel">
+                <div class="panel-head">
+                    <h2>更新日志</h2>
+                    <span class="count-badge">按日期汇总</span>
+                </div>
+                <div class="changelog-list" id="changelogList"></div>
+            </section>
+        </main>
+
+        <footer class="page-footer">猎7班大乱斗 · 图鉴与更新日志</footer>
+    </div>
+
+    <script>
+        const CODEX_ENTRIES = [
+            {
+                name: '鸡头发言',
+                icon: '鸡',
+                role: '后期爆发',
+                tone: 'red',
+                summary: '每 1.2–2.2 秒判定一次：大概率挂挡蓄能，小概率直接开火。充能越高，激光越痛。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '判定间隔', value: '1.2–2.2 秒' },
+                    { label: '充能档位', value: '1–10' }
+                ],
+                blocks: [
+                    {
+                        title: '蓄力判定',
+                        text: '开局随机确定一个 1.2–2.2 秒的固定判定间隔。每次判定时 75% 概率挂挡，充能 +1 或 +2（各 50%）；充能已满 10 档时不再蓄力，必定开火。'
+                    },
+                    {
+                        title: '激光开火',
+                        text: '向最近敌人发射一条持续 0.25 秒、宽 8 的激光，伤害 = 50 × 当前充能档位，即 50–500。开火后充能重置为 2 档。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成任何碰撞伤害。'
+                    }
+                ],
+                keyNums: ['挂挡概率 75%', '单次 +1 / +2', '上限 10 档', '激光 50 × 档位', '开火后回到 2 档']
+            },
+            {
+                name: '白蛋',
+                icon: '蛋',
+                role: '稳定输出',
+                tone: 'red',
+                summary: '1500ms 一发小角度散射弹，50–80 伤害；命中叠连击，近身碰撞能回血。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.5 秒' },
+                    { label: '弹速 / 半径', value: '5 / 6' },
+                    { label: '偏角', value: '±0.1 rad' }
+                ],
+                blocks: [
+                    {
+                        title: '散射弹',
+                        text: '每 1.5 秒向最近敌人发射 1 发，随机偏角 (rand−0.5)×0.2 rad（约 ±5.7°）。基础伤害 floor(rand×31)+50，即 50–80；弹速 5，弹体半径 6。'
+                    },
+                    {
+                        title: '连击',
+                        text: '弹幕每次命中，连击 +1，最多 2 层。每层令下一发伤害 +10%（最多 +20%）；碰撞命中会清空连击。'
+                    },
+                    {
+                        title: '碰撞回血',
+                        text: '与敌人接触每 1 秒结算一次：对敌人造成 30 伤害，自身回复 10 血。对马八分身同样造成 30 伤害并回 10 血，同一分身一次接触只结算一次。'
+                    }
+                ],
+                keyNums: ['伤害 50–80', '连击上限 2 层', '每层 +10%', '碰撞 30 伤害 / 回 10 血', '碰撞冷却 1 秒']
+            },
+            {
+                name: '猫奶',
+                icon: '猫',
+                role: '中距离',
+                tone: 'blue',
+                summary: '110 射程三线爪击；双生·猫日成员，羁绊回血，同伴阵亡后爪伤提升 50%。',
+                stats: [
+                    { label: '生命', value: '1000（双生 500）' },
+                    { label: '攻击间隔', value: '1.2 秒' },
+                    { label: '射程', value: '110' }
+                ],
+                blocks: [
+                    {
+                        title: '爪击',
+                        text: '每 1.2 秒锁定射程内最近敌人，挥出 3 道爪击；三道线以 ±0.15 rad 扇形展开，长度 90（射程 110 − 自身半径 20），每道持续 0.25 秒并造成 24 伤害。'
+                    },
+                    {
+                        title: '双生羁绊',
+                        text: '与刘川川同队时，两人都存活则每 2 秒各回复 8 血。刘川川阵亡后进入「同伴阵亡」状态：爪击伤害 ×1.5，即 24 → 36，永久生效。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['每道爪击 24', '同伴阵亡 36', '射程 110', '羁绊回血 8 / 2 秒']
+            },
+            {
+                name: '黑蛋',
+                icon: '黑',
+                role: '冲锋',
+                tone: 'blue',
+                summary: '每 2 秒锁定敌人直线冲锋，撞击造成 90 伤害；30% 概率将受到的伤害减半。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '2 秒' },
+                    { label: '冲锋速度', value: '4.0' },
+                    { label: '冲锋时长', value: '0.8 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '冲锋',
+                        text: '每 2 秒锁定最近敌人，以 4.0 的速度沿直线冲锋 0.8 秒（约为普通移速 0.8 的 5 倍）。冲锋期间不受角色碰撞阻挡，也不会被撞停。'
+                    },
+                    {
+                        title: '撞击',
+                        text: '冲锋中碰到敌人造成 90 伤害，并把双方沿碰撞法线弹开。对马八分身造成 75 伤害；同一次冲锋对同一分身只结算一次。'
+                    },
+                    {
+                        title: '被动 · 肥肉护体',
+                        text: '每次受到伤害时，有 30% 概率将该次伤害减半。'
+                    }
+                ],
+                keyNums: ['撞击 90', '分身 75', '冲锋 4.0 × 0.8 秒', '30% 伤害减半']
+            },
+            {
+                name: '十年之后',
+                icon: '十',
+                role: '辅助',
+                tone: 'purple',
+                summary: '时间脉冲命中回血并让敌人受伤加重；碎片给队友减伤；首次濒死自动回溯到 3 秒前。',
+                stats: [
+                    { label: '生命', value: '1000（双生 500）' },
+                    { label: '攻击间隔', value: '2.2 秒' },
+                    { label: '弹速 / 半径', value: '3 / 15' },
+                    { label: '碎片间隔', value: '5 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '时间脉冲',
+                        text: '每 2.2 秒发射一枚弹速 3、半径 15、存活 1 秒的脉冲，基础伤害 16。每次自身受到伤害会 +2 攻击加成（上限 +100，即最高 116）；双生同伴阵亡后再 ×1.5。'
+                    },
+                    {
+                        title: '命中效果',
+                        text: '脉冲命中敌人后：自身回复 20 血；敌人移动方向被随机重置，并获得 1 秒「时间场效应」——期间其受到的伤害 ×1.5。'
+                    },
+                    {
+                        title: '记忆碎片',
+                        text: '每 5 秒在自身周围 50–100px 生成一枚碎片。队友碰到获得 6 秒减伤（受到伤害 ×0.9）；敌人碰到受到 40 伤害，同时十年移速永久 −0.01（最低 0.3）。'
+                    },
+                    {
+                        title: '时间腐蚀',
+                        text: '自身每秒腐蚀 +5，并自伤 min(floor(腐蚀值 × 0.05), 10)，即每秒最多自伤 10。自伤同样会触发 +2 攻击加成。'
+                    },
+                    {
+                        title: '时光回溯',
+                        text: '每 50ms 记录一次状态并保留最近 3 秒。每局一次：首次濒死时回到 3 秒前的记录点，恢复当时的位置、血量、攻击加成与腐蚀值。'
+                    },
+                    {
+                        title: '双生羁绊',
+                        text: '与 20 同队时，两人都存活则每 2 秒各回复 8 血；20 阵亡后自身伤害 ×1.5。'
+                    }
+                ],
+                keyNums: ['基础 16（最高 116）', '碎片 40 / 减伤 6 秒', '腐蚀自伤 ≤10/秒', '回溯 1 次/局', '羁绊回血 8 / 2 秒']
+            },
+            {
+                name: '马八',
+                icon: '马',
+                role: '人海',
+                tone: 'green',
+                summary: '每 7 秒用 30 血换一个分身，最多 8 个；致命伤时归一吸收所有分身血量。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1 秒' },
+                    { label: '弹速 / 半径', value: '4 / 5' },
+                    { label: '分身上限', value: '8' }
+                ],
+                blocks: [
+                    {
+                        title: '投掷',
+                        text: '每 1 秒向最近敌人投掷粉笔，造成 30 伤害，弹速 4，弹体半径 5。'
+                    },
+                    {
+                        title: '分裂',
+                        text: '每 7 秒消耗 30 血生成 1 个分身，最多 8 个；本体血量 ≤30 时停止分裂。分身 50 血，以 0.5 的速度随机游走，每 1.5 秒向最近敌人发射 30 伤害、弹速 4、半径 5 的弹幕。'
+                    },
+                    {
+                        title: '归一',
+                        text: '受到致命伤害时，如果场上还有分身，则吸收所有分身的剩余血量（每个最多 50），清空全部分身，本次伤害完全抵消；此后永久不能再分裂。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '本体与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['分裂成本 30 血', '分身 50 血 / 8 个上限', '分身攻击 30 / 1.5 秒', '归一次数 1 次']
+            },
+            {
+                name: '盒子含',
+                icon: '盒',
+                role: '无限成长',
+                tone: 'orange',
+                summary: '初始伤害 1、间隔 3 秒；每攻击一次伤害 +1、间隔 ×0.89，越打越快越痛。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '初始间隔', value: '3 秒' },
+                    { label: '初始伤害', value: '1' },
+                    { label: '弹速 / 半径', value: '6 / 5' }
+                ],
+                blocks: [
+                    {
+                        title: '成长',
+                        text: '第 n 次攻击造成 n 点伤害；攻击间隔按 3000 × 0.89^(n−1) 递减，最低 100ms。弹速 6，弹体半径 5。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['伤害每发 +1', '间隔每发 ×0.89', '间隔下限 100ms']
+            },
+            {
+                name: '低客的黑调',
+                icon: '低',
+                role: '高爆发',
+                tone: 'red',
+                summary: '逐字敲代码后发射代码弹，伤害随代码长度成长；叠漏洞后用崩溃重击引爆。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.8 秒' },
+                    { label: '代码弹速', value: '5' },
+                    { label: '崩溃间隔', value: '8 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '写代码',
+                        text: '每 1.8 秒从代码库选一段代码逐字敲击，每字 25ms；敲完后向最近敌人发射代码弹（弹速 5、存活 2 秒、宽 4 高 15）。伤害 = floor(代码字符数 × 4)。血量越低，越容易选中长代码（长代码概率 = 1 − 当前血量比例）。'
+                    },
+                    {
+                        title: '漏洞',
+                        text: '代码弹命中会给目标叠加 min(floor(代码长度 / 10), 5) 层漏洞，上限 5 层。目标身上每层漏洞使后续代码弹伤害 +10；漏洞每 10 秒衰减 1 层。'
+                    },
+                    {
+                        title: '代码优化',
+                        text: '每次完成攻击后有 30% 概率进入 5 秒优化：敲字速度翻倍（25ms → 12.5ms），期间发射的代码弹伤害 ×1.3，且不再叠加漏洞。优化弹发射后优化状态结束。'
+                    },
+                    {
+                        title: '崩溃重击',
+                        text: '每 8 秒对最近敌人造成 40 + 目标漏洞层数 × 30 伤害（最高 190），随后清空目标漏洞并使其减速 1 秒。'
+                    },
+                    {
+                        title: '自我治疗',
+                        text: '每 3 秒回复 10 血，并显示 +10 治疗字幕。'
+                    }
+                ],
+                keyNums: ['代码伤害 ×4 字符数', '漏洞上限 5', '每层 +10', '优化 30% / 5 秒 / ×1.3', '崩溃 40 + 30/层', '自愈 10 / 3 秒']
+            },
+            {
+                name: '温室大棚',
+                icon: '温',
+                role: '控制',
+                tone: 'purple',
+                summary: '吹哨全场转向并眩晕；哨弹命中 4 次触发罚跑，强制敌人绕圈掉血。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.2 秒' },
+                    { label: '吹哨间隔', value: '3.6 秒' },
+                    { label: '弹速 / 半径', value: '4 / 8' }
+                ],
+                blocks: [
+                    {
+                        title: '哨弹',
+                        text: '每 1.2 秒向随机敌人发射哨弹，伤害 46 × (1 + 体能层数 × 0.05)，弹速 4，半径 8，存活 1 秒。'
+                    },
+                    {
+                        title: '吹哨',
+                        text: '每 3.6 秒吹哨：对全场敌人（无论距离）随机重置移动方向，速度 ×0.8，并眩晕 1.2 秒。视觉波纹由半径 20 扩散至 200，持续 0.5 秒。'
+                    },
+                    {
+                        title: '罚跑',
+                        text: '哨弹每累计命中 4 次，随机罚跑一名敌人 6 秒：目标以自身 1.5 倍移速，围绕温室大棚半径 80 的圆强制跑动，无法自主移动；每跑 60px 受到 30 伤害。罚跑期间该角色攻击与技能的使用速度 ×0.7、造成的伤害 ×0.7。触发时目标先眩晕 0.5 秒。'
+                    },
+                    {
+                        title: '体能训练',
+                        text: '自身累计跑动 2π × 100 ≈ 628px 获得 1 层体能，最多 6 层。每层提供移速 +5%、哨弹伤害 +5%。'
+                    },
+                    {
+                        title: '罚跑压制',
+                        text: '场上有被罚跑的敌人时，温室大棚停止攻击且移速 ×1.5；自身若被罚跑，同样无法攻击与吹哨。'
+                    }
+                ],
+                keyNums: ['吹哨 3.6 秒 / 眩晕 1.2 秒', '罚跑 6 秒 / 30 伤害每 60px', '罚跑攻速与伤害 ×0.7', '体能上限 6 层', '每层 +5% 速度与伤害']
+            },
+            {
+                name: '陈治宏',
+                icon: '陈',
+                role: '弹道',
+                tone: 'blue',
+                summary: '随机发射普通弹、追踪弹或三向弹；每 6 秒突击 1.5 秒，伤害、移速、射速全面提升。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.2 秒' },
+                    { label: '突击间隔', value: '6 秒' },
+                    { label: '突击时长', value: '1.5 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '三种子弹',
+                        text: '每 1.2 秒随机发射一种（各 1/3），基础伤害 25：普通弹速度 6、半径 3、可反弹 4 次；追踪弹速度 5、半径 3、转向强度 0.03、可反弹 3 次；三向弹速度 5、以 ±0.35 rad 三发、穿透 1、不可反弹。'
+                    },
+                    {
+                        title: '突击',
+                        text: '每 6 秒进入 1.5 秒突击：伤害 ×1.5（25 → 37），移速 ×1.5；突击中每次普通弹或追踪弹射击后追加 2 发同类子弹，每 0.2 秒一发。三向弹不触发追加。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['基础 25 / 突击 37', '三弹各 1/3', '突击移速 ×1.5', '追加 2 发 / 0.2 秒']
+            },
+            {
+                name: '尼格军团',
+                icon: '尼',
+                role: '人海',
+                tone: 'green',
+                summary: '开局 3 个百血小兵，最多累计派出 10 个；近身 60 伤害，血量按存活 + 待派合计。',
+                stats: [
+                    { label: '单兵生命', value: '100' },
+                    { label: '攻击间隔', value: '0.5 秒' },
+                    { label: '近战范围', value: '60' },
+                    { label: '总兵力', value: '10' }
+                ],
+                blocks: [
+                    {
+                        title: '百人军团',
+                        text: '每个单位仅 100 血。开局 3 个上场；之后每 1 秒从地图边缘补充 1 个，直到累计派出 10 个。场上同时最多 3 个存活。'
+                    },
+                    {
+                        title: '近战围攻',
+                        text: '每 0.5 秒攻击 60px 内的最近敌人，造成 60 伤害；没有远程攻击。'
+                    },
+                    {
+                        title: '血量显示',
+                        text: '队伍血条 = 场上存活单位的血量和 + 尚未派出的单位 × 100。未派出的单位仍计入战力，因此场上全灭但只要还有库存就不会立即判负。'
+                    }
+                ],
+                keyNums: ['单兵 100 血', '开局 3 / 总 10', '补员 1 个 / 秒', '近战 60 / 0.5 秒']
+            },
+            {
+                name: '魔怔鸡',
+                icon: '魔',
+                role: '模仿',
+                tone: 'purple',
+                summary: '每 3 秒随机变身普通角色 15 秒，自身时间加速 1.5 倍；变回时按比例回血并额外 +100。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '原形攻击间隔', value: '0.8 秒' },
+                    { label: '变身间隔', value: '3 秒' },
+                    { label: '变身时长', value: '15 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '原形攻击',
+                        text: '未变身时每 0.8 秒发射一枚 30 伤害、速度 7、半径 3、穿透 1 的子弹。'
+                    },
+                    {
+                        title: '模仿',
+                        text: '每 3 秒随机变身为 13 名普通角色之一（不含测试、尼格军团、双生角色、陈智虫与自身），持续 15 秒。变身按当前血量百分比带入新形态，不会回满血；完全沿用被模仿角色的攻击、技能与被动。'
+                    },
+                    {
+                        title: '个人时间加速',
+                        text: '变身期间，仅自身形态的时间流速 ×1.5（移动、攻击、技能冷却全部加速），不影响其他角色；其产生的弹幕伤害 ×1.2。'
+                    },
+                    {
+                        title: '变回原形',
+                        text: '恢复 1000 血上限；血量 = 1000 × 当前血量比例 + 100（封顶 1000），并显示 +100 治疗字幕，随后重新开始 3 秒变身倒计时。'
+                    }
+                ],
+                keyNums: ['原形 30 / 0.8 秒', '变身 3 秒 / 持续 15 秒', '个人时间流速 ×1.5', '弹幕伤害 ×1.2', '变回 +100 血']
+            },
+            {
+                name: '九氧化一磷',
+                icon: '磷',
+                role: '持续伤害',
+                tone: 'orange',
+                summary: '自身缓慢积攒 9 层氧后引爆；命中与触碰给敌人叠氧化，持续掉血并叠加减伤。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.6 秒' },
+                    { label: '积氧间隔', value: '1.5 秒' },
+                    { label: '弹速 / 半径', value: '4.5 / 5' }
+                ],
+                blocks: [
+                    {
+                        title: '磷火弹',
+                        text: '每 1.6 秒向最近敌人发射磷火弹，造成 32 伤害，弹速 4.5，弹体半径 5。'
+                    },
+                    {
+                        title: '缓慢氧化',
+                        text: '自身每 1.5 秒 +1 层氧，最多 9 层。满 9 层立即引爆：对 130 范围内敌人造成 150 伤害，并给命中敌人附加 2 层氧化；自身回复 40 血，氧层清零。'
+                    },
+                    {
+                        title: '氧化膜',
+                        text: '自身每有 1 层氧，受到的伤害 −1.5%（最多 9 层，即 −13.5%）。'
+                    },
+                    {
+                        title: '触碰自燃',
+                        text: '与敌人接触每 1 秒造成 10 伤害，并附加 1 层氧化。'
+                    },
+                    {
+                        title: '目标氧化',
+                        text: '敌人身上的氧化最多 5 层，每层每秒造成 4 伤害；若 2 秒内没有新的氧化叠加，则每 2 秒衰减 1 层。'
+                    }
+                ],
+                keyNums: ['引爆 150 / 范围 130', '引爆回血 40', '自身减伤 1.5%/层', '目标氧化 4 伤害/层/秒', '氧化上限 5']
+            },
+            {
+                name: 'Liberty',
+                icon: 'L',
+                role: '随机借用',
+                tone: 'purple',
+                summary: '每 6 秒进入半透明隐身：不受碰撞、不被技能与攻击锁定、免疫一切伤害；平时刻借其他角色的攻击与技能，每 2 秒借一次攻击、每 5 秒借一次技能。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '隐身间隔', value: '6 秒' },
+                    { label: '隐身时长', value: '2.5 秒' },
+                    { label: '借用节奏', value: '2 秒攻击 · 5 秒技能' }
+                ],
+                blocks: [
+                    {
+                        title: '隐身',
+                        text: '每 6 秒自动隐身 2.5 秒：方块变为半透明并出现紫色虚线圈，期间不受碰撞影响、不会被任何技能或攻击锁定，也不会受到任何伤害；隐身期间仍可正常出手。'
+                    },
+                    {
+                        title: '借用攻击（每 2 秒）',
+                        text: '从 13 名常规角色中随机一名，以它自己的攻击方式立刻打一发，伤害、弹速、半径等全部沿用该角色规则；借来的弹幕伤害与击退仍记在 Liberty 身上。'
+                    },
+                    {
+                        title: '借用技能（每 5 秒）',
+                        text: '从 6 名拥有独立技能的角色中随机一名（鸡头发言、十年之后、温室大棚、陈治宏、九氧化一磷、糖水），把该技能立刻发动一次，充能层数、氧气层数等前置按各自的合法规则补齐。'
+                    },
+                    {
+                        title: '借用范围与随机数值',
+                        text: '攻击池：鸡头发言、白蛋、黑蛋、十年之后、猫奶、马八、盒子含、低客的黑调、温室大棚、陈治宏、九氧化一磷、糖水、邓杰。鸡头发言随机充能层 1–10、糖水随机糖度 30–100、白蛋随机伤害 50–80 与散射、九氧化一磷氧气层 3–9、邓杰随机算式结果、陈治宏随机弹种、低客的黑调随机代码，均为该角色原有的合法取值。'
+                    }
+                ],
+                keyNums: ['免疫一切伤害', '不可选中', '攻击 2 秒 / 技能 5 秒', '攻击池 13 名', '技能池 6 名']
+            },
+            {
+                name: '糖水',
+                icon: '糖',
+                role: '近战爆发',
+                tone: 'red',
+                summary: '糖度越高，挥砍越痛、范围越大但移速越慢；冲刺劈砍爆发，糖渍叠满 4 层结晶眩晕。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.3 秒' },
+                    { label: '糖度', value: '30–100' },
+                    { label: '冲刺冷却', value: '3.5 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '糖度',
+                        text: '初始 30，上限 100，每秒 +6。普攻或冲刺每次给目标附加糖渍时，糖水额外获得 +12 糖度。移速倍率为 1.1 − 0.0025 × 糖度（1.1 → 0.85）。'
+                    },
+                    {
+                        title: '挥砍',
+                        text: '每 1.3 秒对射程内最近敌人挥砍：射程 = 45 + 0.3 × 糖度（45–75），扇形 ±0.6 rad，伤害 = 28 + 0.22 × 糖度（28–50）。命中附加糖渍：糖度 ≥90 时 +2 层，否则 +1 层。'
+                    },
+                    {
+                        title: '冲刺劈砍',
+                        text: '冷却 3.5 秒，仅当最近敌人距离 60–300 时发动。以 3.2 倍移速冲刺 0.6 秒，结束时对前方射程 +20、±0.85 rad 内敌人造成 1.5 倍挥砍伤害（42–75）并附加糖渍。'
+                    },
+                    {
+                        title: '糖渍',
+                        text: '目标最多 4 层，每层每秒造成 3 伤害；4 秒内未被刷新则清空。叠满 4 层触发结晶：造成 45 伤害、眩晕 1.2 秒、清空糖渍，糖水自身糖度 −40。'
+                    },
+                    {
+                        title: '铠甲合体',
+                        text: '每 10 秒自动触发一次，持续 4 秒。期间受到的伤害 ×0.55（减伤 45%），每秒回复 20 血，4 秒共 80 血。'
+                    }
+                ],
+                keyNums: ['挥砍 28–50', '冲刺 42–75', '糖渍 3 伤害/层/秒', '4 层结晶 45 / 眩晕 1.2 秒', '铠甲减伤 45% / 回 80']
+            },
+            {
+                name: '双生·猫日',
+                icon: '猫',
+                role: '双单位',
+                tone: 'green',
+                summary: '猫奶 + 刘川川同时上场，各 500 血；双人存活缓慢回血，猫奶阵亡后刘川川永久红温。',
+                stats: [
+                    { label: '合计生命', value: '1000（各 500）' },
+                    { label: '猫奶间隔 / 射程', value: '1.2 秒 / 110' },
+                    { label: '刘川川间隔 / 射程', value: '1.5 秒 / 220' }
+                ],
+                blocks: [
+                    {
+                        title: '双单位',
+                        text: '猫奶与刘川川同时上场，各 500 血、体型相同，彼此有碰撞体积；两人全部阵亡才判负。'
+                    },
+                    {
+                        title: '羁绊回血',
+                        text: '两人都存活时，每 2 秒各回复 8 血。'
+                    },
+                    {
+                        title: '猫奶',
+                        text: '每 1.2 秒挥出 3 道 24 伤害爪击，射程 110。刘川川阵亡后爪击伤害 ×1.5，即 36。'
+                    },
+                    {
+                        title: '刘川川',
+                        text: '射程 220；每 1.5 秒发射 22 伤害弹幕，速度 4.5、半径 13、存活 1.2 秒。'
+                    },
+                    {
+                        title: '红温',
+                        text: '猫奶阵亡后刘川川永久进入红温：攻击间隔 1.5 秒 → 0.9 秒，伤害 22 → 48，弹速 4.5 → 5.4，半径 13 → 16，存活 1.2 → 1.4 秒，弹幕变为红色。'
+                    }
+                ],
+                keyNums: ['各 500 血', '羁绊 8 / 2 秒', '猫奶 24 → 36', '红温 48 / 0.9 秒']
+            },
+            {
+                name: '双生·十年',
+                icon: '十',
+                role: '双单位',
+                tone: 'green',
+                summary: '十年之后 + 20 同时上场，各 500 血；两人存活缓慢回血，20 定期锁定敌人头顶垂直砸落。',
+                stats: [
+                    { label: '合计生命', value: '1000（各 500）' },
+                    { label: '十年间隔', value: '2.2 秒' },
+                    { label: '20 砸击间隔', value: '2.5 秒' },
+                    { label: '砸击范围 / 伤害', value: '60 / 50' }
+                ],
+                blocks: [
+                    {
+                        title: '双单位',
+                        text: '十年之后与 20 同时上场，各 500 血、体型相同，彼此有碰撞体积；两人全部阵亡才判负。'
+                    },
+                    {
+                        title: '羁绊回血',
+                        text: '两人都存活时，每 2 秒各回复 8 血。同伴阵亡后，存活单位伤害 ×1.5。'
+                    },
+                    {
+                        title: '十年之后',
+                        text: '每 2.2 秒发射 16 基础伤害的时间脉冲；每次受伤 +2 攻击加成（上限 +100）；命中回复自身 20 血、随机重置敌人方向并施加 1 秒受伤 ×1.5。每 5 秒生成记忆碎片：队友获得 6 秒减伤，敌人受到 40 伤害。每秒腐蚀 +5、自伤最多 10；首次濒死回溯到 3 秒前，每局一次。'
+                    },
+                    {
+                        title: '20 · 飞越砸击',
+                        text: '20 没有普通攻击。每 2.5 秒发动一次砸击：0.7 秒平滑升空到目标头顶上方，0.18 秒沿 z 轴垂直砸落到锁定坐标，60 范围内造成 50 伤害，随后收招 0.35 秒。目标位置只在发动瞬间锁定一次。'
+                    },
+                    {
+                        title: '20 · 碰撞规则',
+                        text: '升空与下砸期间无视角色碰撞，落地后才恢复；若目标在升空阶段死亡，本次砸击取消。砸击同样会命中马八分身。同伴阵亡后砸击伤害 ×1.5，即 75。'
+                    }
+                ],
+                keyNums: ['各 500 血', '砸击 50 / 范围 60', '升空 0.7s / 下砸 0.18s / 收招 0.35s', '同伴阵亡 75', '羁绊 8 / 2 秒']
+            },
+            {
+                name: '邓杰',
+                icon: '邓',
+                role: '随机输出',
+                tone: 'orange',
+                summary: '逐字敲出「数字 运算符 数字」，敲完后算式的计算结果就是这一发的伤害，可能是大数、也可能是负数；血量越低越容易算出大数。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '0.8 秒' },
+                    { label: '打字速度', value: '90ms / 字' },
+                    { label: '弹速 / 半径', value: '7 / 4 – 7' }
+                ],
+                blocks: [
+                    {
+                        title: '算式攻击',
+                        text: '空闲时每 0.8 秒锁定最近敌人开始写算式：把「数字 运算符 数字 = 结果」一个字一个字敲出来（每字 90ms），全部敲完后才发射弹幕，伤害等于算式的计算结果。'
+                    },
+                    {
+                        title: '运算符权重',
+                        text: '乘号权重按血量分档为 30% / 45% / 60%，加号为 40% / 30% / 22%，其余为减号。减法中的两个数字仍为正数，只是相减后的计算结果可能为负数，负数弹幕命中会治疗敌人。'
+                    },
+                    {
+                        title: '逆境大数',
+                        text: '血量 ≥60% 时数字范围 5–15；30%–60% 时 8–24；<30% 时 12–36，且乘号权重最高（60%）。血量越低，算式越容易打出高伤害。'
+                    },
+                    {
+                        title: '弹幕表现',
+                        text: '伤害 ≥100 时弹幕变大（半径 7）并转为红色，≥50 时半径 5 为橙色，负数弹幕为绿色。'
+                    },
+                    {
+                        title: '减伤',
+                        text: '拥有 10% 固定减伤，并受时间场减速与伤害加成效果影响。'
+                    }
+                ],
+                keyNums: ['算式即伤害', '数字范围 5–15 / 8–24 / 12–36', '乘号权重 30% → 60%', '理论单发上限 36 × 36 = 1296', '负数结果会治疗敌人']
+            }
+        ];
+
+        const CHANGELOG_GROUPS = [
+            {
+                date: '2026-11-01',
+                entries: [
+                    {
+                        title: '温室增强与多模式',
+                        items: [
+                            '温室大棚增强：生命 1000 → 1100，哨弹 40 → 46，吹哨 4 秒 → 3.6 秒、眩晕 1 → 1.2 秒',
+                            '罚跑触发 5 → 4 次命中，持续 5 → 6 秒；体能上限 5 → 6 层',
+                            '新增 2v2 队伍战、4 方自由混战、无限尼格军团三种模式',
+                            '右侧记录面板新增「角色图鉴」入口'
+                        ]
+                    },
+                    {
+                        title: '图鉴详情扩展',
+                        items: [
+                            '角色图鉴改为结构化展示：基础属性、普攻、技能、被动与关键数值',
+                            '补充 17 名可选角色的触发条件、伤害公式、持续时间与叠加上限',
+                            '所有数值按当前版本代码核对，包含双生羁绊与同伴阵亡加成'
+                        ]
+                    },
+                    {
+                        title: '统一选角与非对称竞技',
+                        items: [
+                            '左右两份选角面板合并为单个角色选择面板：点击槽位后点角色卡即可分配，同队角色不可重复',
+                            '2v2、4 方混战改为在统一面板中直接选角，无需额外下拉框',
+                            '同队角色之间补充物理碰撞（只分离、不造成伤害），修复同队可以互相穿模的问题',
+                            '新增非对称竞技模式：双方各 1–3 人自定义阵容，少人方可选开启「每少 1 人 +40% 最大生命」补偿',
+                            '切换模式时自动重置当前对局：清空场上角色、弹幕与飘字，血量归零并关闭结算弹窗',
+                            '温室大棚罚跑扣血触发距离 100px → 60px（单次伤害仍为 30）',
+                            '罚跑期间被罚者的攻击与技能使用速度 ×0.7、造成的伤害 ×0.7',
+                            '修复魔怔鸡变身陈治宏时因模仿体与本体坐标重合而被反复推挤、卡在场地底部的问题'
+                        ]
+                    },
+                    {
+                        title: '选角配色、温室回调与邓杰登场',
+                        items: [
+                            '角色选择面板的槽位与角色卡配色跟随当前队伍颜色（红 / 蓝 / 绿 / 黄）',
+                            '温室大棚生命上限 1100 → 1000',
+                            '新增角色「邓杰」：随机抽取数字与运算符组成算式，算出的值即为弹幕伤害；血量越低数字范围越大、乘号权重越高，更容易打出大数'
+                        ]
+                    },
+                    {
+                        title: '邓杰打字化与非对称增益调整',
+                        items: [
+                            '邓杰算式改为像低客的黑调一样逐字敲出（每字 90ms），敲完才发射弹幕，攻击间隔由 1.1 秒缩短为 0.8 秒',
+                            '邓杰数字范围整体上调：4–12 / 6–18 / 10–28（原 3–10 / 4–13 / 6–18），理论单发上限 324 → 784',
+                            '非对称竞技补偿按双方人数差动态计算：少 1 人生命 ×2、攻击 ×1.5；少 2 人（1v3）生命 ×2.5、攻击 ×1.75',
+                            '选角面板的非对称提示同步显示当前生命与攻击加成百分比'
+                        ]
+                    },
+                    {
+                        title: '1v3 补偿上调与邓杰算式再扩',
+                        items: [
+                            '1v3 的少人方补偿提高为生命 +150%（×2.5）、攻击 +75%（×1.75）',
+                            '邓杰数字范围继续上调为 5–15 / 8–24 / 12–36（原 4–12 / 6–18 / 10–28），理论单发上限 784 → 1296',
+                            '邓杰减法中的数字仍为正数，但相减后的计算结果可能为负数；负数弹幕为绿色并在命中时治疗敌人',
+                            '邓杰乘号权重按血量分档提高到 30% / 45% / 60%（原 30% / 40% / 45%）',
+                            '邓杰弹幕分级阈值调整为 ≥100 红色、≥50 橙色、负数绿色'
+                        ]
+                    },
+                    {
+                        title: '治疗飘字与 Liberty 重做',
+                        items: [
+                            '所有治疗飘字统一显示为绿色 +N，不再沿用伤害结算时传入的红色',
+                            '重做 Liberty：每 6 秒隐身 2.5 秒，期间半透明、不受碰撞、不被技能与攻击锁定且免疫一切伤害',
+                            'Liberty 每 1 秒从 13 名常规角色中随机借用一次攻击，每 3 秒从 6 名角色中随机借用一次技能',
+                            '借来的弹幕伤害与击退仍归属 Liberty，隐身期间也照常借用出手'
+                        ]
+                    },
+                    {
+                        title: 'Liberty 借用随机化与节奏调整',
+                        items: [
+                            '借用数值改为各角色自身的合法随机范围：鸡头发言充能层 1–10、糖水糖度 30–100，其余沿用被借角色的原有随机规则',
+                            '借用节奏调整：攻击 1 秒 → 2 秒、技能 3 秒 → 5 秒'
+                        ]
+                    }
+                ]
+            },
+            {
+                date: '2026-10-31',
+                entries: [
+                    {
+                        title: '角色图鉴与更新日志上线',
+                        items: [
+                            '新增独立图鉴页面，收录 17 名可选角色',
+                            '按日期整理近期版本更新记录'
+                        ]
+                    },
+                    {
+                        title: '白蛋与命名调整',
+                        items: [
+                            '白蛋散射角度减半，随机伤害下限 40 → 50',
+                            '「鬼头遗言」更名为「鸡头发言」'
+                        ]
+                    },
+                    {
+                        title: '双生羁绊与治疗字幕',
+                        items: [
+                            '双生羁绊改为每 2 秒回复 8 点血量',
+                            '双生、十年回溯、魔怔鸡变回、陈智虫吸血补齐 +X 治疗字幕',
+                            '总伤害合并显示区间 150ms → 300ms'
+                        ]
+                    },
+                    {
+                        title: '双生·十年登场',
+                        items: [
+                            '新增双生·十年：十年之后 + 20',
+                            '20 每 2.5 秒锁定敌人头顶沿 z 轴垂直砸落，腾空与下砸期间不参与角色碰撞',
+                            '修复同队弹幕误伤，双生单位不再互相造成伤害'
+                        ]
+                    }
+                ]
+            },
+            {
+                date: '2026-10-25',
+                entries: [
+                    {
+                        title: '双生·猫日与糖水版本',
+                        items: [
+                            '双生·猫日实装：猫奶 + 刘川川同时上场',
+                            '糖水技能、冲刺与视觉表现调整',
+                            '魔怔鸡启用并调整，铠甲回血机制调整'
+                        ]
+                    }
+                ]
+            },
+            {
+                date: '2026-10-24',
+                entries: [
+                    {
+                        title: '新角色上线',
+                        items: [
+                            '九氧化一磷实装：磷火叠层，九层引爆',
+                            'Liberty 实装：自由 / 守护双姿态'
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        function renderCodex() {
+            const grid = document.getElementById('codexGrid');
+            grid.innerHTML = CODEX_ENTRIES.map(entry => {
+                const stats = entry.stats.map(stat => `
+                    <span class="stat-chip">${stat.label}<b>${stat.value}</b></span>
+                `).join('');
+
+                const blocks = entry.blocks.map(block => {
+                    if (block.items) {
+                        return `
+                            <div class="block">
+                                <span class="block-title">${block.title}</span>
+                                <ul class="block-list">
+                                    ${block.items.map(item => `<li><strong>${item.name}</strong>${item.detail}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                    return `
+                        <div class="block">
+                            <span class="block-title">${block.title}</span>
+                            <p class="block-text">${block.text}</p>
+                        </div>
+                    `;
+                }).join('');
+
+                const keyNums = entry.keyNums.map(num => `<span class="key-num">${num}</span>`).join('');
+
+                return `
+                    <article class="codex-card tone-${entry.tone}">
+                        <div class="codex-top">
+                            <div class="avatar">${entry.icon}</div>
+                            <div>
+                                <div class="codex-name">${entry.name}</div>
+                                <span class="role-tag">${entry.role}</span>
+                            </div>
+                        </div>
+                        <p class="summary">${entry.summary}</p>
+                        <div class="stat-row">${stats}</div>
+                        ${blocks}
+                        <div class="key-nums">${keyNums}</div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function renderChangelog() {
+            const list = document.getElementById('changelogList');
+            list.innerHTML = CHANGELOG_GROUPS.map((group, index) => `
+                <section class="changelog-group">
+                    <div class="log-date-row">
+                        <span class="log-date">${group.date}</span>
+                        ${index === 0 ? '<span class="latest-badge">最新</span>' : ''}
+                    </div>
+                    ${group.entries.map(entry => `
+                        <div class="log-entry">
+                            <div class="log-title">${entry.title}</div>
+                            <ul class="log-items">
+                                ${entry.items.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `).join('')}
+                </section>
+            `).join('');
+        }
+
+        function switchTab(tab) {
+            const isChangelog = tab === 'changelog';
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tab);
+            });
+            document.getElementById('codexPanel').classList.toggle('active', !isChangelog);
+            document.getElementById('changelogPanel').classList.toggle('active', isChangelog);
+
+            try {
+                history.replaceState(null, '', isChangelog ? '#changelog' : '#codex');
+            } catch (e) {
+                // 某些本地 file:// 环境可能不允许修改 history，忽略即可
+            }
+        }
+
+        renderCodex();
+        renderChangelog();
+        switchTab(location.hash === '#changelog' ? 'changelog' : 'codex');
+    </script>
+</body>
+</html>
