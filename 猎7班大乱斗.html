@@ -95,6 +95,12 @@
             border-radius: 5px;
             border: 1px solid #b8c7e0;
         }
+        .asym-controls input[type="number"] {
+            width: 56px;
+            padding: 2px 6px;
+            border-radius: 5px;
+            border: 1px solid #b8c7e0;
+        }
         .asym-balance { justify-content: flex-start !important; }
         .slot-area { display: flex; flex-direction: column; gap: 6px; }
         .team-slots { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
@@ -116,6 +122,84 @@
         .slot-btn.empty { color: #999; font-style: italic; }
         .slot-clear { margin-left: 4px; color: #c0392b; font-weight: bold; }
         .roster-hint { min-height: 14px; font-size: 11px; color: #c0392b; text-align: center; }
+        .role-codex {
+            display: none;
+            flex-direction: column;
+            background: #f7f9fc;
+            border: 1px solid #dce6f5;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 11px;
+            color: #3f4b5f;
+        }
+        .role-codex.show { display: flex; }
+        .role-codex-head {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 8px;
+            background: #eef3fb;
+            cursor: pointer;
+            user-select: none;
+        }
+        .role-codex-head:hover { background: #e4ecf9; }
+        .role-codex-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #5b7fe8, #4169E1);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .role-codex-name { font-size: 12px; font-weight: 800; color: #23324d; }
+        .role-codex-role {
+            padding: 1px 6px;
+            border-radius: 999px;
+            background: #eaf3fb;
+            color: #2471a3;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .role-codex-toggle { margin-left: auto; color: #7b8aa1; font-size: 10px; }
+        .role-codex-body {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 8px;
+            border-top: 1px dashed #dfe6f3;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+        .role-codex-summary {
+            padding: 6px 8px;
+            border-left: 3px solid #dfe6f3;
+            background: #fff;
+            border-radius: 0 6px 6px 0;
+            line-height: 1.6;
+        }
+        .role-codex-stats, .role-codex-keynums { display: flex; flex-wrap: wrap; gap: 4px; }
+        .role-codex-chip {
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: #eef3fb;
+            border: 1px solid #dce6f5;
+            font-size: 10px;
+            color: #5b6b82;
+            white-space: nowrap;
+        }
+        .role-codex-chip b { color: #23324d; }
+        .role-codex-block-title { font-weight: 800; color: #34495e; margin-bottom: 2px; }
+        .role-codex-block-text { line-height: 1.65; color: #4b5563; }
+        .role-codex-keynums .role-codex-chip {
+            background: #fdf2e9;
+            border-color: #f5d7b8;
+            color: #b9770e;
+        }
         .role-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -136,6 +220,29 @@
         }
         .role-card:hover { background: #e8e8e8; }
         .role-card.disabled { opacity: 0.35; pointer-events: none; }
+        .role-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 5px;
+        }
+        .role-filter-chip {
+            padding: 3px 8px;
+            font-size: 11px;
+            border-radius: 999px;
+            border: 1px solid #d8dee9;
+            background: #f5f7fa;
+            color: #5b6b82;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .role-filter-chip:hover { background: #e8edf6; }
+        .role-filter-chip.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-color: #c0392b;
+            color: #fff;
+            font-weight: bold;
+        }
         .btn-panel {
             display: flex;
             flex-direction: column;
@@ -284,8 +391,37 @@
             margin-bottom: 20px;
             color: #666;
         }
+        .game-over-damage {
+            display: none;
+            max-width: 420px;
+            max-height: 240px;
+            overflow-y: auto;
+            margin: 0 auto 18px;
+            text-align: left;
+            font-size: 13px;
+        }
+        .gd-title {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        .gd-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 4px 8px;
+            border-bottom: 1px dashed #e3e9f2;
+            color: #4b5563;
+        }
+        .gd-row:last-child { border-bottom: none; }
+        .gd-row .gd-rank { min-width: 26px; color: #9aa7b8; }
+        .gd-row .gd-name { flex: 1; font-weight: bold; }
+        .gd-row .gd-value { font-weight: bold; color: #23324d; }
         .mode-bar {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 8px;
             margin-bottom: 12px;
             padding: 6px;
@@ -339,8 +475,10 @@
         <button class="mode-btn active" data-mode="classic" onclick="setMode('classic')">经典 1v1</button>
         <button class="mode-btn" data-mode="2v2" onclick="setMode('2v2')">2v2 队伍战</button>
         <button class="mode-btn" data-mode="ffa" onclick="setMode('ffa')">4 方混战</button>
-        <button class="mode-btn" data-mode="endless" onclick="setMode('endless')">无尽军团</button>
-        <button class="mode-btn" data-mode="asym" onclick="setMode('asym')">非对称竞技</button>
+        <button class="mode-btn" data-mode="nigeTeam" onclick="setMode('nigeTeam')">无限尼格</button>
+        <button class="mode-btn" data-mode="brawl" onclick="setMode('brawl')">大乱斗</button>
+        <button class="mode-btn" data-mode="straight" onclick="setMode('straight')">顺子挑战</button>
+        <button class="mode-btn" data-mode="asym" onclick="setMode('asym')">自定义</button>
     </div>
     
     <div class="main-layout">
@@ -349,25 +487,61 @@
                 <h3>角色选择</h3>
                 <div class="asym-controls" id="asymControls">
                     <label>红方人数
-                        <select id="asymRedCount">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <input type="number" id="asymRedCount" min="1" max="8" value="1">
                     </label>
                     <label>蓝方人数
-                        <select id="asymBlueCount">
-                            <option value="1">1</option>
-                            <option value="2" selected>2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <input type="number" id="asymBlueCount" min="1" max="8" value="2">
                     </label>
                     <label class="asym-balance">
                         <input type="checkbox" id="asymBalance" checked> 少人方生命 + 攻击补偿
                     </label>
                 </div>
+                <div class="asym-controls" id="ffaControls">
+                    <label>每方人数
+                        <select id="ffaCount">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="asym-controls" id="nigeControls">
+                    <label>玩家人数
+                        <select id="nigePlayerCount">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="asym-controls" id="brawlControls">
+                    <label>玩家人数
+                        <select id="brawlPlayerCount">
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4" selected>4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </label>
+                    <div class="roster-hint" style="text-align:left;">每人独立成队，各自为战</div>
+                </div>
+                <div class="asym-controls" id="straightControls">
+                    <label>玩家人数
+                        <select id="straightPlayerCount">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </label>
+                    <div class="roster-hint" style="text-align:left;">敌方固定：20 · 糖水 · 黑蛋 · 白蛋 · 刘川川</div>
+                </div>
                 <div class="slot-area" id="slotArea"></div>
+                <div class="role-codex" id="roleCodex"></div>
                 <div class="roster-hint" id="rosterHint"></div>
+                <div class="role-filter" id="roleFilter"></div>
                 <div class="role-grid" id="roleGrid"></div>
             </div>
         </div>
@@ -391,12 +565,12 @@
                 </div>
                 
                 <div class="stats">
-                    <div class="stat-item">
+                    <div class="stat-item" id="redHpItem">
                         <span>红方:</span>
                         <span class="stat-value red-team" id="redHpDisplay">1000</span>
                     </div>
-                    <div class="stat-item">
-                        <span>蓝方:</span>
+                    <div class="stat-item" id="blueHpItem">
+                        <span id="blueTeamLabel">蓝方:</span>
                         <span class="stat-value blue-team" id="blueHpDisplay">1000</span>
                     </div>
                     <div class="stat-item" id="greenHpItem" style="display:none;">
@@ -414,6 +588,8 @@
                     <span>击杀: <b id="endlessKilled">0</b></span>
                     <span>存活: <b id="endlessTime">0.0s</b></span>
                 </div>
+                
+                <div class="endless-stats" id="brawlStats"></div>
             </div>
         </div>
         
@@ -454,6 +630,7 @@
         <div class="game-over-content">
             <div class="game-over-title" id="gameOverTitle">游戏结束</div>
             <div class="game-over-info" id="gameOverInfo"></div>
+            <div class="game-over-damage" id="gameOverDamage"></div>
             <button class="btn" onclick="startGame()">再来一局</button>
         </div>
     </div>
@@ -462,9 +639,24 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         
-        const WIDTH = 400;
-        const HEIGHT = 400;
+        let WIDTH = 400;
+        let HEIGHT = 400;
         const PADDING = 60;
+        const MAP_BASE_SIZE = 400;
+        const MAP_MAX_SIZE = 640;
+
+        // 地图随玩家槽位总数扩大：4 人及以下 400×400，之后按面积增长，20px 对齐，封顶 640
+        function computeMapSize(totalSlots) {
+            const size = Math.ceil(MAP_BASE_SIZE * Math.sqrt(Math.max(1, totalSlots) / 4) / 20) * 20;
+            return Math.min(MAP_MAX_SIZE, Math.max(MAP_BASE_SIZE, size));
+        }
+
+        function applyMapSize(size) {
+            WIDTH = size;
+            HEIGHT = size;
+            canvas.width = size;
+            canvas.height = size;
+        }
         
         let characters = [];
         let projectiles = [];
@@ -482,8 +674,20 @@
             red:    { name: '红方', color: '#e74c3c' },
             blue:   { name: '蓝方', color: '#3498db' },
             green:  { name: '绿方', color: '#2ecc71' },
-            yellow: { name: '黄方', color: '#f1c40f' }
+            yellow: { name: '黄方', color: '#f1c40f' },
+            brawl:  { name: '玩家', color: '#8e44ad' }
         };
+        // 大乱斗：每名玩家独立成队，按顺序分配队伍颜色
+        const BRAWL_COLORS = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#16a085', '#e84393'];
+        function brawlTeamKey(index) {
+            return 'p' + (index + 1);
+        }
+        function ensureBrawlTeamConfigs(count) {
+            for (let i = 0; i < count; i++) {
+                const key = brawlTeamKey(i);
+                TEAM_CONFIG[key] = { name: '玩家' + (i + 1), color: BRAWL_COLORS[i % BRAWL_COLORS.length] };
+            }
+        }
         function hexToRgba(hex, alpha) {
             const value = parseInt(hex.slice(1), 16);
             const r = (value >> 16) & 255;
@@ -494,38 +698,708 @@
         
         let currentMode = 'classic';
         let matchTeams = {};
-        let endlessStats = { spawned: 0, killed: 0, startedAt: 0 };
+        let endlessStats = { spawned: 0, killed: 0, elapsedMs: 0 };
         
+        const CODEX_ENTRIES = [
+            {
+                name: '鸡头发言',
+                icon: '鸡',
+                role: '后期爆发',
+                tone: 'red',
+                summary: '每 1.5–3 秒判定一次：5 档前只挂挡蓄能，5 档后大概率继续蓄能，满 10 档必发；激光命中附加黏稠。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '判定间隔', value: '1.5–3 秒' },
+                    { label: '充能档位', value: '1–10' }
+                ],
+                blocks: [
+                    {
+                        title: '蓄力判定',
+                        text: '开局随机确定一个 1.5–3 秒的固定判定间隔。充能低于 5 档时必定挂挡，充能 +2 或 +3（各 50%）；5 档及以上每次 75% 继续挂挡、25% 开火；充能满 10 档时必定开火。'
+                    },
+                    {
+                        title: '激光开火',
+                        text: '向最近敌人发射一条持续 0.25 秒、宽 8、可贯穿整条直线的激光，伤害 = 50 × 当前充能档位，即 250–500。开火后充能清零，需要重新从 0 档开始蓄力。'
+                    },
+                    {
+                        title: '黏稠',
+                        text: '激光命中的敌人获得黏稠：基础 1 层，实际伤害每满 150 点额外 +1 层，上限 5 层。每层每秒造成 4 点伤害；层数存在期间目标持续处于 50% 减速；每 2 秒衰减 1 层。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成任何碰撞伤害。'
+                    }
+                ],
+                keyNums: ['5 档起可开火', '挂挡 +2 / +3', '黏稠上限 5 层', '每层 4 点·秒 / 减速 50%', '激光 50 × 档位']
+            },
+            {
+                name: '白蛋',
+                icon: '蛋',
+                role: '稳定输出',
+                tone: 'red',
+                summary: '1500ms 一发小角度散射弹，50–80 伤害；命中叠连击，近身碰撞能回血。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.5 秒' },
+                    { label: '弹速 / 半径', value: '5 / 6' },
+                    { label: '偏角', value: '±0.1 rad' }
+                ],
+                blocks: [
+                    {
+                        title: '散射弹',
+                        text: '每 1.5 秒向最近敌人发射 1 发，随机偏角 (rand−0.5)×0.2 rad（约 ±5.7°）。基础伤害 floor(rand×31)+50，即 50–80；弹速 5，弹体半径 6。'
+                    },
+                    {
+                        title: '连击',
+                        text: '弹幕每次命中，连击 +1，最多 2 层。每层令下一发伤害 +10%（最多 +20%）；碰撞命中会清空连击。'
+                    },
+                    {
+                        title: '碰撞回血',
+                        text: '与敌人接触每 1 秒结算一次：对敌人造成 30 伤害，自身回复 10 血。对马八分身同样造成 30 伤害并回 10 血，同一分身一次接触只结算一次。'
+                    }
+                ],
+                keyNums: ['伤害 50–80', '连击上限 2 层', '每层 +10%', '碰撞 30 伤害 / 回 10 血', '碰撞冷却 1 秒']
+            },
+            {
+                name: '猫奶',
+                icon: '猫',
+                role: '中距离',
+                tone: 'blue',
+                summary: '110 射程三线爪击；双生·猫日成员，羁绊回血，同伴阵亡后爪伤提升 50%。',
+                stats: [
+                    { label: '生命', value: '1000（双生 500）' },
+                    { label: '攻击间隔', value: '1.2 秒' },
+                    { label: '射程', value: '110' }
+                ],
+                blocks: [
+                    {
+                        title: '爪击',
+                        text: '每 1.2 秒锁定射程内最近敌人，挥出 3 道爪击；三道线以 ±0.15 rad 扇形展开，长度 90（射程 110 − 自身半径 20），每道持续 0.25 秒并造成 24 伤害。'
+                    },
+                    {
+                        title: '双生羁绊',
+                        text: '与刘川川同队时，两人都存活则每 2 秒各回复 8 血。刘川川阵亡后进入「同伴阵亡」状态：爪击伤害 ×1.5，即 24 → 36，永久生效。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['每道爪击 24', '同伴阵亡 36', '射程 110', '羁绊回血 8 / 2 秒']
+            },
+            {
+                name: '黑蛋',
+                icon: '黑',
+                role: '冲锋',
+                tone: 'blue',
+                summary: '每 2 秒锁定敌人直线冲锋，撞击造成 90 伤害；30% 概率将受到的伤害减半。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '2 秒' },
+                    { label: '冲锋速度', value: '4.0' },
+                    { label: '冲锋时长', value: '0.8 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '冲锋',
+                        text: '每 2 秒锁定最近敌人，以 4.0 的速度沿直线冲锋 0.8 秒（约为普通移速 0.8 的 5 倍）。冲锋期间不受角色碰撞阻挡，也不会被撞停。'
+                    },
+                    {
+                        title: '撞击',
+                        text: '冲锋中碰到敌人造成 90 伤害，并把双方沿碰撞法线弹开。对马八分身造成 75 伤害；同一次冲锋对同一分身只结算一次。'
+                    },
+                    {
+                        title: '被动 · 肥肉护体',
+                        text: '每次受到伤害时，有 30% 概率将该次伤害减半。'
+                    }
+                ],
+                keyNums: ['撞击 90', '分身 75', '冲锋 4.0 × 0.8 秒', '30% 伤害减半']
+            },
+            {
+                name: '十年之后',
+                icon: '十',
+                role: '辅助',
+                tone: 'purple',
+                summary: '时间脉冲命中回血并让敌人受伤加重；碎片给队友减伤；首次濒死自动回溯到 3 秒前。',
+                stats: [
+                    { label: '生命', value: '1000（双生 500）' },
+                    { label: '攻击间隔', value: '2.2 秒' },
+                    { label: '弹速 / 半径', value: '3 / 15' },
+                    { label: '碎片间隔', value: '5 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '时间脉冲',
+                        text: '每 2.2 秒发射一枚弹速 3、半径 15、存活 1 秒的脉冲，基础伤害 16。每次自身受到伤害会 +2 攻击加成（上限 +100，即最高 116）；双生同伴阵亡后再 ×1.5。'
+                    },
+                    {
+                        title: '命中效果',
+                        text: '脉冲命中敌人后：自身回复 20 血；敌人移动方向被随机重置，并获得 1 秒「时间场效应」——期间其受到的伤害 ×1.5。'
+                    },
+                    {
+                        title: '记忆碎片',
+                        text: '每 5 秒在自身周围 50–100px 生成一枚碎片。队友碰到获得 6 秒减伤（受到伤害 ×0.9）；敌人碰到受到 40 伤害，同时十年移速永久 −0.01（最低 0.3）。'
+                    },
+                    {
+                        title: '时间腐蚀',
+                        text: '自身每秒腐蚀 +5，并自伤 min(floor(腐蚀值 × 0.05), 10)，即每秒最多自伤 10。自伤同样会触发 +2 攻击加成。'
+                    },
+                    {
+                        title: '时光回溯',
+                        text: '每 50ms 记录一次状态并保留最近 3 秒。每局一次：首次濒死时回到 3 秒前的记录点，恢复当时的位置、血量、攻击加成与腐蚀值。'
+                    },
+                    {
+                        title: '双生羁绊',
+                        text: '与 20 同队时，两人都存活则每 2 秒各回复 8 血；20 阵亡后自身伤害 ×1.5。'
+                    }
+                ],
+                keyNums: ['基础 16（最高 116）', '碎片 40 / 减伤 6 秒', '腐蚀自伤 ≤10/秒', '回溯 1 次/局', '羁绊回血 8 / 2 秒']
+            },
+            {
+                name: '马八',
+                icon: '马',
+                role: '人海',
+                tone: 'green',
+                summary: '每 7 秒用 30 血换一个分身，最多 8 个；致命伤时归一吸收所有分身血量。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1 秒' },
+                    { label: '弹速 / 半径', value: '4 / 5' },
+                    { label: '分身上限', value: '8' }
+                ],
+                blocks: [
+                    {
+                        title: '投掷',
+                        text: '每 1 秒向最近敌人投掷粉笔，造成 30 伤害，弹速 4，弹体半径 5。'
+                    },
+                    {
+                        title: '分裂',
+                        text: '每 7 秒消耗 30 血生成 1 个分身，最多 8 个；本体血量 ≤30 时停止分裂。分身 50 血，以 0.5 的速度随机游走，每 1.5 秒向最近敌人发射 30 伤害、弹速 4、半径 5 的弹幕。'
+                    },
+                    {
+                        title: '归一',
+                        text: '受到致命伤害时，如果场上还有分身，则吸收所有分身的剩余血量（每个最多 50），清空全部分身，本次伤害完全抵消；此后永久不能再分裂。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '本体与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['分裂成本 30 血', '分身 50 血 / 8 个上限', '分身攻击 30 / 1.5 秒', '归一次数 1 次']
+            },
+            {
+                name: '盒子含',
+                icon: '盒',
+                role: '无限成长',
+                tone: 'orange',
+                summary: '初始伤害 1、间隔 3 秒；每攻击一次伤害 +1、间隔 ×0.89，越打越快越痛。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '初始间隔', value: '3 秒' },
+                    { label: '初始伤害', value: '1' },
+                    { label: '弹速 / 半径', value: '6 / 5' }
+                ],
+                blocks: [
+                    {
+                        title: '成长',
+                        text: '第 n 次攻击造成 n 点伤害；攻击间隔按 3000 × 0.89^(n−1) 递减，最低 100ms。弹速 6，弹体半径 5。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['伤害每发 +1', '间隔每发 ×0.89', '间隔下限 100ms']
+            },
+            {
+                name: '低客的黑调',
+                icon: '低',
+                role: '高爆发',
+                tone: 'red',
+                summary: '逐字敲代码后发射代码弹，伤害随代码长度成长；叠漏洞后用崩溃重击引爆。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.8 秒' },
+                    { label: '代码弹速', value: '5' },
+                    { label: '崩溃间隔', value: '8 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '写代码',
+                        text: '每 1.8 秒从代码库选一段代码逐字敲击，每字 25ms；敲完后向最近敌人发射代码弹（弹速 5、存活 2 秒、宽 4 高 15）。伤害 = floor(代码字符数 × 4)。血量越低，越容易选中长代码（长代码概率 = 1 − 当前血量比例）。'
+                    },
+                    {
+                        title: '漏洞',
+                        text: '代码弹命中会给目标叠加 min(floor(代码长度 / 10), 5) 层漏洞，上限 5 层。目标身上每层漏洞使后续代码弹伤害 +10；漏洞每 10 秒衰减 1 层。'
+                    },
+                    {
+                        title: '代码优化',
+                        text: '每次完成攻击后有 30% 概率进入 5 秒优化：敲字速度翻倍（25ms → 12.5ms），期间发射的代码弹伤害 ×1.3，且不再叠加漏洞。优化弹发射后优化状态结束。'
+                    },
+                    {
+                        title: '崩溃重击',
+                        text: '每 8 秒对最近敌人造成 40 + 目标漏洞层数 × 30 伤害（最高 190），随后清空目标漏洞并使其减速 1 秒。'
+                    },
+                    {
+                        title: '自我治疗',
+                        text: '每 3 秒回复 10 血，并显示 +10 治疗字幕。'
+                    }
+                ],
+                keyNums: ['代码伤害 ×4 字符数', '漏洞上限 5', '每层 +10', '优化 30% / 5 秒 / ×1.3', '崩溃 40 + 30/层', '自愈 10 / 3 秒']
+            },
+            {
+                name: '温室大棚',
+                icon: '温',
+                role: '控制',
+                tone: 'purple',
+                summary: '吹哨全场转向并眩晕；哨弹命中 4 次触发罚跑，强制敌人绕圈掉血。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.2 秒' },
+                    { label: '吹哨间隔', value: '3.6 秒' },
+                    { label: '弹速 / 半径', value: '4 / 8' }
+                ],
+                blocks: [
+                    {
+                        title: '哨弹',
+                        text: '每 1.2 秒向随机敌人发射哨弹，伤害 46 × (1 + 体能层数 × 0.05)，弹速 4，半径 8，存活 1 秒。'
+                    },
+                    {
+                        title: '吹哨',
+                        text: '每 3.6 秒吹哨：对全场敌人（无论距离）随机重置移动方向，速度 ×0.8，并眩晕 1.2 秒。视觉波纹由半径 20 扩散至 200，持续 0.5 秒。'
+                    },
+                    {
+                        title: '罚跑',
+                        text: '哨弹每累计命中 4 次，随机罚跑一名敌人 6 秒：目标以自身 1.5 倍移速，围绕温室大棚半径 80 的圆强制跑动，无法自主移动；每跑 60px 受到 30 伤害。罚跑期间该角色攻击与技能的使用速度 ×0.7、造成的伤害 ×0.7。触发时目标先眩晕 0.5 秒。'
+                    },
+                    {
+                        title: '体能训练',
+                        text: '自身累计跑动 2π × 100 ≈ 628px 获得 1 层体能，最多 6 层。每层提供移速 +5%、哨弹伤害 +5%。'
+                    },
+                    {
+                        title: '罚跑压制',
+                        text: '场上有被罚跑的敌人时，温室大棚停止攻击且移速 ×1.5；自身若被罚跑，同样无法攻击与吹哨。'
+                    }
+                ],
+                keyNums: ['吹哨 3.6 秒 / 眩晕 1.2 秒', '罚跑 6 秒 / 30 伤害每 60px', '罚跑攻速与伤害 ×0.7', '体能上限 6 层', '每层 +5% 速度与伤害']
+            },
+            {
+                name: '陈治宏',
+                icon: '陈',
+                role: '弹道',
+                tone: 'blue',
+                summary: '随机发射普通弹、追踪弹或三向弹；每 6 秒突击 1.5 秒，伤害、移速、射速全面提升。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.2 秒' },
+                    { label: '突击间隔', value: '6 秒' },
+                    { label: '突击时长', value: '1.5 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '三种子弹',
+                        text: '每 1.2 秒随机发射一种（各 1/3），基础伤害 25：普通弹速度 6、半径 3、可反弹 4 次；追踪弹速度 5、半径 3、转向强度 0.03、可反弹 3 次；三向弹速度 5、以 ±0.35 rad 三发、穿透 1、不可反弹。'
+                    },
+                    {
+                        title: '突击',
+                        text: '每 6 秒进入 1.5 秒突击：伤害 ×1.5（25 → 37），移速 ×1.5；突击中每次普通弹或追踪弹射击后追加 2 发同类子弹，每 0.2 秒一发。三向弹不触发追加。'
+                    },
+                    {
+                        title: '碰撞',
+                        text: '与角色碰撞只反弹，不造成碰撞伤害。'
+                    }
+                ],
+                keyNums: ['基础 25 / 突击 37', '三弹各 1/3', '突击移速 ×1.5', '追加 2 发 / 0.2 秒']
+            },
+            {
+                name: '尼格军团',
+                icon: '尼',
+                role: '人海',
+                tone: 'green',
+                summary: '开局 3 个百血小兵，最多累计派出 10 个；近身 60 伤害，血量按存活 + 待派合计。',
+                stats: [
+                    { label: '单兵生命', value: '100' },
+                    { label: '攻击间隔', value: '0.5 秒' },
+                    { label: '近战范围', value: '60' },
+                    { label: '总兵力', value: '10' }
+                ],
+                blocks: [
+                    {
+                        title: '百人军团',
+                        text: '每个单位仅 100 血。开局 3 个上场；之后每 1 秒从地图边缘补充 1 个，直到累计派出 10 个。场上同时最多 3 个存活。'
+                    },
+                    {
+                        title: '近战围攻',
+                        text: '每 0.5 秒攻击 60px 内的最近敌人，造成 60 伤害；没有远程攻击。'
+                    },
+                    {
+                        title: '血量显示',
+                        text: '队伍血条 = 场上存活单位的血量和 + 尚未派出的单位 × 100。未派出的单位仍计入战力，因此场上全灭但只要还有库存就不会立即判负。'
+                    }
+                ],
+                keyNums: ['单兵 100 血', '开局 3 / 总 10', '补员 1 个 / 秒', '近战 60 / 0.5 秒']
+            },
+            {
+                name: '魔怔鸡',
+                icon: '魔',
+                role: '模仿',
+                tone: 'purple',
+                summary: '每 3 秒随机变身普通角色 15 秒，自身时间加速 1.5 倍；变回时按比例回血并额外 +100。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '原形攻击间隔', value: '0.8 秒' },
+                    { label: '变身间隔', value: '3 秒' },
+                    { label: '变身时长', value: '15 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '原形攻击',
+                        text: '未变身时每 0.8 秒发射一枚 30 伤害、速度 7、半径 3、穿透 1 的子弹。'
+                    },
+                    {
+                        title: '模仿',
+                        text: '每 3 秒随机变身为 14 名普通角色之一（不含测试、尼格军团、双生角色、陈智虫与自身），持续 15 秒。变身按当前血量百分比带入新形态，不会回满血；完全沿用被模仿角色的攻击、技能与被动。'
+                    },
+                    {
+                        title: '个人时间加速',
+                        text: '变身期间，仅自身形态的时间流速 ×1.5（移动、攻击、技能冷却全部加速），不影响其他角色；其产生的弹幕伤害 ×1.2。'
+                    },
+                    {
+                        title: '变回原形',
+                        text: '恢复 1000 血上限；血量 = 1000 × 当前血量比例 + 100（封顶 1000），并显示 +100 治疗字幕，随后重新开始 3 秒变身倒计时。'
+                    }
+                ],
+                keyNums: ['原形 30 / 0.8 秒', '变身 3 秒 / 持续 15 秒', '个人时间流速 ×1.5', '弹幕伤害 ×1.2', '变回 +100 血']
+            },
+            {
+                name: '班草',
+                icon: '草',
+                role: '召唤',
+                tone: 'green',
+                summary: '入场召出一只中立小动物；用粉笔收服后持续召唤同队小动物参战。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '点名粉笔', value: '1.3 秒 / 30' },
+                    { label: '召唤节奏', value: '5 秒 / 最多 3 只' }
+                ],
+                blocks: [
+                    {
+                        title: '中立动物',
+                        text: '入场时随机生成狗 / 鸡 / 兔子中的 1 只，以半透明小分身的形式在场上随机漫游，并用粉笔攻击最近的敌人；不会被索敌选中，但范围伤害仍可波及。'
+                    },
+                    {
+                        title: '点名粉笔',
+                        text: '每 1.3 秒投出一支粉笔（伤害 30）；目标优先锁定存活的中立动物，其次才是最近的敌人。同一发粉笔对同一目标只结算一次。'
+                    },
+                    {
+                        title: '带班（收服后）',
+                        text: '用粉笔收服（击杀）中立动物后解锁：每 5 秒召唤 1 只同队小动物，最多同时 3 只；召唤物只攻击敌人，敌方索敌不会选中它们。班草阵亡时召唤物全部消失。'
+                    },
+                    {
+                        title: '小动物',
+                        text: '与马八分身同构：随机漫游、每间隔投出粉笔；粉笔命中分身不消耗、继续飞行。小狗（0.9 秒 / 12）、小鸡（1.4 秒 / 16）、兔子（2.2 秒 / 22）。伤害与击杀均记在班草名下。'
+                    }
+                ],
+                keyNums: ['中立动物 1 只', '粉笔 30 / 1.3 秒', '召唤 5 秒 / 上限 3', '敌方不锁定宠物']
+            },
+            {
+                name: '九氧化一磷',
+                icon: '磷',
+                role: '区域控制',
+                tone: 'orange',
+                summary: '用延迟圆环封锁场地，大圆环落在敌人头顶延迟引爆并眩晕回血，蓄力冲锋命中后可以连续再冲。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '小圆环', value: '4 秒 / 5 个' },
+                    { label: '大圆环', value: '7 秒 / 延迟 1 秒' },
+                    { label: '冲锋', value: '6 秒 / 蓄力 0.6 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '延迟圆环',
+                        text: '每 4 秒在场地随机位置生成 5 个半径 36 的圆环，预警 0.9 秒后爆炸，对圆环内敌人造成 70 伤害；每个圆环独立结算。'
+                    },
+                    {
+                        title: '大圆环',
+                        text: '每 7 秒在最近敌人所在位置生成半径 110 的延迟圆环，1 秒后引爆造成 100 伤害并眩晕 2 秒；命中至少 1 人时自身回复 50 血（每次只回一次）。'
+                    },
+                    {
+                        title: '蓄力冲锋',
+                        text: '先原地蓄力 0.6 秒（显示预警线），随后朝目标冲刺 0.45 秒（6 倍速度），沿途每个敌人只受一次 70 伤害；本次冲刺命中至少 1 人时立刻再次蓄力冲刺，可无限连锁，直到某次未命中才进入 6 秒冷却。'
+                    },
+                    {
+                        title: '重做说明',
+                        text: '已取消磷火弹、积氧、氧化膜减伤与触碰自燃，不再有氧化叠层；三个技能各自独立冷却。'
+                    }
+                ],
+                keyNums: ['小圆环 70 / 半径 36 × 5', '大圆环 100 / 眩晕 2 秒 / 回血 50', '冲锋 70 / 蓄力 0.6 秒 / 无限连锁']
+            },
+            {
+                name: 'Liberty',
+                icon: 'L',
+                role: '随机借用',
+                tone: 'purple',
+                summary: '每 6 秒进入半透明隐身：不受碰撞、不被技能与攻击锁定、免疫一切伤害；平时借用其他角色的攻击与技能，每 2 秒借一次攻击、每 5 秒借一次技能。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '隐身间隔', value: '6 秒' },
+                    { label: '隐身时长', value: '2.5 秒' },
+                    { label: '借用节奏', value: '2 秒攻击 · 5 秒技能' }
+                ],
+                blocks: [
+                    {
+                        title: '隐身',
+                        text: '每 6 秒自动隐身 2.5 秒：方块变为半透明并出现紫色虚线圈，期间不受碰撞影响、不会被任何技能或攻击锁定，也不会受到任何伤害；隐身期间仍可正常出手。'
+                    },
+                    {
+                        title: '借用攻击（每 2 秒）',
+                        text: '从 12 名常规角色中随机一名，以它自己的攻击方式立刻打一发，伤害、弹速、半径等全部沿用该角色规则；借来的弹幕伤害与击退仍记在 Liberty 身上。'
+                    },
+                    {
+                        title: '借用技能（每 5 秒）',
+                        text: '从 6 名拥有独立技能的角色中随机一名（鸡头发言、十年之后、温室大棚、陈治宏、九氧化一磷、糖水），把该技能立刻发动一次；九氧化一磷会原地展开大圆环，眩晕 2 秒并按规则回复 50 血。'
+                    },
+                    {
+                        title: '借用范围与随机数值',
+                        text: '攻击池：鸡头发言、白蛋、黑蛋、十年之后、猫奶、马八、盒子含、低客的黑调、温室大棚、陈治宏、糖水、邓杰。鸡头发言随机充能层 1–10、糖水随机糖度 30–100、白蛋随机伤害 50–80 与散射、邓杰随机算式结果、陈治宏随机弹种、低客的黑调随机代码，均为该角色原有的合法取值；九氧化一磷仅保留在技能池，借用为原地大圆环（眩晕 2 秒）。'
+                    }
+                ],
+                keyNums: ['免疫一切伤害', '不可选中', '攻击 2 秒 / 技能 5 秒', '攻击池 12 名', '技能池 6 名']
+            },
+            {
+                name: '糖水',
+                icon: '糖',
+                role: '近战爆发',
+                tone: 'red',
+                summary: '糖度越高，挥砍越痛、范围越大但移速越慢；冲刺劈砍爆发，糖渍叠满 4 层结晶眩晕。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.3 秒' },
+                    { label: '糖度', value: '30–100' },
+                    { label: '冲刺冷却', value: '3.5 秒' }
+                ],
+                blocks: [
+                    {
+                        title: '糖度',
+                        text: '初始 30，上限 100，每秒 +6。普攻或冲刺每次给目标附加糖渍时，糖水额外获得 +12 糖度。移速倍率为 1.1 − 0.0025 × 糖度（1.1 → 0.85）。'
+                    },
+                    {
+                        title: '挥砍',
+                        text: '每 1.3 秒对射程内最近敌人挥砍：射程 = 45 + 0.3 × 糖度（45–75），扇形 ±0.6 rad，伤害 = 28 + 0.22 × 糖度（28–50）。命中附加糖渍：糖度 ≥90 时 +2 层，否则 +1 层。'
+                    },
+                    {
+                        title: '冲刺劈砍',
+                        text: '冷却 3.5 秒，仅当最近敌人距离 60–300 时发动。以 3.2 倍移速冲刺 0.6 秒，结束时对前方射程 +20、±0.85 rad 内敌人造成 1.5 倍挥砍伤害（42–75）并附加糖渍。'
+                    },
+                    {
+                        title: '糖渍',
+                        text: '目标最多 4 层，每层每秒造成 3 伤害；4 秒内未被刷新则清空。叠满 4 层触发结晶：造成 45 伤害、眩晕 1.2 秒、清空糖渍，糖水自身糖度 −40。'
+                    },
+                    {
+                        title: '铠甲合体',
+                        text: '每 10 秒自动触发一次，持续 4 秒。期间受到的伤害 ×0.55（减伤 45%），每秒回复 20 血，4 秒共 80 血。'
+                    }
+                ],
+                keyNums: ['挥砍 28–50', '冲刺 42–75', '糖渍 3 伤害/层/秒', '4 层结晶 45 / 眩晕 1.2 秒', '铠甲减伤 45% / 回 80']
+            },
+            {
+                name: '双生·猫日',
+                icon: '猫',
+                role: '双单位',
+                tone: 'green',
+                summary: '猫奶 + 刘川川同时上场，各 500 血；双人存活缓慢回血，猫奶阵亡后刘川川永久红温。',
+                stats: [
+                    { label: '合计生命', value: '1000（各 500）' },
+                    { label: '猫奶间隔 / 射程', value: '1.2 秒 / 110' },
+                    { label: '刘川川间隔 / 射程', value: '1.3 秒 / 220' }
+                ],
+                blocks: [
+                    {
+                        title: '双单位',
+                        text: '猫奶与刘川川同时上场，各 500 血、体型相同，彼此有碰撞体积；两人全部阵亡才判负。'
+                    },
+                    {
+                        title: '羁绊回血',
+                        text: '两人都存活时，每 2 秒各回复 8 血。'
+                    },
+                    {
+                        title: '猫奶',
+                        text: '每 1.2 秒挥出 3 道 24 伤害爪击，射程 110。刘川川阵亡后爪击伤害 ×1.5，即 36。'
+                    },
+                    {
+                        title: '刘川川',
+                        text: '射程 220；每 1.3 秒发射 30 伤害弹幕，速度 4.5、半径 13、存活 1.2 秒。'
+                    },
+                    {
+                        title: '连续命中',
+                        text: '刘川川的弹幕连续命中 5 次后，第 5 次命中的目标眩晕 3 秒，计数清零；任一发弹幕落空则重新计数。'
+                    },
+                    {
+                        title: '红温',
+                        text: '猫奶阵亡后刘川川永久进入红温：攻击间隔 1.3 秒 → 0.75 秒，伤害 30 → 62，弹速 4.5 → 5.4，半径 13 → 16，存活 1.2 → 1.4 秒，弹幕变为红色。'
+                    }
+                ],
+                keyNums: ['各 500 血', '羁绊 8 / 2 秒', '猫奶 24 → 36', '连续命中 5 次 / 眩晕 3 秒', '红温 62 / 0.75 秒']
+            },
+            {
+                name: '双生·十年',
+                icon: '十',
+                role: '双单位',
+                tone: 'green',
+                summary: '十年之后 + 20 同时上场，各 500 血；两人存活缓慢回血，20 定期锁定敌人头顶垂直砸落。',
+                stats: [
+                    { label: '合计生命', value: '1000（各 500）' },
+                    { label: '十年间隔', value: '2.2 秒' },
+                    { label: '20 砸击间隔', value: '2.2 秒' },
+                    { label: '砸击范围 / 伤害', value: '72 / 62' }
+                ],
+                blocks: [
+                    {
+                        title: '双单位',
+                        text: '十年之后与 20 同时上场，各 500 血、体型相同，彼此有碰撞体积；两人全部阵亡才判负。'
+                    },
+                    {
+                        title: '羁绊回血',
+                        text: '两人都存活时，每 2 秒各回复 8 血。同伴阵亡后，存活单位伤害 ×1.5。'
+                    },
+                    {
+                        title: '十年之后',
+                        text: '每 2.2 秒发射 16 基础伤害的时间脉冲；每次受伤 +2 攻击加成（上限 +100）；命中回复自身 20 血、随机重置敌人方向并施加 1 秒受伤 ×1.5。每 5 秒生成记忆碎片：队友获得 6 秒减伤，敌人受到 40 伤害。每秒腐蚀 +5、自伤最多 10；首次濒死回溯到 3 秒前，每局一次。'
+                    },
+                    {
+                        title: '20 · 飞越砸击',
+                        text: '20 没有普通攻击。每 2.2 秒发动一次砸击：0.6 秒平滑升空到目标头顶上方，0.18 秒沿 z 轴垂直砸落到锁定坐标，72 范围内造成 62 伤害，随后收招 0.35 秒。目标位置只在发动瞬间锁定一次。'
+                    },
+                    {
+                        title: '20 · 空中蓄势',
+                        text: '20 在升空或下砸阶段被命中时，该次实际伤害的 30% 累加到本次砸击伤害上（落地结算后清零；目标中途阵亡则清空蓄势）。空中阶段无视角色碰撞，落地后恢复。'
+                    },
+                    {
+                        title: '20 · 碰撞规则',
+                        text: '升空与下砸期间无视角色碰撞，落地后才恢复；若目标在升空阶段死亡，本次砸击取消。砸击同样会命中马八分身。同伴阵亡后砸击伤害 ×1.5，即 93。'
+                    }
+                ],
+                keyNums: ['各 500 血', '砸击 62 / 范围 72', '空中受击 30% 转砸击', '升空 0.6s / 下砸 0.18s / 收招 0.35s', '同伴阵亡 93']
+            },
+            {
+                name: '邓杰',
+                icon: '邓',
+                role: '随机输出',
+                tone: 'orange',
+                summary: '逐字敲出「数字 运算符 数字」，敲完后算式的计算结果就是这一发的伤害，可能是大数、也可能是负数；血量越低越容易算出大数。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '0.8 秒' },
+                    { label: '打字速度', value: '90ms / 字' },
+                    { label: '弹速 / 半径', value: '7 / 4 – 7' }
+                ],
+                blocks: [
+                    {
+                        title: '算式攻击',
+                        text: '空闲时每 0.8 秒锁定最近敌人开始写算式：把「数字 运算符 数字 = 结果」一个字一个字敲出来（每字 90ms），全部敲完后才发射弹幕，伤害等于算式的计算结果。'
+                    },
+                    {
+                        title: '运算符权重',
+                        text: '乘号权重按血量分档为 30% / 45% / 60%，加号为 40% / 30% / 22%，其余为减号。减法中的两个数字仍为正数，只是相减后的计算结果可能为负数，负数弹幕命中会治疗敌人。'
+                    },
+                    {
+                        title: '逆境大数',
+                        text: '血量 ≥60% 时数字范围 5–15；30%–60% 时 8–24；<30% 时 12–36，且乘号权重最高（60%）。血量越低，算式越容易打出高伤害。'
+                    },
+                    {
+                        title: '弹幕表现',
+                        text: '伤害 ≥100 时弹幕变大（半径 7）并转为红色，≥50 时半径 5 为橙色，负数弹幕为绿色。'
+                    },
+                    {
+                        title: '受伤加成',
+                        text: '没有固定减伤；被十年之后的「时间场效应」命中后，受到的伤害 ×1.5。'
+                    }
+                ],
+                keyNums: ['算式即伤害', '数字范围 5–15 / 8–24 / 12–36', '乘号权重 30% → 60%', '理论单发上限 36 × 36 = 1296', '负数结果会治疗敌人']
+            },
+            {
+                name: '全A+·邓杰',
+                icon: 'A+',
+                role: '数学爆发',
+                tone: 'purple',
+                summary: '算式花样最多：三数连算、乘方、阶乘与组合数，血量越低解锁越多高阶运算，单发最高可达 15^15。',
+                stats: [
+                    { label: '生命', value: '1000' },
+                    { label: '攻击间隔', value: '1.0 秒' },
+                    { label: '打字速度', value: '110ms / 字' },
+                    { label: '弹速', value: '7' }
+                ],
+                blocks: [
+                    {
+                        title: '算式攻击',
+                        text: '空闲时每 1.0 秒锁定最近敌人开始写算式，把算式逐字敲出（每字 110ms），敲完后发射弹幕，伤害等于算式的计算结果。'
+                    },
+                    {
+                        title: '常规运算（≥60% 血）',
+                        text: '数字范围 5–15，使用加、减、乘与三数连算；权重：加 25%、减 15%、乘 35%、三数连加 15%、三数连乘 10%。'
+                    },
+                    {
+                        title: '乘方与组合数（30%–60% 血）',
+                        text: '数字范围保持 5–15，额外解锁乘方 a^b（底数 5–15、指数 5–15，上限 15^15 = 437,893,890,380,859,375）与组合数 C(n,k)（n、k 取 5–15，k>n 时按 k=n，上限 C(15,7)=6435）；权重：乘方 20%、组合数 15%。'
+                    },
+                    {
+                        title: '阶乘（<30% 血）',
+                        text: '数字范围保持 5–15，额外解锁阶乘 n!（n=5–15，上限 15! = 1,307,674,368,000）；权重：阶乘 25%、乘方 22%、组合数 13%。'
+                    },
+                    {
+                        title: '三数连算',
+                        text: '三个操作数均为 5–15：三数连加上限 15+15+15=45，三数连乘上限 15×15×15=3375。'
+                    },
+                    {
+                        title: '负数结果',
+                        text: '减法仍可能出现负数，负数弹幕命中会治疗敌人；所有运算的操作数一律为 5–15，不使用除法。'
+                    }
+                ],
+                keyNums: ['打字 110ms / 字', '数字范围统一 5–15', '乘方上限 15^15', '阶乘上限 15!', '组合数上限 6435', '负数结果会治疗敌人']
+            }
+        ];
         const ROLE_LIST = [
-            { key: 'GUITOU', name: '鸡头发言' },
-            { key: 'BAIDAN', name: '白蛋' },
-            { key: 'MAONAI', name: '猫奶' },
-            { key: 'HEIDAN', name: '黑蛋' },
-            { key: 'SHINIAN', name: '十年之后' },
-            { key: 'MABA', name: '马八' },
-            { key: 'HEZIHAN', name: '盒子含' },
-            { key: 'DIKE', name: '低客的黑调' },
-            { key: 'WENSHI', name: '温室大棚' },
-            { key: 'TEST', name: '测试' },
-            { key: 'SHIBING', name: '陈治宏' },
-            { key: 'NIGE', name: '尼格军团' },
-            { key: 'MOFANGZHE', name: '魔怔鸡' },
-            { key: 'PO9', name: '九氧化一磷' },
-            { key: 'LIBERTY', name: 'Liberty' },
-            { key: 'TANGSHUI', name: '糖水' },
-            { key: 'SHUANGSHENG', name: '双生·猫日' },
-            { key: 'SHUANGSHINIAN', name: '双生·十年' },
-            { key: 'DENGJIE', name: '邓杰' }
+            { key: 'GUITOU', name: '鸡头发言', category: '远程' },
+            { key: 'BAIDAN', name: '白蛋', category: '远程' },
+            { key: 'MAONAI', name: '猫奶', category: '近战' },
+            { key: 'HEIDAN', name: '黑蛋', category: '近战' },
+            { key: 'SHINIAN', name: '十年之后', category: '辅助' },
+            { key: 'MABA', name: '马八', category: '召唤' },
+            { key: 'HEZIHAN', name: '盒子含', category: '远程' },
+            { key: 'DIKE', name: '低客的黑调', category: '远程' },
+            { key: 'WENSHI', name: '温室大棚', category: '辅助' },
+            { key: 'TEST', name: '测试', category: '特殊' },
+            { key: 'SHIBING', name: '陈治宏', category: '远程' },
+            { key: 'NIGE', name: '尼格军团', category: '召唤' },
+            { key: 'MOFANGZHE', name: '魔怔鸡', category: '特殊' },
+            { key: 'PO9', name: '九氧化一磷', category: '近战' },
+            { key: 'LIBERTY', name: 'Liberty', category: '特殊' },
+            { key: 'TANGSHUI', name: '糖水', category: '近战' },
+            { key: 'SHUANGSHENG', name: '双生·猫日', category: '特殊' },
+            { key: 'SHUANGSHINIAN', name: '双生·十年', category: '特殊' },
+            { key: 'DENGJIE', name: '邓杰', category: '远程' },
+            { key: 'DENGJIEA', name: '全A+·邓杰', category: '远程' }
         ];
         const ROLE_NAME_MAP = Object.fromEntries(ROLE_LIST.map(role => [role.key, role.name]));
+        const CODEX_BY_NAME = Object.fromEntries(CODEX_ENTRIES.map(entry => [entry.name, entry]));
+        const ROLE_CATEGORIES = ['全部', '近战', '远程', '召唤', '辅助', '特殊'];
+        let activeRoleCategory = '全部';
+        let roleCodexExpanded = false;
 
         let selectionState = {
             red: ['GUITOU', 'BAIDAN', 'HEIDAN'],
             blue: ['GUITOU', 'HEIDAN', 'BAIDAN'],
             green: ['PO9', null, null],
-            yellow: ['LIBERTY', null, null]
+            yellow: ['LIBERTY', null, null],
+            brawl: ['GUITOU', 'BAIDAN', 'HEIDAN', 'PO9', null, null, null, null]
         };
         let asymTeamSize = { red: 1, blue: 2 };
+        let ffaTeamSize = 1;
+        let nigeTeamSize = 1;
+        let brawlPlayerCount = 4;
+        let straightPlayerCount = 2;
+        // 顺子挑战固定敌方阵容
+        const STRAIGHT_TEAM_TYPES = ['ERSHI', 'TANGSHUI', 'HEIDAN', 'BAIDAN', 'LIUCHUANCHUAN'];
         let asymBalanceEnabled = true;
         let activeSlot = { team: 'red', index: 0 };
         let matchHandicap = { red: 1, blue: 1, green: 1, yellow: 1 };
@@ -551,6 +1425,7 @@
             SHUANGSHENG: { name: '双生·猫日', matches: 0, wins: 0, losses: 0 },
             SHUANGSHINIAN: { name: '双生·十年', matches: 0, wins: 0, losses: 0 },
             DENGJIE: { name: '邓杰', matches: 0, wins: 0, losses: 0 },
+            DENGJIEA: { name: '全A+·邓杰', matches: 0, wins: 0, losses: 0 },
             TEST: { name: '测试', matches: 0, wins: 0, losses: 0 }
         };
         
@@ -559,6 +1434,7 @@
         let gameSpeed = 0.8;
         let lastTime = performance.now();
         let deltaTime = 1 / 60;
+        let visualClock = 0;
         
         let isAutoTest = false;
         let autoTestQueue = [];
@@ -570,6 +1446,29 @@
         const DAMAGE_COMBINE_THRESHOLD = 300;
         const BASE_SPEED = 0.8;
         const damageTracker = new Map();
+        // 本局伤害排行：key = `${team}|${name}` -> { name, team, damage }
+        let matchDamage = new Map();
+
+        // 魔怔鸡变身期间 name 会变成模仿对象，统计与文案统一回落到真实角色名
+        function getUnitRecordName(unit) {
+            if (!unit) return '未知';
+            if (unit.originalName) return unit.originalName;
+            if (unit.mofangOwner) return getUnitRecordName(unit.mofangOwner);
+            return unit.name || '未知';
+        }
+        
+        function recordMatchDamage(attacker, amount) {
+            if (!attacker || !(amount > 0)) return;
+            const name = getUnitRecordName(attacker);
+            const team = attacker.team || 'red';
+            const key = `${team}|${name}`;
+            const record = matchDamage.get(key);
+            if (record) {
+                record.damage += amount;
+            } else {
+                matchDamage.set(key, { name, team, damage: amount });
+            }
+        }
         
         let immersiveMode = false;
         let cameraX = 0;
@@ -599,17 +1498,23 @@
         });
         
         function getVisibleTeams() {
+            if (currentMode === 'brawl') return ['brawl'];
+            if (currentMode === 'straight') return ['red'];
             return currentMode === 'ffa' ? ['red', 'blue', 'green', 'yellow'] : ['red', 'blue'];
         }
         
         function getTeamSlotCount(team) {
             switch (currentMode) {
+                case 'brawl':
+                    return team === 'brawl' ? brawlPlayerCount : 0;
+                case 'straight':
+                    return team === 'red' ? straightPlayerCount : 0;
                 case '2v2':
                     return team === 'red' || team === 'blue' ? 2 : 0;
                 case 'ffa':
-                    return getVisibleTeams().includes(team) ? 1 : 0;
-                case 'endless':
-                    return team === 'red' ? 1 : 0;
+                    return getVisibleTeams().includes(team) ? ffaTeamSize : 0;
+                case 'nigeTeam':
+                    return team === 'red' ? nigeTeamSize : 0;
                 case 'asym':
                     if (team === 'red') return asymTeamSize.red;
                     if (team === 'blue') return asymTeamSize.blue;
@@ -640,7 +1545,59 @@
                 return `${summary}（${weakSide}生命 +${hpBonus.toFixed(0)}%、攻击 +${atkBonus.toFixed(0)}%）`;
             }
             
+            if (currentMode === 'ffa') {
+                return `每方 ${ffaTeamSize} 人 · 共 ${ffaTeamSize * 4} 人`;
+            }
+            
+            if (currentMode === 'nigeTeam') {
+                return `玩家 ${nigeTeamSize} 人 vs 无限尼格军团`;
+            }
+            
+            if (currentMode === 'brawl') {
+                return `${brawlPlayerCount} 人各自为战 · 每人独立一队`;
+            }
+            
+            if (currentMode === 'straight') {
+                return `玩家 ${straightPlayerCount} 人挑战顺子五人组`;
+            }
+            
             return '';
+        }
+        
+        // 在选人面板下方展示当前选中角色的图鉴，点击标题展开/收起
+        function renderRoleCodex(roleKey) {
+            const container = document.getElementById('roleCodex');
+            const entry = roleKey ? CODEX_BY_NAME[ROLE_NAME_MAP[roleKey]] : null;
+            if (!entry) {
+                container.className = 'role-codex';
+                container.innerHTML = '';
+                return;
+            }
+            container.className = 'role-codex show';
+            const head = `<div class="role-codex-head" onclick="toggleRoleCodex()">
+                <span class="role-codex-icon">${entry.icon}</span>
+                <span class="role-codex-name">${entry.name}</span>
+                <span class="role-codex-role">${entry.role}</span>
+                <span class="role-codex-toggle">${roleCodexExpanded ? '收起 ▲' : '展开 ▼'}</span>
+            </div>`;
+            if (!roleCodexExpanded) {
+                container.innerHTML = head;
+                return;
+            }
+            const stats = (entry.stats || []).map(s => `<span class="role-codex-chip">${s.label} <b>${s.value}</b></span>`).join('');
+            const blocks = (entry.blocks || []).map(b => `<div><div class="role-codex-block-title">${b.title}</div><div class="role-codex-block-text">${b.text}</div></div>`).join('');
+            const keys = (entry.keyNums || []).map(k => `<span class="role-codex-chip">${k}</span>`).join('');
+            container.innerHTML = head + `<div class="role-codex-body">
+                <div class="role-codex-summary">${entry.summary}</div>
+                <div class="role-codex-stats">${stats}</div>
+                ${blocks}
+                <div class="role-codex-keynums">${keys}</div>
+            </div>`;
+        }
+        
+        function toggleRoleCodex() {
+            roleCodexExpanded = !roleCodexExpanded;
+            renderRoster();
         }
         
         function renderRoster() {
@@ -675,8 +1632,14 @@
             }
             
             const teamColor = TEAM_CONFIG[team].color;
+            const roleFilter = document.getElementById('roleFilter');
+            roleFilter.innerHTML = ROLE_CATEGORIES.map(cat => {
+                const cls = `role-filter-chip${activeRoleCategory === cat ? ' active' : ''}`;
+                return `<button type="button" class="${cls}" onclick="setRoleCategory('${cat}')">${cat}</button>`;
+            }).join('');
+            const visibleRoles = ROLE_LIST.filter(role => activeRoleCategory === '全部' || role.category === activeRoleCategory);
             const roleGrid = document.getElementById('roleGrid');
-            roleGrid.innerHTML = ROLE_LIST.map(role => {
+            roleGrid.innerHTML = visibleRoles.map(role => {
                 const isActiveRole = activeRole === role.key;
                 const isAssigned = assignedRoles.has(role.key);
                 const cls = `role-card${isActiveRole ? ' active-role' : ''}${isAssigned && !isActiveRole ? ' assigned' : ''}`;
@@ -692,10 +1655,16 @@
             }).join('');
             
             document.getElementById('rosterHint').textContent = buildRosterHint(usedTeams);
+            renderRoleCodex(activeRole);
         }
         
         function selectSlot(team, index) {
             activeSlot = { team, index };
+            renderRoster();
+        }
+        
+        function setRoleCategory(category) {
+            activeRoleCategory = category;
             renderRoster();
         }
         
@@ -711,7 +1680,10 @@
             }
             
             // 同队不可重复：若该角色已在同队其他槽位，则两个槽位互换
-            const otherIndex = slots.findIndex((key, index) => index < slotCount && index !== slotIndex && key === roleKey);
+            // 大乱斗每人独立成队，允许不同玩家选择相同角色
+            const otherIndex = team === 'brawl'
+                ? -1
+                : slots.findIndex((key, index) => index < slotCount && index !== slotIndex && key === roleKey);
             if (otherIndex !== -1) {
                 slots[otherIndex] = slots[slotIndex] || null;
             }
@@ -726,13 +1698,19 @@
             floatingTexts = [];
             nigeSpawnQueue = [];
             damageTracker.clear();
+            matchDamage = new Map();
+            const matchDamageEl = document.getElementById('gameOverDamage');
+            if (matchDamageEl) {
+                matchDamageEl.style.display = 'none';
+                matchDamageEl.innerHTML = '';
+            }
             gameOver = false;
             isPaused = false;
             matchTeams = {};
             matchHandicap = { red: 1, blue: 1, green: 1, yellow: 1 };
             matchAttackHandicap = { red: 1, blue: 1, green: 1, yellow: 1 };
-            endlessStats = { spawned: 0, killed: 0, startedAt: 0 };
-            
+            endlessStats = { spawned: 0, killed: 0, elapsedMs: 0 };
+            applyMapSize(MAP_BASE_SIZE);
             document.getElementById('gameOverOverlay').style.display = 'none';
             document.getElementById('redHpDisplay').textContent = '0';
             document.getElementById('blueHpDisplay').textContent = '0';
@@ -741,6 +1719,7 @@
             document.getElementById('endlessSpawned').textContent = '0';
             document.getElementById('endlessKilled').textContent = '0';
             document.getElementById('endlessTime').textContent = '0.0s';
+            document.getElementById('brawlStats').innerHTML = '';
             
             const pauseBtn = document.querySelector('button[onclick="togglePause()"]');
             if (pauseBtn) pauseBtn.textContent = '暂停';
@@ -757,22 +1736,57 @@
             });
             
             document.getElementById('asymControls').classList.toggle('show', mode === 'asym');
+            document.getElementById('ffaControls').classList.toggle('show', mode === 'ffa');
+            document.getElementById('nigeControls').classList.toggle('show', mode === 'nigeTeam');
+            document.getElementById('brawlControls').classList.toggle('show', mode === 'brawl');
+            document.getElementById('straightControls').classList.toggle('show', mode === 'straight');
             
             const isFfa = mode === 'ffa';
+            const isBrawl = mode === 'brawl';
+            document.getElementById('redHpItem').style.display = isBrawl ? 'none' : 'flex';
+            document.getElementById('blueHpItem').style.display = isBrawl ? 'none' : 'flex';
             document.getElementById('greenHpItem').style.display = isFfa ? 'flex' : 'none';
             document.getElementById('yellowHpItem').style.display = isFfa ? 'flex' : 'none';
-            document.getElementById('endlessStats').style.display = mode === 'endless' ? 'flex' : 'none';
+            document.getElementById('endlessStats').style.display = mode === 'nigeTeam' ? 'flex' : 'none';
+            document.getElementById('brawlStats').style.display = isBrawl ? 'flex' : 'none';
+            document.getElementById('blueTeamLabel').textContent =
+                mode === 'nigeTeam' ? '军团:' : (mode === 'straight' ? '顺子:' : '蓝方:');
             
             renderRoster();
         }
         
-        document.getElementById('asymRedCount').addEventListener('change', function(e) {
-            asymTeamSize.red = parseInt(e.target.value, 10);
+        function setAsymTeamSize(side, raw) {
+            const n = Math.min(8, Math.max(1, parseInt(raw, 10) || 1));
+            asymTeamSize[side] = n;
+            document.getElementById(side === 'red' ? 'asymRedCount' : 'asymBlueCount').value = n;
             renderRoster();
+        }
+        
+        document.getElementById('asymRedCount').addEventListener('change', function(e) {
+            setAsymTeamSize('red', e.target.value);
         });
         
         document.getElementById('asymBlueCount').addEventListener('change', function(e) {
-            asymTeamSize.blue = parseInt(e.target.value, 10);
+            setAsymTeamSize('blue', e.target.value);
+        });
+        
+        document.getElementById('ffaCount').addEventListener('change', function(e) {
+            ffaTeamSize = parseInt(e.target.value, 10);
+            renderRoster();
+        });
+        
+        document.getElementById('nigePlayerCount').addEventListener('change', function(e) {
+            nigeTeamSize = parseInt(e.target.value, 10);
+            renderRoster();
+        });
+        
+        document.getElementById('brawlPlayerCount').addEventListener('change', function(e) {
+            brawlPlayerCount = parseInt(e.target.value, 10);
+            renderRoster();
+        });
+        
+        document.getElementById('straightPlayerCount').addEventListener('change', function(e) {
+            straightPlayerCount = parseInt(e.target.value, 10);
             renderRoster();
         });
         
@@ -786,7 +1800,9 @@
         }
         
         function normalizeVelocity(char) {
-            const speed = char.currentSpeed || char.speed || BASE_SPEED;
+            const baseSpeed = char.currentSpeed || char.speed || BASE_SPEED;
+            // 黏稠：层数存在期间实际移速减半
+            const speed = char.viscousStacks > 0 ? baseSpeed * 0.5 : baseSpeed;
             const currentMag = Math.sqrt(char.vx * char.vx + char.vy * char.vy);
             if (currentMag > 0.001) {
                 char.vx = (char.vx / currentMag) * speed;
@@ -986,6 +2002,13 @@
                 }
             }
             
+            // 本局伤害排行：致命一击只计入命中前剩余生命，避免溢出伤害虚高
+            if (damage > 0 && attacker && attacker !== target) {
+                const hpBefore = Number.isFinite(target._hpBefore) ? target._hpBefore : null;
+                const counted = hpBefore === null ? damage : Math.min(damage, Math.max(0, hpBefore));
+                recordMatchDamage(attacker, counted);
+            }
+            
             if (damage < 0) {
                 const now = Date.now();
                 const key = attacker ? `${attacker.name}-${target.name}-${attacker.team}-${target.team}-heal` : `${target.name}-heal`;
@@ -1104,6 +2127,29 @@
             }
         }
         
+        // 黏稠：激光命中按实际伤害叠层，层数提供减速与持续扣血
+        function applyViscousStacks(source, target, damage, floatTexts) {
+            const addStacks = 1 + Math.floor(damage / 150);
+            const prevStacks = target.viscousStacks || 0;
+            target.viscousStacks = Math.min(5, prevStacks + addStacks);
+            if (prevStacks <= 0) {
+                target.lastViscousTick = Date.now();
+                target.lastViscousDecay = Date.now();
+            }
+            target.viscousSource = source;
+            
+            floatTexts.push({
+                x: target.x,
+                y: target.y - 46,
+                text: `黏稠 ${target.viscousStacks}/5`,
+                color: '#d68910',
+                alpha: 1,
+                vy: -0.5,
+                life: 1,
+                initialLife: 1
+            });
+        }
+        
         class GuiTou {
             constructor(x, y, color, team, id) {
                 this.x = x;
@@ -1124,7 +2170,7 @@
                 this.chargeLevel = 1;
                 this.maxCharge = 10;
                 this.lastChargeTime = Date.now();
-                this.chargeInterval = 1200 + Math.random() * 1000;
+                this.chargeInterval = 1500 + Math.random() * 1500;
                 this.lastCollisionTime = Date.now();
                 this.collisionCooldown = 1000;
                 this.target = null;
@@ -1150,8 +2196,11 @@
                 this.lastChargeTime = now;
                 
                 const rand = Math.random();
-                if (rand < 0.75 && this.chargeLevel < this.maxCharge) {
-                    const add = Math.random() < 0.5 ? 1 : 2;
+                const canFire = this.chargeLevel >= 5;
+                if (this.chargeLevel >= this.maxCharge || (canFire && rand >= 0.75)) {
+                    this.fireLaser(floatTexts);
+                } else {
+                    const add = Math.random() < 0.5 ? 2 : 3;
                     this.chargeLevel = Math.min(this.maxCharge, this.chargeLevel + add);
                     floatTexts.push({
                         x: this.x,
@@ -1163,8 +2212,6 @@
                         life: 2,
                         initialLife: 2
                     });
-                } else {
-                    this.fireLaser(floatTexts);
                 }
             }
             
@@ -1213,7 +2260,7 @@
                     width: 8
                 });
                 
-                this.chargeLevel = 2;
+                this.chargeLevel = 0;
             }
             
             move() {
@@ -2009,7 +3056,7 @@
                 if (this.hp <= 0) {
                     const now = Date.now();
                     if (!this.hasBacktracked && this.timeHistory.length > 0) {
-                        const targetTime = now - 3000;
+                        const targetTime = now - 3000 / gameSpeed;
                         let bestRecord = this.timeHistory[0];
                         for (const record of this.timeHistory) {
                             if (Math.abs(record.time - targetTime) < Math.abs(bestRecord.time - targetTime)) {
@@ -2141,10 +3188,10 @@
                 
                 // 砸击状态机：idle → ascend → dive → recover → idle
                 this.slamState = 'idle';
-                this.slamInterval = 2500;
+                this.slamInterval = 2200;
                 this.lastSlamTime = Date.now();
-                this.slamRadius = 60;
-                this.slamDamage = 50;
+                this.slamRadius = 72;
+                this.slamDamage = 62;
                 this.slamTarget = null;
                 this.slamAnchorX = 0;
                 this.slamAnchorY = 0;
@@ -2153,10 +3200,11 @@
                 this.slamStartX = 0;
                 this.slamStartY = 0;
                 this.slamPhaseTime = 0;
-                this.slamAscendDuration = 700;
+                this.slamAscendDuration = 600;
                 this.slamDiveDuration = 180;
                 this.slamRecoverDuration = 350;
                 this.slamFx = 0;
+                this.slamBonusDamage = 0;
                 this.isTwinTenUnit = false;
                 this.ignoreBodyCollision = false;
                 this.partnerDead = false;
@@ -2164,7 +3212,7 @@
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
-                updateTwinBond(this, 'isTwinTenUnit', allChars);
+                if (!this.isStraightUnit) updateTwinBond(this, 'isTwinTenUnit', allChars);
                 this.slamFx = Math.max(0, this.slamFx - gameSpeed * deltaTime);
                 
                 const now = Date.now();
@@ -2186,6 +3234,7 @@
                         this.slamTarget = null;
                         this.lastSlamTime = now;
                         this.ignoreBodyCollision = false;
+                        this.slamBonusDamage = 0;
                         return;
                     }
                     
@@ -2260,7 +3309,8 @@
             resolveSlam(allChars, floatTexts) {
                 const ix = this.slamImpactX;
                 const iy = this.slamImpactY;
-                const slamDamage = Math.round(this.slamDamage * (this.partnerDead ? TWIN_ENRAGE_MULTIPLIER : 1));
+                const slamDamage = Math.round((this.slamDamage + this.slamBonusDamage) * (this.partnerDead ? TWIN_ENRAGE_MULTIPLIER : 1));
+                this.slamBonusDamage = 0;
                 
                 for (const c of allChars) {
                     if (c === this || c.hp <= 0 || c.team === this.team) continue;
@@ -2341,6 +3391,10 @@
                 
                 if (this.damageReduction > 0) {
                     damage = damage * 0.9;
+                }
+                
+                if (this.slamState === 'ascend' || this.slamState === 'dive') {
+                    this.slamBonusDamage += damage * 0.3;
                 }
                 
                 this.hp -= damage;
@@ -2541,23 +3595,28 @@
                 normalizeVelocity(this);
                 
                 this.lastAttackTime = Date.now();
-                this.attackInterval = 1500;
+                this.attackInterval = 1300;
                 this.attackRange = 220;
                 this.target = null;
                 this.profanities = ['废物', '菜鸡', '滚开', '闭嘴', '丢人', '胡说', '就这', '呵呵'];
-                this.baseAttack = 22;
+                this.baseAttack = 30;
                 this.partnerDead = false;
                 
                 // 红温模式：猫奶被击杀后永久进入，伤害与射速提升
                 this.isRedHot = false;
-                this.redHotInterval = 900;
-                this.redHotDamage = 48;
+                this.redHotInterval = 750;
+                this.redHotDamage = 62;
                 this.redHotWords = ['红温!', '破防!', '急了!', '炸了!'];
+                
+                // 连续命中：弹幕累计命中 5 次后眩晕目标 3 秒，任一发落空则重新计数
+                this.hitStreak = 0;
+                this.streakStunHits = 5;
+                this.streakStunDuration = 3;
             }
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
-                updateTwinBond(this, 'isShuangshengUnit', allChars);
+                if (!this.isStraightUnit) updateTwinBond(this, 'isShuangshengUnit', allChars);
                 
                 if (this.partnerDead && !this.isRedHot) {
                     this.isRedHot = true;
@@ -2763,7 +3822,7 @@
                 const splitX = this.x + Math.cos(baseAngle) * baseDist;
                 const splitY = this.y + Math.sin(baseAngle) * baseDist;
                 
-                this.splits.push({
+                const split = {
                     x: splitX,
                     y: splitY,
                     hp: 50,
@@ -2771,7 +3830,12 @@
                     baseAngle: baseAngle,
                     target: null,
                     lastAttackTime: Date.now()
-                });
+                };
+                // 人数补偿是永久增益：分身同样套用
+                split.team = this.team;
+                split._baseMaxHp = 50;
+                applyMatchHandicap(split);
+                this.splits.push(split);
             }
             
             updateSplits(projList) {
@@ -4263,6 +5327,7 @@
                             if (c !== this && c.hp > 0 && c.team !== this.team &&
                                 Math.hypot(c.x - this.x, c.y - this.y) <= this.attackRange) {
                                 c.takeDamage(dmg, this, floatTexts);
+                                recordMatchDamage(this, Math.min(dmg, c._hpBefore ?? dmg));
                             }
                         }
                     }
@@ -4674,6 +5739,9 @@
                 this.currentForm.y = this.y;
                 this.currentForm.vx = this.vx;
                 this.currentForm.vy = this.vy;
+                // 人数补偿是永久增益：模仿形态同样要套用
+                this.currentForm._baseMaxHp = this.currentForm.maxHp;
+                applyMatchHandicap(this.currentForm);
                 // 变身不重置血量：按当前血量百分比带入变身形态
                 const hpRatio = this.maxHp > 0 ? Math.max(0, this.hp / this.maxHp) : 1;
                 this.currentForm.hp = Math.max(1, Math.round(this.currentForm.maxHp * hpRatio));
@@ -4705,11 +5773,15 @@
                 this.lastTransformTime = Date.now();
                 this.splits = this.savedSplits;
                 this.savedSplits = [];
-                // 变回原形：按百分比还原到 1000 上限，并保留 +100 治疗
+                // 变回原形：按百分比还原到 1000 基准上限，再套用永久人数补偿
                 const oldHp = this.hp;
                 const hpRatio = this.maxHp > 0 ? Math.max(0, this.hp / this.maxHp) : 1;
+                this._baseMaxHp = 1000;
                 this.maxHp = 1000;
-                this.hp = Math.min(this.maxHp, Math.round(this.maxHp * hpRatio) + 100);
+                this.hp = Math.max(1, Math.round(this.maxHp * hpRatio));
+                applyMatchHandicap(this);
+                // +100 治疗在补偿之后结算，避免被倍率放大
+                this.hp = Math.min(this.maxHp, this.hp + 100);
                 const healed = this.hp - oldHp;
                 if (healed > 0) {
                     showDamageText(this, -healed, '#2ecc71', this);
@@ -4853,6 +5925,264 @@
             }
         }
         
+        // 班草的小动物种类（与马八分身同构，均以粉笔攻击）
+        const PET_SPECIES = {
+            dog:    { label: '小狗', color: '#c0392b', hp: 100, interval: 900,  damage: 12 },
+            chick:  { label: '小鸡', color: '#f1c40f', hp: 70,  interval: 1400, damage: 16 },
+            rabbit: { label: '兔子', color: '#e8a0bf', hp: 80,  interval: 2200, damage: 22 }
+        };
+
+        function pickPetSpeciesKey() {
+            const keys = Object.keys(PET_SPECIES);
+            return keys[Math.floor(Math.random() * keys.length)];
+        }
+
+        // 与马八分身同构：随机漫游、以粉笔攻击、被弹幕命中后弹幕继续飞行
+        function createPetSplit(owner, speciesKey, isNeutral) {
+            const spec = PET_SPECIES[speciesKey] || PET_SPECIES.dog;
+            const angle = Math.random() * Math.PI * 2;
+            const dist = isNeutral ? 150 : 40;
+            const pet = {
+                isPet: true,
+                isNeutralPet: isNeutral,
+                speciesKey: speciesKey,
+                species: spec,
+                name: (isNeutral ? '野生' : '班草的') + spec.label,
+                color: isNeutral ? '#7f8c8d' : spec.color,
+                x: owner.x + Math.cos(angle) * dist,
+                y: owner.y + Math.sin(angle) * dist,
+                vx: Math.cos(angle) * 0.5,
+                vy: Math.sin(angle) * 0.5,
+                hp: spec.hp,
+                maxHp: spec.hp,
+                team: owner.team,
+                lastAttackTime: Date.now()
+            };
+            // 人数补偿是永久增益：动物同样套用
+            pet._baseMaxHp = spec.hp;
+            applyMatchHandicap(pet);
+            return pet;
+        }
+        
+        class BanCao {
+            constructor(x, y, color, team, id) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.team = team;
+                this.id = id;
+                this.name = '班草';
+                this.radius = 20;
+                this.hp = 1000;
+                this.maxHp = 1000;
+                this.speed = BASE_SPEED;
+                
+                this.moveAngle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.moveAngle) * this.speed;
+                this.vy = Math.sin(this.moveAngle) * this.speed;
+                normalizeVelocity(this);
+                
+                this.attackInterval = 1300;
+                this.lastAttackTime = Date.now();
+                
+                this.spawnedNeutral = false;
+                this.summonUnlocked = false;
+                this.summonInterval = 5000;
+                this.lastSummonTime = 0;
+                this.maxPets = 3;
+                this.splits = [];
+                this.target = null;
+            }
+            
+            update(allChars, projList, floatTexts) {
+                if (this.hp <= 0) return;
+                
+                if (!this.spawnedNeutral) this.spawnNeutralPet();
+                if (this.summonUnlocked) this.trySummonPets();
+                
+                this.tryAttack(allChars, projList);
+                this.updateSplits(allChars, projList);
+                this.checkCollision(allChars);
+                this.move();
+            }
+            
+            spawnNeutralPet() {
+                this.spawnedNeutral = true;
+                const pet = createPetSplit(this, pickPetSpeciesKey(), true);
+                for (let i = 0; i < 20; i++) {
+                    const px = PADDING + 40 + Math.random() * (WIDTH - PADDING * 2 - 80);
+                    const py = PADDING + 40 + Math.random() * (HEIGHT - PADDING * 2 - 80);
+                    if (Math.hypot(px - this.x, py - this.y) >= 150) {
+                        pet.x = px;
+                        pet.y = py;
+                        break;
+                    }
+                }
+                this.splits.push(pet);
+            }
+            
+            alivePetCount() {
+                let count = 0;
+                for (const pet of this.splits) {
+                    if (!pet.isNeutralPet && pet.hp > 0) count++;
+                }
+                return count;
+            }
+            
+            trySummonPets() {
+                const now = Date.now();
+                if (now - this.lastSummonTime < this.summonInterval / gameSpeed) return;
+                this.lastSummonTime = now;
+                this.summonOnePet();
+            }
+            
+            summonOnePet() {
+                if (this.alivePetCount() >= this.maxPets) return;
+                const pet = createPetSplit(this, pickPetSpeciesKey(), false);
+                pet.x = PADDING + 40 + Math.random() * (WIDTH - PADDING * 2 - 80);
+                pet.y = PADDING + 40 + Math.random() * (HEIGHT - PADDING * 2 - 80);
+                this.splits.push(pet);
+            }
+            
+            unlockSummon() {
+                if (this.summonUnlocked) return;
+                this.summonUnlocked = true;
+                this.lastSummonTime = Date.now();
+                this.summonOnePet();
+            }
+            
+            updateSplits(allChars, projList) {
+                const now = Date.now();
+                
+                for (let i = 0; i < this.splits.length; i++) {
+                    const split = this.splits[i];
+                    
+                    if (split.hp <= 0) {
+                        split.hp = 0;
+                        this.splits.splice(i, 1);
+                        i--;
+                        if (split.isNeutralPet && this.hp > 0) this.unlockSummon();
+                        continue;
+                    }
+                    
+                    split.x += split.vx * gameSpeed * deltaTime * 60;
+                    split.y += split.vy * gameSpeed * deltaTime * 60;
+                    
+                    const margin = 20;
+                    if (split.x < PADDING + margin || split.x > WIDTH - PADDING - margin) {
+                        split.vx *= -1;
+                        split.x = Math.max(PADDING + margin, Math.min(WIDTH - PADDING - margin, split.x));
+                    }
+                    if (split.y < PADDING + margin || split.y > HEIGHT - PADDING - margin) {
+                        split.vy *= -1;
+                        split.y = Math.max(PADDING + margin, Math.min(HEIGHT - PADDING - margin, split.y));
+                    }
+                    
+                    if (now - split.lastAttackTime >= split.species.interval / gameSpeed) {
+                        const target = findNearestEnemy(this, allChars);
+                        if (!target) continue;
+                        
+                        split.lastAttackTime = now;
+                        const ang = Math.atan2(target.y - split.y, target.x - split.x);
+                        projList.push({
+                            type: 'chalk',
+                            x: split.x,
+                            y: split.y,
+                            vx: Math.cos(ang) * 8,
+                            vy: Math.sin(ang) * 8,
+                            radius: 3,
+                            damage: split.species.damage,
+                            color: split.color,
+                            owner: this,
+                            sourceSplit: split,
+                            life: 1,
+                            active: true
+                        });
+                    }
+                }
+            }
+            
+            tryAttack(allChars, projList) {
+                const now = Date.now();
+                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
+                
+                let target = this.splits.find(s => s.isNeutralPet && s.hp > 0);
+                if (!target) target = findNearestEnemy(this, allChars);
+                if (!target) return;
+                
+                this.lastAttackTime = now;
+                this.target = target;
+                const ang = Math.atan2(target.y - this.y, target.x - this.x);
+                projList.push({
+                    type: 'chalk',
+                    x: this.x,
+                    y: this.y,
+                    vx: Math.cos(ang) * 9,
+                    vy: Math.sin(ang) * 9,
+                    radius: 4,
+                    damage: 30,
+                    color: '#f39c12',
+                    owner: this,
+                    life: 1,
+                    active: true
+                });
+            }
+            
+            checkCollision(chars) {
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
+                    if (c.id > this.id) continue;
+                    
+                    const collisionResult = checkSquareCollision(this, c);
+                    if (collisionResult.collision) {
+                        const nx = collisionResult.nx;
+                        const ny = collisionResult.ny;
+                        reflectVelocity(this, nx, ny);
+                        reflectVelocity(c, -nx, -ny);
+                        const overlap = collisionResult.overlap + 0.5;
+                        this.x -= nx * overlap * 0.5;
+                        this.y -= ny * overlap * 0.5;
+                        c.x += nx * overlap * 0.5;
+                        c.y += ny * overlap * 0.5;
+                        clampToBounds(this);
+                        clampToBounds(c);
+                        break;
+                    }
+                }
+            }
+            
+            move() {
+                const mag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (mag > 0.001) {
+                    this.x += (this.vx / mag) * this.speed * gameSpeed * deltaTime * 60;
+                    this.y += (this.vy / mag) * this.speed * gameSpeed * deltaTime * 60;
+                }
+                
+                if (this.x < PADDING + this.radius || this.x > WIDTH - PADDING - this.radius) {
+                    this.vx *= -1;
+                    this.x = Math.max(PADDING + this.radius, Math.min(WIDTH - PADDING - this.radius, this.x));
+                }
+                if (this.y < PADDING + this.radius || this.y > HEIGHT - PADDING - this.radius) {
+                    this.vy *= -1;
+                    this.y = Math.max(PADDING + this.radius, Math.min(HEIGHT - PADDING - this.radius, this.y));
+                }
+                
+                normalizeVelocity(this);
+            }
+            
+            takeDamage(damage, attacker, floatTexts) {
+                if (this.timeFieldEffect > 0) damage = damage * 1.5;
+                if (this.damageReduction > 0) damage = damage * 0.9;
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.hp = 0;
+                    this.splits = [];
+                    return { killed: true, damage: damage };
+                }
+                return { killed: false, damage: damage };
+            }
+        }
+        
         class PO9 {
             constructor(x, y, color, team, id) {
                 this.x = x;
@@ -4871,129 +6201,209 @@
                 this.vy = Math.sin(this.moveAngle) * this.speed;
                 normalizeVelocity(this);
                 
-                this.lastAttackTime = Date.now();
-                this.attackInterval = 1600;
+                // 三技能独立冷却
+                this.lastRingTime = Date.now();
+                this.ringCooldown = 4000;
+                this.lastBigRingTime = Date.now();
+                this.bigRingCooldown = 7000;
+                this.lastChargeTime = Date.now();
+                this.chargeCooldown = 6000;
                 
-                // 缓慢氧化：自身随时间积攒「氧」层，满 9 层自动引爆
-                this.oxygenStacks = 0;
-                this.maxOxygen = 9;
-                this.lastOxygenTime = Date.now();
-                this.oxygenInterval = 1500;
+                // 冲锋状态
+                this.chargeState = null;         // null | 'windup' | 'dash'
+                this.chargePhaseStart = 0;
+                this.chargeWindupDuration = 600;
+                this.chargeDuration = 450;
+                this.chargeVx = 0;
+                this.chargeVy = 0;
+                this.chargeAngle = 0;
+                this.chargeHit = new Set();
+                this.chargeHitCount = 0;
+                this.chargeTrail = [];
+                this.chargeFx = 0;
                 
-                this.lastCollisionTime = Date.now();
-                this.collisionCooldown = 1000;
-                
-                this.detonateFx = 0;
-                this.oxygenSpin = 0;
                 this.target = null;
             }
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
                 
-                this.attack(projList);
-                this.accumulateOxygen(floatTexts);
-                this.checkCollision(allChars, floatTexts);
+                for (const t of this.chargeTrail) t.life -= gameSpeed * deltaTime;
+                this.chargeTrail = this.chargeTrail.filter(t => t.life > 0);
+                if (this.chargeFx > 0) this.chargeFx = Math.max(0, this.chargeFx - gameSpeed * deltaTime);
+                
+                if (this.chargeState === 'windup') {
+                    if (Date.now() - this.chargePhaseStart < this.chargeWindupDuration / gameSpeed) {
+                        return;
+                    }
+                    this.beginDash();
+                }
+                if (this.chargeState === 'dash') {
+                    if (Date.now() - this.chargePhaseStart >= this.chargeDuration / gameSpeed) {
+                        this.finishDash(allChars);
+                    } else {
+                        this.moveCharge(allChars, floatTexts);
+                        return;
+                    }
+                }
+                
+                this.castSmallRings(projList);
+                this.castBigRing(projList);
+                this.tryCharge(allChars);
+                this.checkCollision(allChars);
                 this.move();
+            }
+            
+            castSmallRings(projList) {
+                const now = Date.now();
+                if (now - this.lastRingTime < this.ringCooldown / gameSpeed) return;
                 
-                this.oxygenSpin += deltaTime * 1.6;
+                this.lastRingTime = now;
                 
-                if (this.detonateFx > 0) {
-                    this.detonateFx = Math.max(0, this.detonateFx - gameSpeed * deltaTime);
+                for (let i = 0; i < 5; i++) {
+                    projList.push({
+                        type: 'po9Ring',
+                        x: PADDING + 36 + Math.random() * (WIDTH - PADDING * 2 - 72),
+                        y: PADDING + 36 + Math.random() * (HEIGHT - PADDING * 2 - 72),
+                        radius: 36,
+                        delay: 0.9,
+                        age: 0,
+                        fade: 0.35,
+                        damage: 70,
+                        exploded: false,
+                        owner: this,
+                        color: '#dfff00',
+                        life: 1,
+                        active: true
+                    });
                 }
             }
             
-            attack(projList) {
+            castBigRing(projList) {
                 const now = Date.now();
-                if (now - this.lastAttackTime < this.attackInterval / gameSpeed) return;
-                
-                this.lastAttackTime = now;
+                if (now - this.lastBigRingTime < this.bigRingCooldown / gameSpeed) return;
                 
                 const target = findNearestEnemy(this, characters);
                 if (!target) return;
                 
-                const angle = Math.atan2(target.y - this.y, target.x - this.x);
+                this.lastBigRingTime = now;
+                
                 projList.push({
-                    type: 'chalk',
-                    x: this.x,
-                    y: this.y,
-                    vx: Math.cos(angle) * 4.5,
-                    vy: Math.sin(angle) * 4.5,
-                    damage: 32,
+                    type: 'po9BigRing',
+                    x: target.x,
+                    y: target.y,
+                    radius: 110,
+                    delay: 1.0,
+                    fade: 0.35,
+                    damage: 100,
+                    stunDuration: 2,
+                    hitCount: 0,
+                    healed: false,
+                    exploded: false,
                     owner: this,
-                    radius: 5,
-                    color: '#dfff00',
+                    age: 0,
+                    life: 1,
                     active: true
                 });
             }
             
-            accumulateOxygen(floatTexts) {
+            tryCharge(allChars) {
                 const now = Date.now();
-                if (now - this.lastOxygenTime < this.oxygenInterval / gameSpeed) return;
+                if (this.chargeState) return;
+                if (now - this.lastChargeTime < this.chargeCooldown / gameSpeed) return;
                 
-                this.lastOxygenTime = now;
-                if (this.oxygenStacks < this.maxOxygen) {
-                    this.oxygenStacks++;
-                }
+                const target = findNearestEnemy(this, allChars);
+                if (!target) return;
                 
-                if (this.oxygenStacks >= this.maxOxygen) {
-                    this.detonate(floatTexts);
-                }
+                const dist = Math.hypot(target.x - this.x, target.y - this.y);
+                if (dist <= 50) return;
+                
+                this.chargeState = 'windup';
+                this.chargePhaseStart = now;
+                this.chargeAngle = Math.atan2(target.y - this.y, target.x - this.x);
+                this.chargeHit = new Set();
+                this.chargeHitCount = 0;
+                this.chargeTrail = [];
+                this.ignoreBodyCollision = true;
             }
             
-            detonate(floatTexts) {
-                this.oxygenStacks = 0;
-                this.lastOxygenTime = Date.now();
-                this.detonateFx = 0.6;
+            beginDash() {
+                this.chargeState = 'dash';
+                this.chargePhaseStart = Date.now();
+                this.chargeVx = Math.cos(this.chargeAngle) * this.speed * 6;
+                this.chargeVy = Math.sin(this.chargeAngle) * this.speed * 6;
+                this.chargeTrail = [];
+            }
+            
+            moveCharge(allChars, floatTexts) {
+                this.chargeTrail.push({ x: this.x, y: this.y, life: 0.3 });
+                if (this.chargeTrail.length > 10) this.chargeTrail.shift();
                 
-                for (const c of characters) {
+                this.x += this.chargeVx * gameSpeed * deltaTime * 60;
+                this.y += this.chargeVy * gameSpeed * deltaTime * 60;
+                clampToBounds(this);
+                
+                for (const c of allChars) {
                     if (c === this || c.hp <= 0 || c.team === this.team) continue;
-                    if (Math.hypot(c.x - this.x, c.y - this.y) > 130) continue;
                     
-                    const result = c.takeDamage(150, this, floatTexts);
-                    showDamageText(c, result.damage, '#e74c3c', this);
-                    this.applyOxidation(c, 2, floatTexts);
+                    if (Math.hypot(c.x - this.x, c.y - this.y) <= this.radius + c.radius + 4) {
+                        if (!this.chargeHit.has(c)) {
+                            this.chargeHit.add(c);
+                            this.chargeHitCount++;
+                            const result = c.takeDamage(70, this, floatTexts);
+                            showDamageText(c, result.damage, '#e74c3c', this);
+                        }
+                    }
+                    
+                    if (c.splits) {
+                        for (let j = 0; j < c.splits.length; j++) {
+                            const split = c.splits[j];
+                            if (Math.hypot(split.x - this.x, split.y - this.y) <= this.radius + c.radius * 0.7 + 4 &&
+                                !this.chargeHit.has(split)) {
+                                this.chargeHit.add(split);
+                                this.chargeHitCount++;
+                                split.hp -= 70;
+                                showDamageText({ x: split.x, y: split.y }, 70, '#e74c3c', this);
+                                if (split.hp <= 0) {
+                                    c.splits.splice(j, 1);
+                                    j--;
+                                }
+                            }
+                        }
+                    }
                 }
-                
-                this.hp = Math.min(this.maxHp, this.hp + 40);
-                showDamageText(this, -40, '#2ecc71', this);
-                
-                floatTexts.push({
-                    x: this.x,
-                    y: this.y - 45,
-                    text: '九氧化一磷！',
-                    color: '#dfff00',
-                    alpha: 1,
-                    vy: -0.5,
-                    life: 1.5,
-                    initialLife: 1.5
-                });
             }
             
-            applyOxidation(target, stacks, floatTexts) {
-                const prevStacks = target.oxidationStacks || 0;
-                target.oxidationStacks = Math.min(5, prevStacks + stacks);
-                if (prevStacks <= 0) {
-                    target.lastOxidationTick = Date.now();
-                    target.lastOxidationDecay = Date.now();
-                }
-                target.oxidationSource = this;
+            finishDash(allChars) {
+                this.ignoreBodyCollision = false;
+                this.chargeFx = 0.3;
+                this.chargeVx = 0;
+                this.chargeVy = 0;
+                this.vx = Math.cos(this.chargeAngle) * this.speed;
+                this.vy = Math.sin(this.chargeAngle) * this.speed;
+                normalizeVelocity(this);
+                this.chargeTrail = [];
                 
-                floatTexts.push({
-                    x: target.x,
-                    y: target.y - 32,
-                    text: `氧化 ${target.oxidationStacks}/5`,
-                    color: '#9acd32',
-                    alpha: 1,
-                    vy: -0.5,
-                    life: 1,
-                    initialLife: 1
-                });
+                if (this.chargeHitCount > 0) {
+                    const next = findNearestEnemy(this, allChars);
+                    if (next) {
+                        this.chargeState = 'windup';
+                        this.chargePhaseStart = Date.now();
+                        this.chargeAngle = Math.atan2(next.y - this.y, next.x - this.x);
+                        this.chargeHit = new Set();
+                        this.chargeHitCount = 0;
+                        this.ignoreBodyCollision = true;
+                        return;
+                    }
+                }
+                
+                this.chargeState = null;
+                this.chargeHitCount = 0;
+                this.chargeHit.clear();
+                this.lastChargeTime = Date.now();
             }
             
-            checkCollision(chars, floatTexts) {
-                const now = Date.now();
-                
+            checkCollision(chars) {
                 for (const c of chars) {
                     if (c === this || c.hp <= 0 || c.team === this.team) continue;
                     
@@ -5016,22 +6426,6 @@
                         clampToBounds(this);
                         clampToBounds(c);
                         
-                        break;
-                    }
-                }
-                
-                // 触碰自燃：接触敌人造成灼伤并附加 1 层氧化
-                for (const c of chars) {
-                    if (c === this || c.hp <= 0 || c.team === this.team) continue;
-                    
-                    const collisionResult = checkSquareCollision(this, c);
-                    if (collisionResult.collision) {
-                        if (now - this.lastCollisionTime >= this.collisionCooldown / gameSpeed) {
-                            this.lastCollisionTime = now;
-                            const damageResult = c.takeDamage(10, this, floatTexts);
-                            showDamageText(c, damageResult.damage, '#e74c3c', this);
-                            this.applyOxidation(c, 1, floatTexts);
-                        }
                         break;
                     }
                 }
@@ -5065,9 +6459,6 @@
                     damage = damage * 0.9;
                 }
                 
-                // 氧化膜钝化：每层氧减伤 1.5%
-                damage = damage * (1 - 0.015 * this.oxygenStacks);
-                
                 this.hp -= damage;
                 if (this.hp <= 0) {
                     this.hp = 0;
@@ -5082,16 +6473,51 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 
-                const spin = this.oxygenSpin;
-                for (let i = 0; i < this.maxOxygen; i++) {
-                    const a = spin + (Math.PI * 2 / this.maxOxygen) * i;
-                    const ox = Math.cos(a) * (this.radius + 10);
-                    const oy = Math.sin(a) * (this.radius + 10);
-                    const filled = i < this.oxygenStacks;
+                for (const trail of this.chargeTrail) {
+                    ctx.fillStyle = `rgba(223,255,0,${(trail.life / 0.3) * 0.35})`;
+                    ctx.fillRect(
+                        trail.x - this.x - this.radius * 0.5,
+                        trail.y - this.y - this.radius * 0.5,
+                        this.radius,
+                        this.radius
+                    );
+                }
+                
+                if (this.chargeState === 'windup') {
+                    const progress = Math.min(1, (Date.now() - this.chargePhaseStart) / (this.chargeWindupDuration / gameSpeed));
+                    ctx.strokeStyle = 'rgba(241,196,15,0.9)';
+                    ctx.lineWidth = 3;
                     ctx.beginPath();
-                    ctx.arc(ox, oy, filled ? 4 : 2, 0, Math.PI * 2);
-                    ctx.fillStyle = filled ? '#dfff00' : 'rgba(255,255,255,0.55)';
-                    ctx.fill();
+                    ctx.arc(0, 0, this.radius + 10, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.strokeStyle = 'rgba(241,196,15,0.55)';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(Math.cos(this.chargeAngle) * (this.radius + 70), Math.sin(this.chargeAngle) * (this.radius + 70));
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius + 16, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
+                    ctx.stroke();
+                }
+                
+                if (this.chargeState === 'dash') {
+                    ctx.strokeStyle = 'rgba(223,255,0,0.9)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius + 10, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(Math.cos(this.chargeAngle) * (this.radius + 26), Math.sin(this.chargeAngle) * (this.radius + 26));
+                    ctx.stroke();
                 }
                 
                 ctx.fillStyle = this.color;
@@ -5100,15 +6526,15 @@
                 // 中心磷核
                 ctx.fillStyle = 'rgba(223,255,0,0.85)';
                 ctx.beginPath();
-                ctx.arc(0, 0, 7 + this.oxygenStacks * 0.5, 0, Math.PI * 2);
+                ctx.arc(0, 0, 7, 0, Math.PI * 2);
                 ctx.fill();
                 
-                if (this.detonateFx > 0) {
-                    const progress = 1 - this.detonateFx / 0.6;
+                if (this.chargeFx > 0) {
+                    const progress = 1 - this.chargeFx / 0.3;
                     ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
                     ctx.lineWidth = 4;
                     ctx.beginPath();
-                    ctx.arc(0, 0, 30 + 100 * progress, 0, Math.PI * 2);
+                    ctx.arc(0, 0, this.radius + 30 * progress, 0, Math.PI * 2);
                     ctx.stroke();
                 }
                 
@@ -5122,17 +6548,12 @@
                 ctx.font = 'bold 10px Arial';
                 ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
                 
-                ctx.fillStyle = '#9acd32';
-                ctx.font = 'bold 10px Arial';
-                ctx.textBaseline = 'top';
-                ctx.fillText(`氧 ${this.oxygenStacks}/${this.maxOxygen}`, 0, this.radius + 5);
-                
                 ctx.restore();
             }
         }
         
-        // Liberty 借用池：攻击覆盖 13 名常规角色，技能只取有独立技能实现的角色
-        const LIBERTY_ATTACK_POOL = ['GUITOU', 'BAIDAN', 'HEIDAN', 'SHINIAN', 'MAONAI', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'SHIBING', 'PO9', 'TANGSHUI', 'DENGJIE'];
+        // Liberty 借用池：攻击覆盖 12 名常规角色，技能只取有独立技能实现的角色
+        const LIBERTY_ATTACK_POOL = ['GUITOU', 'BAIDAN', 'HEIDAN', 'SHINIAN', 'MAONAI', 'MABA', 'HEZIHAN', 'DIKE', 'WENSHI', 'SHIBING', 'TANGSHUI', 'DENGJIE'];
         const LIBERTY_SKILL_POOL = ['SHINIAN', 'WENSHI', 'SHIBING', 'PO9', 'TANGSHUI', 'GUITOU'];
         
         class Liberty {
@@ -5161,6 +6582,7 @@
                 this.cloakDuration = 2500;
                 this.lastCloakTime = Date.now();
                 this.cloakEndTime = 0;
+                this.cloakRemain = 0;
                 this.isCloaked = false;
                 this.cloakFx = 0;
                 
@@ -5194,6 +6616,10 @@
                         this.untargetable = false;
                         this.ignoreBodyCollision = false;
                         this.cloakFx = 0;
+                        this.cloakRemain = 0;
+                    } else {
+                        // 用游戏时间计算剩余隐身，暂停时会冻结、不同倍速下读数一致
+                        this.cloakRemain = Math.max(0, (this.cloakEndTime - now) / gameSpeed / 1000);
                     }
                     return;
                 }
@@ -5307,9 +6733,6 @@
                     case 'SHIBING':
                         proxy.attack(projList);
                         break;
-                    case 'PO9':
-                        proxy.attack(projList);
-                        break;
                     case 'TANGSHUI':
                         // 随机糖度（30–100）决定挥砍伤害与范围
                         proxy.sugar = 30 + Math.floor(Math.random() * (proxy.maxSugar - 30 + 1));
@@ -5355,11 +6778,32 @@
                         proxy.lastAssaultExtraTime = 0;
                         proxy.fireAssaultExtra(projList);
                         break;
-                    case 'PO9':
-                        // 氧气层数取 3–9 的合法值后引爆
-                        proxy.oxygenStacks = 3 + Math.floor(Math.random() * 7);
-                        proxy.detonate(floatTexts);
+                    case 'PO9': {
+                        // 原地大圆环：范围内敌人眩晕 2 秒，命中至少 1 人回复 50
+                        const targets = characters.filter(c => c !== this && c.hp > 0 && c.team !== this.team);
+                        let hitAny = false;
+                        for (const t of targets) {
+                            if (distance(t.x, t.y, this.x, this.y) <= 170 + t.radius * 0.5) {
+                                t.stunTimer = Math.max(t.stunTimer || 0, 2);
+                                hitAny = true;
+                                floatTexts.push({
+                                    x: t.x,
+                                    y: t.y - 32,
+                                    text: '眩晕 2s',
+                                    color: '#f1c40f',
+                                    alpha: 1,
+                                    vy: -0.5,
+                                    life: 1,
+                                    initialLife: 1
+                                });
+                            }
+                        }
+                        if (hitAny && this.hp > 0) {
+                            this.hp = Math.min(this.maxHp, this.hp + 50);
+                            showDamageText(this, -50, '#2ecc71', this);
+                        }
                         break;
+                    }
                     case 'TANGSHUI':
                         // 随机糖度（30–100）决定冲刺劈砍伤害
                         proxy.sugar = 30 + Math.floor(Math.random() * (proxy.maxSugar - 30 + 1));
@@ -5497,7 +6941,7 @@
                 ctx.fillText(`${Math.round(this.hp)}/${this.maxHp}`, 0, -this.radius - 15);
                 
                 if (this.isCloaked) {
-                    const remain = Math.max(0, (this.cloakEndTime - Date.now()) / 1000);
+                    const remain = this.cloakRemain || 0;
                     ctx.fillStyle = 'rgba(155, 89, 182, 1)';
                     ctx.font = 'bold 10px Arial';
                     ctx.textBaseline = 'top';
@@ -5673,6 +7117,27 @@
                     this.applySugarStacks(c, floatTexts);
                 }
                 
+                // 分身同样吃冲刺劈砍伤害
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team || !c.splits || c.splits.length === 0) continue;
+                    for (let j = c.splits.length - 1; j >= 0; j--) {
+                        const split = c.splits[j];
+                        const dist = distance(this.x, this.y, split.x, split.y);
+                        if (dist > slashRange + c.radius * 0.7) continue;
+                        
+                        const angleToTarget = Math.atan2(split.y - this.y, split.x - this.x);
+                        const angleDiff = Math.abs(Math.atan2(
+                            Math.sin(angleToTarget - this.dashAngle),
+                            Math.cos(angleToTarget - this.dashAngle)
+                        ));
+                        if (angleDiff > 0.85) continue;
+                        
+                        split.hp -= damage;
+                        showDamageText({ x: split.x, y: split.y }, damage, '#e74c3c', this);
+                        if (split.hp <= 0) c.splits.splice(j, 1);
+                    }
+                }
+                
                 this.slashAngle = this.dashAngle;
                 this.slashRange = slashRange;
                 this.slashFx = 0.3;
@@ -5745,6 +7210,27 @@
                     const result = c.takeDamage(damage, this, floatTexts);
                     showDamageText(c, result.damage, '#e74c3c', this);
                     this.applySugarStacks(c, floatTexts);
+                }
+                
+                // 分身同样吃挥砍伤害，且不阻挡扇形内的其他目标
+                for (const c of chars) {
+                    if (c === this || c.hp <= 0 || c.team === this.team || !c.splits || c.splits.length === 0) continue;
+                    for (let j = c.splits.length - 1; j >= 0; j--) {
+                        const split = c.splits[j];
+                        const dist = distance(this.x, this.y, split.x, split.y);
+                        if (dist > attackRange + c.radius * 0.7) continue;
+                        
+                        const angleToTarget = Math.atan2(split.y - this.y, split.x - this.x);
+                        const angleDiff = Math.abs(Math.atan2(
+                            Math.sin(angleToTarget - swingAngle),
+                            Math.cos(angleToTarget - swingAngle)
+                        ));
+                        if (angleDiff > 0.6) continue;
+                        
+                        split.hp -= damage;
+                        showDamageText({ x: split.x, y: split.y }, damage, '#e74c3c', this);
+                        if (split.hp <= 0) c.splits.splice(j, 1);
+                    }
                 }
                 
                 this.slashAngle = swingAngle;
@@ -5962,13 +7448,18 @@
                 this.pendingValue = 0;
                 
                 this.expression = '';
-                this.expressionUntil = 0;
+                this.expressionRemain = 0;
                 
                 this.target = null;
             }
             
             update(allChars, projList, floatTexts) {
                 if (this.hp <= 0) return;
+                
+                // 算式字幕按游戏时间倒计时：暂停/结算时冻结，不同倍速下显示时长一致
+                if (this.expressionRemain > 0) {
+                    this.expressionRemain = Math.max(0, this.expressionRemain - gameSpeed * deltaTime);
+                }
                 
                 this.findTarget(allChars);
                 this.checkCollision(allChars);
@@ -6054,7 +7545,7 @@
             
             fire(projList, now) {
                 this.expression = this.currentExpression;
-                this.expressionUntil = now + 700;
+                this.expressionRemain = 0.7;
                 
                 if (!this.target) return;
                 
@@ -6171,13 +7662,108 @@
                     ctx.fillStyle = '#8e44ad';
                     ctx.font = 'bold 10px Arial';
                     ctx.fillText(typedText + '|', 0, -this.radius - 26);
-                } else if (this.expression && Date.now() < this.expressionUntil) {
+                } else if (this.expression && this.expressionRemain > 0) {
                     ctx.fillStyle = '#8e44ad';
                     ctx.font = 'bold 9px Arial';
                     ctx.fillText(this.expression, 0, -this.radius - 26);
                 }
                 
                 ctx.restore();
+            }
+        }
+        
+        // 全A+·邓杰：打字更慢，但血量越低解锁越多高伤运算
+        class DengJiePlus extends DengJie {
+            constructor(x, y, color, team, id) {
+                super(x, y, color, team, id);
+                this.name = '全A+·邓杰';
+                this.attackInterval = 1000;
+                this.typeSpeed = 110;
+            }
+            
+            startTyping(now) {
+                const ratio = this.maxHp > 0 ? this.hp / this.maxHp : 0;
+                const rollInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+                const MIN = 5;
+                const MAX = 15;
+                
+                let weights = { '+': 0.25, '-': 0.15, '×': 0.35, 'sum3': 0.15, 'mul3': 0.10 };
+                
+                if (ratio < 0.3) {
+                    weights = { '+': 0.08, '-': 0.05, '×': 0.15, 'sum3': 0.07, 'mul3': 0.05, '^': 0.22, 'C': 0.13, '!': 0.25 };
+                } else if (ratio < 0.6) {
+                    weights = { '+': 0.14, '-': 0.08, '×': 0.25, 'sum3': 0.10, 'mul3': 0.08, '^': 0.20, 'C': 0.15 };
+                }
+                
+                const weightSum = Object.values(weights).reduce((sum, w) => sum + w, 0);
+                const ops = Object.keys(weights);
+                let roll = Math.random() * weightSum;
+                let op = ops[ops.length - 1];
+                for (const key of ops) {
+                    roll -= weights[key];
+                    if (roll <= 0) {
+                        op = key;
+                        break;
+                    }
+                }
+                
+                let left = 0;
+                let right = 0;
+                let value = 0;
+                let expression = '';
+                
+                if (op === '+') {
+                    left = rollInt(MIN, MAX);
+                    right = rollInt(MIN, MAX);
+                    value = left + right;
+                    expression = `${left} + ${right} = ${value}`;
+                } else if (op === '-') {
+                    left = rollInt(MIN, MAX);
+                    right = rollInt(MIN, MAX);
+                    if (left === right) right = right < MAX ? right + 1 : right - 1;
+                    value = left - right;
+                    expression = `${left} - ${right} = ${value}`;
+                } else if (op === '×') {
+                    left = rollInt(MIN, MAX);
+                    right = rollInt(MIN, MAX);
+                    value = left * right;
+                    expression = `${left} × ${right} = ${value}`;
+                } else if (op === '^') {
+                    left = rollInt(MIN, MAX);
+                    right = rollInt(MIN, MAX);
+                    value = Math.pow(left, right);
+                    expression = `${left} ^ ${right} = ${value}`;
+                } else if (op === 'sum3') {
+                    const a = rollInt(MIN, MAX);
+                    const b = rollInt(MIN, MAX);
+                    const c = rollInt(MIN, MAX);
+                    value = a + b + c;
+                    expression = `${a} + ${b} + ${c} = ${value}`;
+                } else if (op === 'mul3') {
+                    const a = rollInt(MIN, MAX);
+                    const b = rollInt(MIN, MAX);
+                    const c = rollInt(MIN, MAX);
+                    value = a * b * c;
+                    expression = `${a} × ${b} × ${c} = ${value}`;
+                } else if (op === 'C') {
+                    const n = rollInt(MIN, MAX);
+                    const k = Math.min(rollInt(MIN, MAX), n);
+                    value = 1;
+                    for (let i = 1; i <= k; i++) value = value * (n - k + i) / i;
+                    value = Math.round(value);
+                    expression = `C(${n}, ${k}) = ${value}`;
+                } else {
+                    const n = rollInt(MIN, MAX);
+                    value = 1;
+                    for (let i = 2; i <= n; i++) value *= i;
+                    expression = `${n}! = ${value}`;
+                }
+                
+                this.currentExpression = expression;
+                this.pendingValue = value;
+                this.typingIndex = 0;
+                this.lastTypeTime = now;
+                this.isTyping = true;
             }
         }
         
@@ -6315,6 +7901,78 @@
                     ctx.arc(proj.x, proj.y, currentRadius, 0, Math.PI * 2);
                     ctx.stroke();
                     ctx.restore();
+                } else if (proj.type === 'po9Ring') {
+                    ctx.save();
+                    if (!proj.exploded) {
+                        const progress = Math.min(1, proj.age / proj.delay);
+                        ctx.fillStyle = 'rgba(223,255,0,0.10)';
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        ctx.strokeStyle = 'rgba(223,255,0,0.75)';
+                        ctx.lineWidth = 2;
+                        ctx.setLineDash([6, 5]);
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        
+                        ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius - 3, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
+                        ctx.stroke();
+                    } else {
+                        const p = Math.min(1, (proj.explodeAge || 0) / proj.fade);
+                        ctx.fillStyle = `rgba(223,255,0,${0.35 * (1 - p)})`;
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        ctx.strokeStyle = `rgba(255,255,255,${1 - p})`;
+                        ctx.lineWidth = 5;
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius * (1 + 0.5 * p), 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                } else if (proj.type === 'po9BigRing') {
+                    ctx.save();
+                    if (!proj.exploded) {
+                        const progress = Math.min(1, proj.age / proj.delay);
+                        ctx.fillStyle = 'rgba(241,196,15,0.12)';
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        ctx.strokeStyle = 'rgba(241,196,15,0.9)';
+                        ctx.lineWidth = 3;
+                        ctx.setLineDash([8, 6]);
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        
+                        ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius - 4, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
+                        ctx.stroke();
+                    } else {
+                        const p = Math.min(1, (proj.explodeAge || 0) / proj.fade);
+                        ctx.fillStyle = `rgba(241,196,15,${0.4 * (1 - p)})`;
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        ctx.strokeStyle = `rgba(255,255,255,${1 - p})`;
+                        ctx.lineWidth = 6;
+                        ctx.beginPath();
+                        ctx.arc(proj.x, proj.y, proj.radius * (1 + 0.4 * p), 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
                 } else if (proj.type === 'melee') {
                     ctx.save();
                     ctx.globalAlpha = proj.life / 0.15;
@@ -6446,16 +8104,17 @@
                 
                 if (char.splits && char.splits.length > 0) {
                     for (const split of char.splits) {
+                        const splitHalf = split.isPet ? char.radius * 0.4 : char.radius * 0.7;
                         ctx.save();
                         ctx.translate(split.x, split.y);
                         ctx.globalAlpha = 0.6;
-                        ctx.fillStyle = char.color;
-                        ctx.fillRect(-char.radius * 0.7, -char.radius * 0.7, char.radius * 1.4, char.radius * 1.4);
+                        ctx.fillStyle = split.color || char.color;
+                        ctx.fillRect(-splitHalf, -splitHalf, splitHalf * 2, splitHalf * 2);
                         
                         ctx.fillStyle = '#000';
                         ctx.font = 'bold 8px Arial';
                         ctx.textAlign = 'center';
-                        ctx.fillText(`${Math.round(split.hp)}/${split.maxHp}`, 0, -char.radius * 0.7 - 3);
+                        ctx.fillText(`${Math.round(split.hp)}/${split.maxHp}`, 0, -splitHalf - 3);
                         ctx.restore();
                     }
                 }
@@ -6509,7 +8168,7 @@
                 }
                 
                 if (char.isAssaulting && char.name === '陈治宏') {
-                    const pulse = Math.sin(Date.now() / 100) * 0.3 + 0.7;
+                    const pulse = Math.sin(visualClock / 100) * 0.3 + 0.7;
                     ctx.fillStyle = `rgba(255, 242, 0, ${pulse * 0.3})`;
                     ctx.beginPath();
                     ctx.arc(0, 0, char.radius + 15, 0, Math.PI * 2);
@@ -6523,29 +8182,59 @@
                 }
                 
                 if (char.name === '九氧化一磷') {
-                    const spin = char.oxygenSpin || 0;
-                    for (let i = 0; i < 9; i++) {
-                        const a = spin + (Math.PI * 2 / 9) * i;
-                        const ox = Math.cos(a) * (char.radius + 10);
-                        const oy = Math.sin(a) * (char.radius + 10);
-                        const filled = i < (char.oxygenStacks || 0);
-                        ctx.beginPath();
-                        ctx.arc(ox, oy, filled ? 4 : 2, 0, Math.PI * 2);
-                        ctx.fillStyle = filled ? '#dfff00' : 'rgba(255,255,255,0.55)';
-                        ctx.fill();
+                    for (const trail of char.chargeTrail || []) {
+                        ctx.fillStyle = `rgba(223,255,0,${(trail.life / 0.3) * 0.35})`;
+                        ctx.fillRect(
+                            trail.x - char.x - char.radius * 0.5,
+                            trail.y - char.y - char.radius * 0.5,
+                            char.radius,
+                            char.radius
+                        );
                     }
                     
-                    ctx.fillStyle = 'rgba(223,255,0,0.85)';
-                    ctx.beginPath();
-                    ctx.arc(0, 0, 7 + (char.oxygenStacks || 0) * 0.5, 0, Math.PI * 2);
-                    ctx.fill();
+                    if (char.chargeState === 'windup') {
+                        const progress = Math.min(1, (Date.now() - char.chargePhaseStart) / (char.chargeWindupDuration / gameSpeed));
+                        ctx.strokeStyle = 'rgba(241,196,15,0.9)';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, char.radius + 10, 0, Math.PI * 2);
+                        ctx.stroke();
+                        
+                        ctx.strokeStyle = 'rgba(241,196,15,0.55)';
+                        ctx.lineWidth = 2;
+                        ctx.setLineDash([4, 4]);
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(Math.cos(char.chargeAngle) * (char.radius + 70), Math.sin(char.chargeAngle) * (char.radius + 70));
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        
+                        ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, char.radius + 16, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
+                        ctx.stroke();
+                    }
                     
-                    if (char.detonateFx > 0) {
-                        const progress = 1 - char.detonateFx / 0.6;
+                    if (char.chargeState === 'dash') {
+                        ctx.strokeStyle = 'rgba(223,255,0,0.9)';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, char.radius + 10, 0, Math.PI * 2);
+                        ctx.stroke();
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(Math.cos(char.chargeAngle) * (char.radius + 26), Math.sin(char.chargeAngle) * (char.radius + 26));
+                        ctx.stroke();
+                    }
+                    
+                    if (char.chargeFx > 0) {
+                        const progress = 1 - char.chargeFx / 0.3;
                         ctx.strokeStyle = `rgba(255,255,255,${1 - progress})`;
                         ctx.lineWidth = 4;
                         ctx.beginPath();
-                        ctx.arc(0, 0, 30 + 100 * progress, 0, Math.PI * 2);
+                        ctx.arc(0, 0, char.radius + 30 * progress, 0, Math.PI * 2);
                         ctx.stroke();
                     }
                 }
@@ -6659,7 +8348,7 @@
                     ctx.fillStyle = '#8e44ad';
                     ctx.font = 'bold 10px Arial';
                     ctx.fillText(typedText + '|', char.x, char.y - char.radius - 26);
-                } else if (char.expression && char.expressionUntil && Date.now() < char.expressionUntil) {
+                } else if (char.expression && char.expressionRemain > 0) {
                     ctx.fillStyle = '#8e44ad';
                     ctx.font = 'bold 9px Arial';
                     ctx.fillText(char.expression, char.x, char.y - char.radius - 26);
@@ -6702,8 +8391,15 @@
                     ctx.fillText(`氧化 ${char.oxidationStacks}/5`, char.x, char.y - char.radius - 30);
                 }
                 
+                if (char.viscousStacks > 0) {
+                    ctx.fillStyle = '#d68910';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`黏稠 ${char.viscousStacks}/5`, char.x, char.y - char.radius - 42);
+                }
+                
                 if (char.name === 'Liberty' && char.isCloaked) {
-                    const remain = Math.max(0, (char.cloakEndTime - Date.now()) / 1000);
+                    const remain = char.cloakRemain || 0;
                     ctx.fillStyle = 'rgba(155,89,182,1)';
                     ctx.font = 'bold 10px Arial';
                     ctx.textAlign = 'center';
@@ -6744,6 +8440,14 @@
                     ctx.fillStyle = char.isLearning ? '#9b59b6' : '#e74c3c';
                     ctx.fillText(char.isLearning ? '学习中' : '战斗!', char.x, learnY + 12);
                 }
+                
+                if (char.name === '班草') {
+                    const petY = char.y - char.radius - 30;
+                    ctx.fillStyle = char.summonUnlocked ? '#27ae60' : '#95a5a6';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(char.summonUnlocked ? `带班 ${char.alivePetCount()}/3` : '待收服', char.x, petY);
+                }
             }
             
             if (immersiveMode) {
@@ -6754,8 +8458,15 @@
         function update() {
             if (gameOver) return;
             
+            // 仅供绘制层使用的动画时钟：暂停/结算时不再推进，外观特效随之一同冻结
+            visualClock += gameSpeed * deltaTime * 1000;
+            
             for (const char of characters) {
                 if (char.hp <= 0) continue;
+                
+                // 人数补偿永久生效：变身/补兵/克隆产生的新形态也每帧兜底套用
+                applyMatchHandicap(char);
+                if (char.currentForm) applyMatchHandicap(char.currentForm);
                 
                 if (char.timeFieldEffect > 0) {
                     char.timeFieldEffect -= gameSpeed * deltaTime;
@@ -6886,7 +8597,7 @@
                         const damage = char.questions * 15;
                         char.hp -= damage;
                         
-                        const owner = characters.find(c => c.name === '陈智虫' && c.team !== char.team);
+                        const owner = characters.find(c => c.name === '陈智虫' && c.team !== char.team && c.hp > 0);
                         showDamageText(char, damage, '#9b59b6', owner || null);
                         
                         if (owner) {
@@ -6917,6 +8628,7 @@
                     if (tickNow - (char.lastOxidationTick || 0) >= 1000 / gameSpeed) {
                         char.lastOxidationTick = tickNow;
                         const dotDamage = char.oxidationStacks * 4;
+                        char._hpBefore = char.hp;
                         char.hp -= dotDamage;
                         if (char.hp < 0) char.hp = 0;
                         showDamageText(char, dotDamage, '#e74c3c', char.oxidationSource || null);
@@ -6932,12 +8644,37 @@
                     }
                 }
                 
+                // 黏稠：每层每秒 4 点伤害；层数存在期间持续 50% 减速；每 2 秒衰减 1 层
+                if (char.viscousStacks > 0) {
+                    const vtNow = Date.now();
+                    char.slowTimer = Math.max(char.slowTimer || 0, 1.2);
+                    
+                    if (vtNow - (char.lastViscousTick || 0) >= 1000 / gameSpeed) {
+                        char.lastViscousTick = vtNow;
+                        const dotDamage = char.viscousStacks * 4;
+                        char._hpBefore = char.hp;
+                        char.hp -= dotDamage;
+                        if (char.hp < 0) char.hp = 0;
+                        showDamageText(char, dotDamage, '#e74c3c', char.viscousSource || null);
+                    }
+                    
+                    if (vtNow - (char.lastViscousDecay || 0) >= 2000 / gameSpeed) {
+                        char.lastViscousDecay = vtNow;
+                        char.viscousStacks = Math.max(0, char.viscousStacks - 1);
+                        if (char.viscousStacks <= 0) {
+                            char.lastViscousTick = 0;
+                            char.lastViscousDecay = 0;
+                        }
+                    }
+                }
+                
                 // 糖渍：每层每秒 3 点伤害；4 秒内未被刷新则消散
                 if (char.sugarStacks > 0) {
                     const sugarNow = Date.now();
                     if (sugarNow - (char.lastSugarTick || 0) >= 1000 / gameSpeed) {
                         char.lastSugarTick = sugarNow;
                         const sugarDamage = char.sugarStacks * 3;
+                        char._hpBefore = char.hp;
                         char.hp -= sugarDamage;
                         if (char.hp < 0) char.hp = 0;
                         showDamageText(char, sugarDamage, '#e74c3c', char.sugarSource || null);
@@ -6971,6 +8708,7 @@
                             if (!char.laserHit || char.laserHit !== proj) {
                                 const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
                                 showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                                applyViscousStacks(proj.owner, char, result.damage, floatingTexts);
                                 char.laserHit = proj;
                             }
                         }
@@ -7022,7 +8760,7 @@
                     if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
                         proj.y < PADDING || proj.y > HEIGHT - PADDING) {
                         proj.active = false;
-                        if (proj.owner.name === '白蛋') {
+                        if (proj.owner && proj.owner.name === '白蛋') {
                             proj.owner.comboCount = 0;
                         }
                         continue;
@@ -7030,25 +8768,22 @@
                     
                     let hit = false;
                     for (const char of characters) {
-                        if (char === proj.owner || char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
+                        if (char.hp <= 0) continue;
+                        const isOwner = char === proj.owner;
+                        // 队友整体跳过（保持原有免疫）；自己只跳过本体，分身另行判断
+                        if (!isOwner && proj.owner && char.team === proj.owner.team) continue;
                         
-                        if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
+                        if (!isOwner && checkCircleSquareCollision(proj.x, proj.y, proj.radius, char.x, char.y, char.radius)) {
                             const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
                             showDamageText(char, result.damage, '#e74c3c', proj.owner);
                             
-                            if (proj.owner.name === '盒子含') {
+                            if (proj.owner && proj.owner.name === '盒子含' && proj.owner.hp > 0) {
                                 proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 5);
                                 showDamageText(proj.owner, -5, '#2ecc71', proj.owner);
                             }
                             
-                            if (proj.owner.name === '白蛋') {
+                            if (proj.owner && proj.owner.name === '白蛋') {
                                 proj.owner.comboCount = Math.min(proj.owner.maxCombo, proj.owner.comboCount + 1);
-                            }
-                            
-                            const chalkSource = proj.owner.currentForm || proj.owner;
-                            
-                            if (proj.owner.name === '九氧化一磷' && char.team !== proj.owner.team) {
-                                chalkSource.applyOxidation(char, 1, floatingTexts);
                             }
                             
                             proj.active = false;
@@ -7056,19 +8791,27 @@
                             break;
                         }
                         
+                        // 分身（马八分身 / 班草动物）：弹幕命中后继续飞行，同一发弹幕只结算一次
                         if (char.splits) {
                             for (let j = 0; j < char.splits.length; j++) {
                                 const split = char.splits[j];
-                                if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
+                                // 动物不会被自己的粉笔打中
+                                if (split === proj.sourceSplit) continue;
+                                // 自己人（含马八分身）免疫自家粉笔；仅中立动物可被班草自己命中
+                                if (isOwner && !split.isNeutralPet) continue;
+                                const splitHalf = split.isPet ? char.radius * 0.4 : char.radius * 0.7;
+                                if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, splitHalf)) {
                                     if (!split.chalkHits || !split.chalkHits.includes(proj)) {
                                         split.hp -= proj.damage;
                                         showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
                                         
-                                        
-                                        
                                         if (split.hp <= 0) {
-                                            char.splits.splice(j, 1);
-                                            j--;
+                                            split.hp = 0;
+                                            // 动物交由 BanCao.updateSplits 清理，以便触发中立动物被击杀后的解锁
+                                            if (!split.isPet) {
+                                                char.splits.splice(j, 1);
+                                                j--;
+                                            }
                                         } else {
                                             if (!split.chalkHits) split.chalkHits = [];
                                             split.chalkHits.push(proj);
@@ -7081,7 +8824,6 @@
                                 }
                             }
                         }
-                        if (hit) break;
                     }
                 } else if (proj.type === 'claw') {
                     proj.life -= gameSpeed * deltaTime;
@@ -7180,8 +8922,10 @@
                                 char.vy = Math.sin(randomAngle) * (char.speed || BASE_SPEED);
                                 char.timeFieldEffect = 1;
                                 
-                                proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 20);
-                                showDamageText(proj.owner, -20, '#2ecc71', proj.owner);
+                                if (proj.owner && proj.owner.hp > 0) {
+                                    proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 20);
+                                    showDamageText(proj.owner, -20, '#2ecc71', proj.owner);
+                                }
                                 
                                 proj.hit = true;
                                 proj.life = 0;
@@ -7284,6 +9028,7 @@
                     if (proj.x < PADDING || proj.x > WIDTH - PADDING ||
                         proj.y < PADDING || proj.y > HEIGHT - PADDING) {
                         proj.life = 0;
+                        if (proj.owner && proj.owner.hitStreak !== undefined) proj.owner.hitStreak = 0;
                         continue;
                     }
                     
@@ -7295,6 +9040,7 @@
                             const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
                             showDamageText(char, result.damage, '#e74c3c', proj.owner);
                             proj.life = 0;
+                            proj.hit = true;
                             
                             if (proj.owner && proj.owner.bulletHitCount !== undefined) {
                                 proj.owner.bulletHitCount++;
@@ -7302,6 +9048,26 @@
                                     const enemies = characters.filter(c => c !== proj.owner && c.team !== proj.owner.team && c.hp > 0);
                                     proj.owner.triggerAutoPunish(enemies, projectiles, floatingTexts);
                                     proj.owner.bulletHitCount = 0;
+                                }
+                            }
+                            
+                            if (proj.owner && proj.owner.hitStreak !== undefined) {
+                                proj.owner.hitStreak++;
+                                if (proj.owner.hitStreak >= proj.owner.streakStunHits) {
+                                    if (char.hp > 0) {
+                                        char.stunTimer = Math.max(char.stunTimer || 0, proj.owner.streakStunDuration);
+                                        floatingTexts.push({
+                                            x: char.x,
+                                            y: char.y - 32,
+                                            text: `连续命中眩晕 ${proj.owner.streakStunDuration}s`,
+                                            color: '#f1c40f',
+                                            alpha: 1,
+                                            vy: -0.5,
+                                            life: 1,
+                                            initialLife: 1
+                                        });
+                                    }
+                                    proj.owner.hitStreak = 0;
                                 }
                             }
                             
@@ -7331,8 +9097,107 @@
                             }
                         }
                     }
+                    
+                    // 弹幕落空（时间耗尽）时重置连续命中计数
+                    if (proj.life <= 0 && !proj.hit && proj.owner && proj.owner.hitStreak !== undefined) {
+                        proj.owner.hitStreak = 0;
+                    }
                 } else if (proj.type === 'whistleWave') {
                     proj.life -= gameSpeed * deltaTime;
+                } else if (proj.type === 'po9Ring') {
+                    proj.age += gameSpeed * deltaTime;
+                    
+                    if (!proj.exploded && proj.age >= proj.delay) {
+                        proj.exploded = true;
+                        proj.explodeAge = 0;
+                        
+                        for (const char of characters) {
+                            if (char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
+                            
+                            if (Math.hypot(char.x - proj.x, char.y - proj.y) <= proj.radius + char.radius * 0.5) {
+                                const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                                showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                            }
+                            
+                            if (char.splits) {
+                                for (let j = 0; j < char.splits.length; j++) {
+                                    const split = char.splits[j];
+                                    if (Math.hypot(split.x - proj.x, split.y - proj.y) <= proj.radius + char.radius * 0.7) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (proj.exploded) {
+                        proj.explodeAge = (proj.explodeAge || 0) + gameSpeed * deltaTime;
+                        if (proj.explodeAge >= proj.fade) {
+                            proj.active = false;
+                            proj.life = 0;
+                        }
+                    }
+                } else if (proj.type === 'po9BigRing') {
+                    proj.age += gameSpeed * deltaTime;
+                    
+                    if (!proj.exploded && proj.age >= proj.delay) {
+                        proj.exploded = true;
+                        proj.explodeAge = 0;
+                        
+                        for (const char of characters) {
+                            if (char.hp <= 0 || (proj.owner && char.team === proj.owner.team)) continue;
+                            if (Math.hypot(char.x - proj.x, char.y - proj.y) > proj.radius + char.radius * 0.5) continue;
+                            
+                            const result = char.takeDamage(proj.damage, proj.owner, floatingTexts);
+                            showDamageText(char, result.damage, '#e74c3c', proj.owner);
+                            proj.hitCount++;
+                            
+                            char.stunTimer = Math.max(char.stunTimer || 0, proj.stunDuration);
+                            floatingTexts.push({
+                                x: char.x,
+                                y: char.y - 32,
+                                text: `眩晕 ${proj.stunDuration}s`,
+                                color: '#f1c40f',
+                                alpha: 1,
+                                vy: -0.5,
+                                life: 1,
+                                initialLife: 1
+                            });
+                            
+                            if (char.splits) {
+                                for (let j = 0; j < char.splits.length; j++) {
+                                    const split = char.splits[j];
+                                    if (Math.hypot(split.x - proj.x, split.y - proj.y) <= proj.radius + char.radius * 0.7) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (proj.hitCount > 0 && !proj.healed && proj.owner && proj.owner.hp > 0) {
+                            proj.healed = true;
+                            proj.owner.hp = Math.min(proj.owner.maxHp, proj.owner.hp + 50);
+                            showDamageText(proj.owner, -50, '#2ecc71', proj.owner);
+                        }
+                    }
+                    
+                    if (proj.exploded) {
+                        proj.explodeAge = (proj.explodeAge || 0) + gameSpeed * deltaTime;
+                        if (proj.explodeAge >= proj.fade) {
+                            proj.active = false;
+                            proj.life = 0;
+                        }
+                    }
                 } else if (proj.type === 'tracking') {
                     proj.trail.push({ x: proj.x, y: proj.y });
                     if (proj.trail.length > (proj.maxTrail || 10)) {
@@ -7400,19 +9265,22 @@
                             for (let j = 0; j < char.splits.length; j++) {
                                 const split = char.splits[j];
                                 if (checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7)) {
-                                    split.hp -= proj.damage;
-                                    showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
-                                    proj.life = 0;
-                                    proj.active = false;
-                                    if (split.hp <= 0) {
-                                        char.splits.splice(j, 1);
-                                        j--;
+                                    // 分身只结算一次伤害，弹幕继续飞行（穿透分身）
+                                    if (!split.trackingHits) split.trackingHits = [];
+                                    if (!split.trackingHits.includes(proj)) {
+                                        split.hp -= proj.damage;
+                                        showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
+                                        if (split.hp <= 0) {
+                                            char.splits.splice(j, 1);
+                                            j--;
+                                            continue;
+                                        }
+                                        split.trackingHits.push(proj);
                                     }
-                                    hit = true;
-                                    break;
+                                } else if (split.trackingHits && split.trackingHits.includes(proj)) {
+                                    split.trackingHits = split.trackingHits.filter(p => p !== proj);
                                 }
                             }
-                            if (hit) break;
                         }
                     }
                 } else if (proj.type === 'question') {
@@ -7517,25 +9385,20 @@
                                 const splitColliding = checkCircleSquareCollision(proj.x, proj.y, proj.radius, split.x, split.y, char.radius * 0.7);
                                 
                                 if (splitColliding) {
-                                    stillHitting.push(split);
-                                    
-                                    if (!proj.currentHitTargets.includes(split)) {
+                                    // 分身不消耗穿透次数、也不衰减伤害：子弹必须穿透分身继续飞行
+                                    if (!split.bulletHits) split.bulletHits = [];
+                                    if (!split.bulletHits.includes(proj)) {
                                         split.hp -= proj.damage;
                                         showDamageText({ x: split.x, y: split.y }, proj.damage, '#e74c3c', proj.owner);
-                                        proj.currentHitTargets.push(split);
-                                        proj.damage = Math.floor(proj.damage * 0.7);
-                                        
                                         if (split.hp <= 0) {
                                             char.splits.splice(j, 1);
                                             j--;
+                                            continue;
                                         }
-                                        
-                                        if (proj.currentHitTargets.length >= (proj.maxPenetrate || 3)) {
-                                            proj.life = 0;
-                                            proj.active = false;
-                                            break;
-                                        }
+                                        split.bulletHits.push(proj);
                                     }
+                                } else if (split.bulletHits && split.bulletHits.includes(proj)) {
+                                    split.bulletHits = split.bulletHits.filter(p => p !== proj);
                                 }
                             }
                         }
@@ -7640,6 +9503,12 @@
                         if (split.codeHits) {
                             split.codeHits = split.codeHits.filter(p => projectiles.includes(p));
                         }
+                        if (split.bulletHits) {
+                            split.bulletHits = split.bulletHits.filter(p => projectiles.includes(p));
+                        }
+                        if (split.trackingHits) {
+                            split.trackingHits = split.trackingHits.filter(p => projectiles.includes(p));
+                        }
                     }
                 }
             }
@@ -7675,7 +9544,10 @@
                 
                 const legionMembers = characters.filter(c => c.name === '尼格军团' && c.legionId === queueEntry.legionId);
                 const aliveCount = legionMembers.filter(c => c.hp > 0).length;
-                const maxAlive = queueEntry.endless ? Math.min(6, 3 + Math.floor(endlessStats.killed / 10)) : 3;
+                const baseAlive = queueEntry.endless ? 2 + nigeTeamSize : 3;
+                const maxAlive = queueEntry.endless
+                    ? Math.min(8, baseAlive + Math.floor(endlessStats.killed / 10))
+                    : 3;
                 const maxTotal = queueEntry.endless ? Infinity : 10;
                 
                 if (aliveCount < maxAlive && queueEntry.totalSent < maxTotal) {
@@ -7720,10 +9592,13 @@
                     newSoldier.legionId = queueEntry.legionId;
                     newSoldier.soldierIndex = queueEntry.totalSent;
                     
+                    // 人数补偿是永久增益：补兵/换人的新单位也要套用
+                    newSoldier._baseMaxHp = newSoldier.maxHp;
                     if (queueEntry.hpMultiplier && queueEntry.hpMultiplier !== 1) {
                         newSoldier.maxHp = Math.round(newSoldier.maxHp * queueEntry.hpMultiplier);
                         newSoldier.hp = newSoldier.maxHp;
                     }
+                    applyMatchHandicap(newSoldier);
                     
                     const centerX = WIDTH / 2;
                     const centerY = HEIGHT / 2;
@@ -7744,7 +9619,10 @@
                 }
             }
             
-            if (currentMode === 'endless') {
+            if (currentMode === 'nigeTeam') {
+                // 存活时间按模拟时间累计，跟随 gameSpeed（暂停时不累加）
+                endlessStats.elapsedMs += gameSpeed * deltaTime * 1000;
+                
                 for (const c of characters) {
                     if (c.name === '尼格军团' && c.team === 'blue' && c.hp <= 0 && !c.countedAsKilled) {
                         c.countedAsKilled = true;
@@ -7762,7 +9640,7 @@
             
             updateTeamStats();
             
-            const teamsInPlay = TEAM_ORDER.filter(team => matchTeams[team] && matchTeams[team].length > 0);
+            const teamsInPlay = Object.keys(matchTeams).filter(team => matchTeams[team] && matchTeams[team].length > 0);
             const activeTeams = teamsInPlay.filter(team => isTeamActive(team));
             
             if (characters.length > 0 && teamsInPlay.length > 0 && activeTeams.length <= 1) {
@@ -7788,7 +9666,7 @@
         }
         
         function getTeamHp(team) {
-            if (currentMode === 'endless' && team === 'blue') return '∞';
+            if (currentMode === 'nigeTeam' && team === 'blue') return '∞';
             
             let hp = characters.filter(c => c.team === team && c.hp > 0).reduce((sum, c) => sum + c.hp, 0);
             
@@ -7811,12 +9689,39 @@
                 document.getElementById('yellowHpDisplay').textContent = getTeamHp('yellow');
             }
             
-            if (currentMode === 'endless') {
+            if (currentMode === 'brawl') {
+                const container = document.getElementById('brawlStats');
+                container.innerHTML = Object.keys(matchTeams).map(team => {
+                    const config = TEAM_CONFIG[team];
+                    const alive = characters.some(c => c.team === team && c.hp > 0);
+                    const hp = alive ? getTeamHp(team) : 0;
+                    return `<span style="color:${config.color};font-weight:bold;">${config.name}: ${alive ? hp : '阵亡'}</span>`;
+                }).join('');
+            }
+            
+            if (currentMode === 'nigeTeam') {
                 document.getElementById('endlessSpawned').textContent = endlessStats.spawned;
                 document.getElementById('endlessKilled').textContent = endlessStats.killed;
-                const elapsed = endlessStats.startedAt > 0 ? (Date.now() - endlessStats.startedAt) / 1000 : 0;
+                const elapsed = endlessStats.elapsedMs / 1000;
                 document.getElementById('endlessTime').textContent = elapsed.toFixed(1) + 's';
             }
+        }
+        
+        function renderMatchDamage() {
+            const container = document.getElementById('gameOverDamage');
+            const rows = [...matchDamage.values()].sort((a, b) => b.damage - a.damage);
+            if (rows.length === 0) {
+                container.style.display = 'none';
+                container.innerHTML = '';
+                return;
+            }
+            const list = rows.map((row, index) => {
+                const color = (TEAM_CONFIG[row.team] && TEAM_CONFIG[row.team].color) || '#4b5563';
+                const rank = index === 0 ? '<b>1</b>' : `${index + 1}`;
+                return `<div class="gd-row"><span class="gd-rank">${rank}</span><span class="gd-name" style="color:${color}">${row.name}</span><span class="gd-value">${Math.round(row.damage).toLocaleString()}</span></div>`;
+            }).join('');
+            container.innerHTML = '<div class="gd-title">本局伤害排行</div>' + list;
+            container.style.display = 'block';
         }
         
         function endMatch(winnerTeam) {
@@ -7824,10 +9729,20 @@
             setImmersiveMode(false);
             
             const config = TEAM_CONFIG[winnerTeam];
-            const aliveNames = characters.filter(c => c.team === winnerTeam && c.hp > 0).map(c => c.name);
+            const aliveNames = characters.filter(c => c.team === winnerTeam && c.hp > 0).map(c => getUnitRecordName(c));
             
-            document.getElementById('gameOverTitle').textContent = `${config.name}胜利！`;
-            let info = aliveNames.length > 0 ? `${aliveNames.join('、')} 赢得了胜利！` : `${config.name} 赢得了胜利！`;
+            if (currentMode === 'straight') {
+                document.getElementById('gameOverTitle').textContent =
+                    winnerTeam === 'red' ? '挑战成功！' : '顺子守擂成功！';
+            } else {
+                document.getElementById('gameOverTitle').textContent = `${config.name}胜利！`;
+            }
+            let info;
+            if (currentMode === 'straight') {
+                info = winnerTeam === 'red' ? '击败了顺子五人组！' : '顺子五人组守擂成功！';
+            } else {
+                info = aliveNames.length > 0 ? `${aliveNames.join('、')} 赢得了胜利！` : `${config.name} 赢得了胜利！`;
+            }
             
             if (currentMode !== 'classic') {
                 info += '（本局不计入 1v1 战绩）';
@@ -7848,6 +9763,7 @@
             }
             
             document.getElementById('gameOverInfo').textContent = info;
+            renderMatchDamage();
             document.getElementById('gameOverOverlay').style.display = 'flex';
             
             if (isAutoTest) {
@@ -7861,6 +9777,7 @@
             
             document.getElementById('gameOverTitle').textContent = '平局';
             document.getElementById('gameOverInfo').textContent = '所有队伍同时全灭。';
+            renderMatchDamage();
             document.getElementById('gameOverOverlay').style.display = 'flex';
             
             if (isAutoTest) {
@@ -7872,10 +9789,11 @@
             gameOver = true;
             setImmersiveMode(false);
             
-            const seconds = ((Date.now() - endlessStats.startedAt) / 1000).toFixed(1);
-            document.getElementById('gameOverTitle').textContent = '无尽军团结束';
+            const seconds = (endlessStats.elapsedMs / 1000).toFixed(1);
+            document.getElementById('gameOverTitle').textContent = '无限尼格结束';
             document.getElementById('gameOverInfo').textContent =
                 `存活 ${seconds} 秒 · 累计出兵 ${endlessStats.spawned} · 累计击杀 ${endlessStats.killed}`;
+            renderMatchDamage();
             document.getElementById('gameOverOverlay').style.display = 'flex';
         }
         
@@ -7942,7 +9860,8 @@
                 TANGSHUI: TangShui,
                 SHUANGSHENG: MaoNai,
                 SHUANGSHINIAN: ShiNianZhiHou,
-                DENGJIE: DengJie
+                DENGJIE: DengJie,
+                BANCAO: BanCao
             };
             
             characters = [];
@@ -8182,8 +10101,26 @@
             TANGSHUI: TangShui,
             SHUANGSHENG: MaoNai,
             SHUANGSHINIAN: ShiNianZhiHou,
-            DENGJIE: DengJie
+            DENGJIE: DengJie,
+            DENGJIEA: DengJiePlus,
+            BANCAO: BanCao,
+            ERSHI: ErShi,
+            LIUCHUANCHUAN: LiuChuanChuan
         };
+        
+        // 命中前血量快照：用于伤害排行的过杀裁剪
+        function installDamageProbe(ctor) {
+            const proto = ctor && ctor.prototype;
+            const orig = proto && proto.takeDamage;
+            if (!orig || orig.__damageProbe) return;
+            const wrapped = function (damage, attacker, floatTexts) {
+                this._hpBefore = this.hp;
+                return orig.call(this, damage, attacker, floatTexts);
+            };
+            wrapped.__damageProbe = true;
+            proto.takeDamage = wrapped;
+        }
+        [...new Set([...Object.values(CHAR_CLASSES), ErShi, LiuChuanChuan])].forEach(installDamageProbe);
         
         function createFighter(type, team, x, y, hpMultiplier = 1, atkMultiplier = 1) {
             const color = TEAM_CONFIG[team].color;
@@ -8244,6 +10181,7 @@
             
             for (const unit of created) {
                 if (hpMultiplier !== 1) {
+                    unit._baseMaxHp = unit.maxHp;
                     unit.maxHp = Math.round(unit.maxHp * hpMultiplier);
                     unit.hp = unit.maxHp;
                 }
@@ -8264,6 +10202,22 @@
             });
         }
         
+        function spawnTeamRing(types, team, baseX, baseY, radius, hpMultiplier = 1, atkMultiplier = 1) {
+            const total = types.length;
+            types.forEach((type, index) => {
+                const angle = total === 1 ? 0 : (Math.PI * 2 / total) * index;
+                const offsetX = total === 1 ? 0 : Math.cos(angle) * radius;
+                const offsetY = total === 1 ? 0 : Math.sin(angle) * radius;
+                createFighter(type, team, baseX + offsetX, baseY + offsetY, hpMultiplier, atkMultiplier);
+            });
+        }
+        
+        // 同一队伍多人时按地图可用高度自适应纵向间距，避免超出边界
+        function gapForTeamCount(count) {
+            const room = HEIGHT - PADDING * 2 - 60;
+            return Math.min(70, room / Math.max(1, count - 1));
+        }
+        
         function spawnNigeLegion(team, baseX, baseY, count) {
             const legionId = ++nigeLegionCounter;
             for (let i = 0; i < count; i++) {
@@ -8280,18 +10234,43 @@
             return legionId;
         }
         
-        // 非对称竞技的人数补偿：每少 1 人生命 ×2 / 攻击 ×1.5；每少 2 人生命 ×2.5 / 攻击 ×1.75
+        // 非对称竞技的人数补偿：2v3 生命 +100% / 攻击 +15%；1v3 生命 +200% / 攻击 +75%
         function computeAsymBonus(redCount, blueCount) {
             if (redCount === blueCount || redCount === 0 || blueCount === 0) {
                 return { side: null, hp: 1, atk: 1 };
             }
             const side = redCount < blueCount ? 'red' : 'blue';
             const diff = Math.abs(redCount - blueCount);
-            return {
-                side,
-                hp: Math.min(2.5, 1.5 + 0.5 * diff),
-                atk: Math.min(1.75, 1.25 + 0.25 * diff)
-            };
+            const table = [
+                null,
+                { hp: 2.0, atk: 1.15 },
+                { hp: 3.0, atk: 1.75 }
+            ];
+            const bonus = diff <= 2
+                ? table[diff]
+                : { hp: 3.0 + (diff - 2) * 0.5, atk: 1.75 + (diff - 2) * 0.1 };
+            return { side, hp: bonus.hp, atk: bonus.atk };
+        }
+        
+        // 人数补偿是永久增益：变身、补兵、克隆等新建单位都要重新套用
+        function applyMatchHandicap(unit) {
+            if (!unit || !unit.team) return;
+            // 变身中的魔怔鸡血量由模仿形态决定，本体不参与基准校正
+            if (unit.isTransforming && unit.currentForm) return;
+            const hpMul = matchHandicap[unit.team] || 1;
+            const atkMul = matchAttackHandicap[unit.team] || 1;
+            if (hpMul !== 1 && Number.isFinite(unit.maxHp) && unit.maxHp > 0) {
+                if (!unit._baseMaxHp || unit._baseMaxHp <= 0) unit._baseMaxHp = unit.maxHp;
+                const expectedMaxHp = Math.round(unit._baseMaxHp * hpMul);
+                if (unit.maxHp !== expectedMaxHp) {
+                    const ratio = Math.max(0, unit.hp / unit.maxHp);
+                    unit.maxHp = expectedMaxHp;
+                    unit.hp = Math.max(1, Math.round(expectedMaxHp * ratio));
+                }
+            }
+            if (atkMul > 1) {
+                unit.attackMultiplier = Math.max(unit.attackMultiplier || 1, atkMul);
+            }
         }
         
         function computeMatchHandicaps(teams) {
@@ -8313,11 +10292,16 @@
             projectiles = [];
             floatingTexts = [];
             nigeSpawnQueue = [];
+            matchDamage = new Map();
             gameOver = false;
-            endlessStats = { spawned: 0, killed: 0, startedAt: Date.now() };
+            endlessStats = { spawned: 0, killed: 0, elapsedMs: 0 };
             const handicaps = computeMatchHandicaps(teams);
             matchHandicap = handicaps.hp;
             matchAttackHandicap = handicaps.atk;
+            
+            const totalSlots = Object.keys(teams)
+                .reduce((sum, team) => sum + (teams[team] ? teams[team].length : 0), 0);
+            applyMapSize(computeMapSize(totalSlots));
             
             const mapWidth = WIDTH - PADDING * 2;
             const mapHeight = HEIGHT - PADDING * 2;
@@ -8334,24 +10318,42 @@
                 spawnTeam(teams.red, 'red', leftX, midY, 70, matchHandicap.red);
                 spawnTeam(teams.blue, 'blue', rightX, midY, 70, matchHandicap.blue);
             } else if (currentMode === 'ffa') {
-                spawnTeam(teams.red, 'red', leftX, topY, 0, matchHandicap.red);
-                spawnTeam(teams.blue, 'blue', rightX, topY, 0, matchHandicap.blue);
-                spawnTeam(teams.green, 'green', leftX, bottomY, 0, matchHandicap.green);
-                spawnTeam(teams.yellow, 'yellow', rightX, bottomY, 0, matchHandicap.yellow);
+                spawnTeamRing(teams.red, 'red', leftX, topY, ffaTeamSize > 1 ? 40 : 0, matchHandicap.red);
+                spawnTeamRing(teams.blue, 'blue', rightX, topY, ffaTeamSize > 1 ? 40 : 0, matchHandicap.blue);
+                spawnTeamRing(teams.green, 'green', leftX, bottomY, ffaTeamSize > 1 ? 40 : 0, matchHandicap.green);
+                spawnTeamRing(teams.yellow, 'yellow', rightX, bottomY, ffaTeamSize > 1 ? 40 : 0, matchHandicap.yellow);
+            } else if (currentMode === 'brawl') {
+                // 每人独立一队，围绕地图中心均匀分布
+                const keys = Object.keys(teams);
+                const centerX = PADDING + mapWidth / 2;
+                const centerY = PADDING + mapHeight / 2;
+                const radius = Math.min(mapWidth, mapHeight) * (keys.length <= 2 ? 0.28 : 0.34);
+                keys.forEach((team, index) => {
+                    const angle = (Math.PI * 2 / keys.length) * index - Math.PI / 2;
+                    spawnTeam(teams[team], team, centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius, 0);
+                });
+            } else if (currentMode === 'straight') {
+                spawnTeam(teams.red, 'red', leftX, midY, gapForTeamCount(teams.red.length), matchHandicap.red);
+                spawnTeam(STRAIGHT_TEAM_TYPES, 'blue', rightX, midY, gapForTeamCount(STRAIGHT_TEAM_TYPES.length));
+                // 顺子成员独立出场，跳过双生羁绊判定
+                for (const char of characters) {
+                    if (char.team === 'blue') char.isStraightUnit = true;
+                }
             } else if (currentMode === 'asym') {
-                spawnTeam(teams.red, 'red', leftX, midY, teams.red.length > 1 ? 70 : 0, matchHandicap.red, matchAttackHandicap.red);
-                spawnTeam(teams.blue, 'blue', rightX, midY, teams.blue.length > 1 ? 70 : 0, matchHandicap.blue, matchAttackHandicap.blue);
-            } else if (currentMode === 'endless') {
-                spawnTeam(teams.red, 'red', leftX, midY, 0, matchHandicap.red);
-                const legionId = spawnNigeLegion('blue', rightX, midY, 3);
+                spawnTeam(teams.red, 'red', leftX, midY, gapForTeamCount(teams.red.length), matchHandicap.red, matchAttackHandicap.red);
+                spawnTeam(teams.blue, 'blue', rightX, midY, gapForTeamCount(teams.blue.length), matchHandicap.blue, matchAttackHandicap.blue);
+            } else if (currentMode === 'nigeTeam') {
+                spawnTeam(teams.red, 'red', leftX, midY, gapForTeamCount(teams.red.length), matchHandicap.red);
+                const initialCount = 2 + teams.red.length;
+                const legionId = spawnNigeLegion('blue', rightX, midY, initialCount);
                 nigeSpawnQueue.push({
                     legionId: legionId,
                     team: 'blue',
-                    totalSent: 3,
+                    totalSent: initialCount,
                     lastSpawnTime: Date.now() - 1000,
                     endless: true
                 });
-                endlessStats.spawned = 3;
+                endlessStats.spawned = initialCount;
             }
             
             const now = Date.now();
@@ -8399,13 +10401,23 @@
         function startGame() {
             document.getElementById('gameOverOverlay').style.display = 'none';
             
-            const teams = { red: [], blue: [], green: [], yellow: [] };
+            let teams = { red: [], blue: [], green: [], yellow: [] };
             
-            for (const team of getVisibleTeams()) {
-                const count = getTeamSlotCount(team);
-                if (count === 0) continue;
-                
-                const roles = readTeamSelection(team);
+            if (currentMode === 'brawl') {
+                // 每人独立成队：玩家1 → p1、玩家2 → p2 …
+                const roles = readTeamSelection('brawl');
+                if (!roles) {
+                    alert('请为所有玩家选择角色');
+                    return;
+                }
+                ensureBrawlTeamConfigs(roles.length);
+                teams = {};
+                roles.forEach((roleKey, index) => {
+                    teams[brawlTeamKey(index)] = [roleKey];
+                });
+            } else if (currentMode === 'straight') {
+                // 玩家自选阵容挑战固定顺子五人组
+                const roles = readTeamSelection('red');
                 if (!roles) {
                     alert('请为所有槽位选择角色');
                     return;
@@ -8414,11 +10426,27 @@
                     alert('同一方不能选择相同角色');
                     return;
                 }
-                teams[team] = roles;
+                teams = { red: roles, blue: STRAIGHT_TEAM_TYPES.slice() };
+            } else {
+                for (const team of getVisibleTeams()) {
+                    const count = getTeamSlotCount(team);
+                    if (count === 0) continue;
+                    
+                    const roles = readTeamSelection(team);
+                    if (!roles) {
+                        alert('请为所有槽位选择角色');
+                        return;
+                    }
+                    if (roles.some((key, index) => roles.indexOf(key) !== index)) {
+                        alert('同一方不能选择相同角色');
+                        return;
+                    }
+                    teams[team] = roles;
+                }
             }
             
-            currentRedChar = teams.red[0] || '';
-            currentBlueChar = teams.blue[0] || '';
+            currentRedChar = teams.red ? teams.red[0] : '';
+            currentBlueChar = teams.blue ? teams.blue[0] : '';
             
             setupMatch(teams);
         }
